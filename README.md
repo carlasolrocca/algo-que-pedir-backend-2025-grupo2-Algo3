@@ -1,6 +1,7 @@
 # Ejemplo base para TP Algo3
 
-[![Build](https://github.com/algo3-unsam/proyecto-base-tp/actions/workflows/build.yml/badge.svg)](https://github.com/algo3-unsam/tp-recetas-2020-gr-xx/actions/workflows/build.yml) ![Coverage](./.github/badges/jacoco.svg)
+[![build](https://github.com/algo2-unsam/tp-algo-que-pedir-grupo3/actions/workflows/algo2.build.yml/badge.svg)](https://github.com/algo2-unsam/tp-algo-que-pedir-grupo3/actions/workflows/algo2.build.yml)
+![codecov](./.github/badges/jacoco.svg)
 
 - El build de Github Actions funciona de una, no tenés que configurar nada
 - También el coverage se genera solito si respetás las dependencias que están en el `build.gradle.kts`
