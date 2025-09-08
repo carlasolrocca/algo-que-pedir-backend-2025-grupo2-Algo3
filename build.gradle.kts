@@ -39,6 +39,10 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+
+    // dependencias de algo 2
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.+")
+    implementation("org.uqbar-project:geodds-xtend:1.0.3")
 }
 
 kotlin {
