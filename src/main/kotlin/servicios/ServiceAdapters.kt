@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2.servicios
+package ar.edu.unsam.algo3.servicios
 
 class IngredientesAdapter(
     val servicio: IServiceIngredientes

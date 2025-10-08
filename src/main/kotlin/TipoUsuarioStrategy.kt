@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 interface UsuarioStrategy {
     fun aceptaPlato(usuario: Usuario, plato: Plato) : Boolean

@@ -1,6 +1,6 @@
-package ar.edu.unsam.algo2.repositorios
+package ar.edu.unsam.algo3.repositorios
 
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.*
 import com.fasterxml.jackson.annotation.JsonProperty
 
 abstract class TipoRepositorio {
