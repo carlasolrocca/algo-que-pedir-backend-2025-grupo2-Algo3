@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.Local
+import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class LocalController(private val localService: LocalService) {
 
     @GetMapping("/local")
-    fun obtenerLocal(): Local {
-        return localService.obtenerLocal()
+    fun obtenerLocal(): LocalDTO {
+        return localService.obtenerLocalDTO()
     }
 }
