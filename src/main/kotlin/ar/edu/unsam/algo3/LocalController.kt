@@ -15,8 +15,15 @@ class LocalController {
         urlImagenLocal = "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
         direccion = Direccion(calle = "Av. Siempre Viva",altura = 742,ubicacion = Point(39.808327,-89.643204)),
         porcentajeSobreCadaPlato = 10.0,
-        porcentajeRegaliasDeAutor = 5.0
+        porcentajeRegaliasDeAutor = 5.0,
     )
+
+    init {
+        local.agregarMedioDePago(MedioDePago.EFECTIVO)
+        local.agregarMedioDePago(MedioDePago.TRANSFERENCIA_BANCARIA)
+    }
+    
+
 
     @GetMapping("/local")
     fun obtenerLocal(): Local {
