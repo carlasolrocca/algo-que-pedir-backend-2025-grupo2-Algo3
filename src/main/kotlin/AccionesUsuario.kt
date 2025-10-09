@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 //Interface del Command con sus implementaciones concretas
 interface CommandUsuario {

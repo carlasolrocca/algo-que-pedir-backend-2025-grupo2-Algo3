@@ -1,8 +1,8 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo2.repositorios.Repositorio
-import ar.edu.unsam.algo2.repositorios.Repositorios
-import ar.edu.unsam.algo2.servicios.ServicioRepositorios
+import ar.edu.unsam.algo3.repositorios.Repositorio
+import ar.edu.unsam.algo3.repositorios.Repositorios
+import ar.edu.unsam.algo3.servicios.ServicioRepositorios
 
 class Administrador(val mailSender: MailSender) {
     val procesos = mutableListOf<ProcesosAdministracion>()

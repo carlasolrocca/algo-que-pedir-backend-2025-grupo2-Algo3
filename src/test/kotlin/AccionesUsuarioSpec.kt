@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
