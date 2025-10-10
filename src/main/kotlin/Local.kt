@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 class Local(
     val nombre: String = "",
     val direccion: Direccion = Direccion(),
+    var urlImagenLocal: String = "",
     var porcentajeSobreCadaPlato: Double = 0.0,
     var porcentajeRegaliasDeAutor: Double = 0.0,
 ): TipoRepositorio() {
