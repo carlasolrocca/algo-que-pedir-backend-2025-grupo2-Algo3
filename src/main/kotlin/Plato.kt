@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3
 
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
+import org.springframework.boot.context.properties.bind.handler.IgnoreErrorsBindHandler
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -52,4 +53,10 @@ class Plato(
         return listaDeIngredientes.any { usuario.esIngredienteProhibido(it) }
     }
 
+    // Validaciones para crear nuevo plato (back)
+    fun validar() {
+        if (nombre.isEmpty()) throw ErrorException.BusinessException("Debe ingresar un nombre")
+        if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
+        if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
+    }
 }

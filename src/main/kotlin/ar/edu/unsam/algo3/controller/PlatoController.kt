@@ -18,7 +18,7 @@ class PlatoController(
     fun platoPorId(@PathVariable id: Int): Plato = platoService.getById(id)
 
     @PostMapping
-    fun crearPlato(@RequestBody plato: Plato) = platoService.create(plato)
+    fun crearPlato(@RequestBody nuevoPlato: Plato): Plato = platoService.create(nuevoPlato)
 
     @PutMapping
     fun actualizarPlato(@RequestBody plato: Plato) = platoService.update(plato)
