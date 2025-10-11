@@ -13,12 +13,13 @@ class Repositorio<T : TipoRepositorio>(
     var idActual: Int = 0
     val memoria: MutableSet<T> = mutableSetOf<T>()
 
-    fun create(objeto: T) {
+    fun create(objeto: T): T {
         // Lanza una excepcion del tipo IllegalArgumentException si no cumple la condicion
         require(objeto.id == null) { "El objeto ya esta creado" }
         val id = ++idActual
         objeto.id = id
         memoria.add(objeto)
+        return objeto
     }
 
     fun verificarID(objeto: T): T {
@@ -42,7 +43,7 @@ class Repositorio<T : TipoRepositorio>(
 
     fun getById(id: Int): T {
         return memoria.find { it.id == id }
-            ?: throw RepositorioException.NotFoudException("No se encontró un objeto con id $id")
+            ?: throw ErrorException.NotFoudException("No se encontró un objeto con id $id")
     }
 
     fun search(value: String): List<T> {

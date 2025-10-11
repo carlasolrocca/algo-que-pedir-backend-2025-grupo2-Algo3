@@ -1,5 +1,5 @@
 package ar.edu.unsam.algo3.servicios
-import ar.edu.unsam.algo3.RepositorioException
+import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.repositorios.Repositorio
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -43,7 +43,7 @@ class ServicioRepositorios<T : TipoRepositorio>(
                     repositorio.create(it)
                 }
             }
-        } catch (e: RepositorioException.NotFoudException) {
+        } catch (e: ErrorException.NotFoudException) {
             throw e
         }
     }
