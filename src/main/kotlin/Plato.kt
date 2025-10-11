@@ -57,6 +57,7 @@ class Plato(
     fun validar() {
         if (nombre.isEmpty()) throw ErrorException.BusinessException("Debe ingresar un nombre")
         if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
+        // tiene que contener una imagen y debe ser tipo image
         if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
     }
 
@@ -68,6 +69,6 @@ class Plato(
         valorBase = otro.valorBase
         esdeAutor = otro.esdeAutor
         // descuento por plato en promocion
-        // actualizar lista de ingredientes
+        listaDeIngredientes = otro.listaDeIngredientes
     }
 }

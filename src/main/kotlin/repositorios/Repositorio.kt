@@ -35,10 +35,11 @@ class Repositorio<T : TipoRepositorio>(
         memoria.remove(objetoAEliminar)
     }
 
-    fun update(objeto: T) {
+    fun update(objeto: T): T {
         val objetoAActualizar = verificarID(objeto)
         delete(objetoAActualizar)
         memoria.add(objeto)
+        return objeto
     }
 
     fun getById(id: Int): T {

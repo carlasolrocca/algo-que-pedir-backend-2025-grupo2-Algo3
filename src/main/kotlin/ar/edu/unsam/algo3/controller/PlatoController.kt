@@ -1,28 +1,27 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.Direccion
-import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.service.PlatoService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin("*")
-class PlatoController(
-    val platoService: PlatoService
-) {
-    @GetMapping("/platos")
+class PlatoController(val platoService: PlatoService) {
+    @GetMapping("/plato")
     fun listarPlatos(): List<Plato> = platoService.getAll()
 
     @GetMapping("/plato/{id}")
     fun platoPorId(@PathVariable id: Int): Plato = platoService.getById(id)
 
     @PostMapping("/plato")
-    fun crearPlato(@RequestBody nuevoPlato: Plato): Plato = platoService.create(nuevoPlato)
+    fun crearPlato(@RequestBody platoBody: Plato): Plato =
+        platoService.create(platoBody)
 
-    @PutMapping("plato/{id}")
-    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoActualizado: Plato) = platoService.update(id, platoActualizado)
+    @PutMapping("/plato/{id}")
+    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoBody: Plato): Plato =
+        platoService.update(id, platoBody)
 
-    @DeleteMapping("plato/{id}")
-    fun borrarPlato(@PathVariable id: Int) = platoService.delete(id)
+    @DeleteMapping("/plato/{id}")
+    fun borrarPlato(@PathVariable id: Int): List<Plato> =
+        platoService.delete(id)
 }
