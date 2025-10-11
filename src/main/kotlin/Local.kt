@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.TipoRepositorio
+import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 class Local(
     val nombre: String = "",

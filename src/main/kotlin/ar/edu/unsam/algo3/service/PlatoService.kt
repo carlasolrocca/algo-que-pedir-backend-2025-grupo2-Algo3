@@ -4,7 +4,7 @@ import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.Repositorio
+import ar.edu.unsam.algo3.repositorios.Repositorio
 import ar.edu.unsam.algo3.ErrorException
 import org.springframework.stereotype.Service
 

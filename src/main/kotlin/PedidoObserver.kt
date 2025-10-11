@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.Repositorios
+import ar.edu.unsam.algo3.repositorios.Repositorios
 import java.time.LocalDate
 
 interface PedidoObserver {

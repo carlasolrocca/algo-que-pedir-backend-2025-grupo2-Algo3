@@ -1,7 +1,7 @@
 package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.Repositorio
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.Repositorios
+import ar.edu.unsam.algo3.repositorios.Repositorio
+import ar.edu.unsam.algo3.repositorios.Repositorios
 import ar.edu.unsam.algo3.servicios.ServicioRepositorios
 
 class Administrador(val mailSender: MailSender) {
