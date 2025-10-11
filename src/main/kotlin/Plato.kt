@@ -59,4 +59,15 @@ class Plato(
         if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
         if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
     }
+
+    // Actualizacion para el plato
+    fun actualizar(otro: Plato) {
+        nombre = otro.nombre
+        descripcion = otro.descripcion
+        // actualizar imagen
+        valorBase = otro.valorBase
+        esdeAutor = otro.esdeAutor
+        // descuento por plato en promocion
+        // actualizar lista de ingredientes
+    }
 }

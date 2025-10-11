@@ -17,12 +17,12 @@ class PlatoController(
     @GetMapping("/plato/{id}")
     fun platoPorId(@PathVariable id: Int): Plato = platoService.getById(id)
 
-    @PostMapping
+    @PostMapping("/plato")
     fun crearPlato(@RequestBody nuevoPlato: Plato): Plato = platoService.create(nuevoPlato)
 
-    @PutMapping
-    fun actualizarPlato(@RequestBody plato: Plato) = platoService.update(plato)
+    @PutMapping("plato/{id}")
+    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoActualizado: Plato) = platoService.update(id, platoActualizado)
 
-    @DeleteMapping
-    fun borrarPlato(@RequestBody plato: Plato) = platoService.delete(plato)
+    @DeleteMapping("plato/{id}")
+    fun borrarPlato(@PathVariable id: Int) = platoService.delete(id)
 }
