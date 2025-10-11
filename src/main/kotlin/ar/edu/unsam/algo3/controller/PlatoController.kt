@@ -9,16 +9,20 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin("*")
 class PlatoController(
-
+    val platoService: PlatoService
 ) {
     @GetMapping("/platos")
-    fun getPlatos(): String {
-        return "Funciona el GET de platos!"
-    }
+    fun listarPlatos(): List<Plato> = platoService.getAll()
 
-   /* @GetMapping("/plato/{id}")
-    fun platoPorId(@PathVariable id: Int) = platoService.platoPorId(id)
+    @GetMapping("/plato/{id}")
+    fun platoPorId(@PathVariable id: Int): Plato = platoService.getById(id)
 
     @PostMapping
-    fun crearPlato(@RequestBody plato: Plato): Plato = platoService.crear(plato) */
+    fun crearPlato(@RequestBody plato: Plato) = platoService.create(plato)
+
+    @PutMapping
+    fun actualizarPlato(@RequestBody plato: Plato) = platoService.update(plato)
+
+    @DeleteMapping
+    fun borrarPlato(@RequestBody plato: Plato) = platoService.delete(plato)
 }
