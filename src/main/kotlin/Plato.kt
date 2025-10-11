@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo3.repositorios.TipoRepositorio
-import org.springframework.boot.context.properties.bind.handler.IgnoreErrorsBindHandler
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.TipoRepositorio
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

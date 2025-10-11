@@ -4,7 +4,7 @@ import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.repositorios.Repositorio
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.repositorios.Repositorio
 import ar.edu.unsam.algo3.ErrorException
 import org.springframework.stereotype.Service
 
@@ -69,18 +69,18 @@ class PlatoService (
     // Para agregar los ingredientes con su repo al plato (nuevo/actualizar)
     fun asignarIngredientes(plato: Plato){
         val ingredientesActuales = plato.listaDeIngredientes.toMutableSet()
+        plato.listaDeIngredientes.clear() // borro lo que habia para asignar solo los que son validos
 
-        // Falta validar que los ingredinetes esten correctos, PERO
-        // si cada vez que quiero agregar un ingrediente al palto en el front
-        // le pego al back p/ traer la lista de ingredientes que tiene...
-        // entonces estaria OK el ingrediente y existe en el repo...?
+        // Filtro los ingredientes que existan en el repo, sino los guardo para mostrar en una lista los q no existen
+        val ingredinetesFaltantes = mutableListOf<String>()
+        ingredientesActuales.forEach { ingrediente ->
+            val ingredientesExistentes = ingredienteRepository.getById(ingrediente.id!!)
+            requireNotNull(ingredientesExistentes) { ingredinetesFaltantes.add(ingrediente.nombre) }
+            plato.agregarIngrediente(ingredientesExistentes)
+        }
 
-        // Limpio la lista de ingredientes actual del plato y agrego los que son validos
-        // No me convence, pero no se me ocurre otra forma de encararlo y fue la opcion mas rapida y optima q encontre
-        // No me convence porque no se usan los metodos agregar y eliminar ingredientes, no seria esa la idea?
-        plato.listaDeIngredientes.clear()
-        ingredientesActuales.forEach {
-            plato.listaDeIngredientes.add(it)
+        if (ingredinetesFaltantes.isNotEmpty()) {
+            throw ErrorException.BusinessException("No se encontraron los ingredientes: ${ingredinetesFaltantes.joinToString()}")
         }
     }
 }
