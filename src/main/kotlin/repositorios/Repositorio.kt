@@ -3,7 +3,6 @@ package ar.edu.unsam.algo3.repositorios
 import ar.edu.unsam.algo3.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Repository
 
 abstract class TipoRepositorio {
     @JsonProperty("id") var id: Int? = null
@@ -46,7 +45,7 @@ open class Repositorio<T : TipoRepositorio>(
 
     fun getById(id: Int): T {
         return memoria.find { it.id == id }
-            ?: throw ErrorException.NotFoudException("No se encontró un objeto con id $id")
+            ?: throw ErrorException.NotFoundException("No se encontró un objeto con id $id")
     }
 
     fun search(value: String): List<T> {
