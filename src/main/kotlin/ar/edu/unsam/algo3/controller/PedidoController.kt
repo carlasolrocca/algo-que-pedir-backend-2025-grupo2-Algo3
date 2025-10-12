@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.controller
+package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.service.PedidoService
 import org.springframework.web.bind.annotation.*
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin("*")
-class PedidoController(val pedidoService : PedidoService) {
+class PedidoController(val pedidoService: PedidoService) {
     @GetMapping("/pedidos")
     fun listarPedidos() = pedidoService.getAll()
 
