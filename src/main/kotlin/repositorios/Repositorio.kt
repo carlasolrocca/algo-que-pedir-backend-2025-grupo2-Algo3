@@ -2,23 +2,26 @@ package ar.edu.unsam.algo3.repositorios
 
 import ar.edu.unsam.algo3.*
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
 abstract class TipoRepositorio {
     @JsonProperty("id") var id: Int? = null
 }
 
-class Repositorio<T : TipoRepositorio>(
+open class Repositorio<T : TipoRepositorio>(
     private val searcher: SearchStrategy<T>
 ) {
     var idActual: Int = 0
     val memoria: MutableSet<T> = mutableSetOf<T>()
 
-    fun create(objeto: T) {
+    fun create(objeto: T): T {
         // Lanza una excepcion del tipo IllegalArgumentException si no cumple la condicion
         require(objeto.id == null) { "El objeto ya esta creado" }
         val id = ++idActual
         objeto.id = id
         memoria.add(objeto)
+        return objeto
     }
 
     fun verificarID(objeto: T): T {
@@ -34,15 +37,16 @@ class Repositorio<T : TipoRepositorio>(
         memoria.remove(objetoAEliminar)
     }
 
-    fun update(objeto: T) {
+    fun update(objeto: T): T {
         val objetoAActualizar = verificarID(objeto)
         delete(objetoAActualizar)
         memoria.add(objeto)
+        return objeto
     }
 
     fun getById(id: Int): T {
         return memoria.find { it.id == id }
-            ?: throw RepositorioException.NotFoudException("No se encontró un objeto con id $id")
+            ?: throw ErrorException.NotFoudException("No se encontró un objeto con id $id")
     }
 
     fun search(value: String): List<T> {
@@ -64,6 +68,21 @@ class Repositorio<T : TipoRepositorio>(
         }
     }
 }
+
+// Hago esta clase para q Spring reconozca que esto es el repo
+// y mockeo  Local y unos ingredientes para probar el plato
+@Component
+class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
+@Component
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher) {
+    init {
+        create(Ingrediente(nombre = "Pollo"))
+        create(Ingrediente(nombre = "Tomate"))
+        create(Ingrediente(nombre = "Queso"))
+    }
+}
+@Component
+class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
 object Repositorios {
     val usuario = Repositorio<Usuario>(

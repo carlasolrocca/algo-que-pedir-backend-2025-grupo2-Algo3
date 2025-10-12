@@ -52,4 +52,22 @@ class Plato(
         return listaDeIngredientes.any { usuario.esIngredienteProhibido(it) }
     }
 
+    // Validaciones para crear nuevo plato (back)
+    fun validar() {
+        if (nombre.isEmpty()) throw ErrorException.BusinessException("Debe ingresar un nombre")
+        if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
+        // tiene que contener una imagen y debe ser tipo image
+        if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
+    }
+
+    // Actualizacion para el plato
+    fun actualizar(otro: Plato) {
+        nombre = otro.nombre
+        descripcion = otro.descripcion
+        // actualizar imagen
+        valorBase = otro.valorBase
+        esdeAutor = otro.esdeAutor
+        // descuento por plato en promocion
+        listaDeIngredientes = otro.listaDeIngredientes
+    }
 }

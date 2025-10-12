@@ -39,8 +39,9 @@ sealed class LocalException(mensaje: String) : Exception(mensaje) {
     class puntajeFueraDeRango() : LocalException("El puntaje asignado está fuera de rango (1 a 5)")
 }
 
-sealed class RepositorioException(mensaje: String) : Exception(mensaje) {
-    class NotFoudException(mensaje: String) : RepositorioException(mensaje)
+sealed class ErrorException(mensaje: String) : Exception(mensaje) {
+    class NotFoudException(mensaje: String) : ErrorException(mensaje)
+    class BusinessException(mensaje: String) : ErrorException(mensaje)
 }
 
 sealed class CuponException(mensaje: String) : Exception(mensaje) {
