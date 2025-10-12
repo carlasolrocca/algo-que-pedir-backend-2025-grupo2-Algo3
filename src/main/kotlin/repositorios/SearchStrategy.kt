@@ -50,6 +50,6 @@ object CuponSearcher: SearchStrategy<Cupon> {
 
 object PedidoSearcher : SearchStrategy<Pedido> {
     override fun matches(objeto : Pedido, value : String) : Boolean {
-        return objeto.id.toString() == value
+        return objeto.estadoDelPedido.toString() == value
     }
 }
