@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3
 
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -11,7 +12,9 @@ class Plato(
     var descripcion: String = "Descripcion plato de autor",
     var valorBase: Double = 0.0,
 ): TipoRepositorio() {
+    @JsonIgnore
     var fechaLanzamiento: LocalDate = LocalDate.now()
+
     var porcentajeDescuento: Double = 0.0
     var listaDeIngredientes: MutableSet<Ingrediente> = mutableSetOf()
 
