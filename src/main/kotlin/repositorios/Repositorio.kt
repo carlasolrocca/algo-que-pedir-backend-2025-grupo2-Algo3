@@ -2,12 +2,14 @@ package ar.edu.unsam.algo3.repositorios
 
 import ar.edu.unsam.algo3.*
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
 abstract class TipoRepositorio {
     @JsonProperty("id") var id: Int? = null
 }
 
-class Repositorio<T : TipoRepositorio>(
+open class Repositorio<T : TipoRepositorio>(
     private val searcher: SearchStrategy<T>
 ) {
     var idActual: Int = 0
@@ -66,6 +68,21 @@ class Repositorio<T : TipoRepositorio>(
         }
     }
 }
+
+// Hago esta clase para q Spring reconozca que esto es el repo
+// y mockeo  Local y unos ingredientes para probar el plato
+@Component
+class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
+@Component
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher) {
+    init {
+        create(Ingrediente(nombre = "Pollo"))
+        create(Ingrediente(nombre = "Tomate"))
+        create(Ingrediente(nombre = "Queso"))
+    }
+}
+@Component
+class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
 object Repositorios {
     val usuario = Repositorio<Usuario>(
