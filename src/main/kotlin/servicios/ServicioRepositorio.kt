@@ -43,7 +43,7 @@ class ServicioRepositorios<T : TipoRepositorio>(
                     repositorio.create(it)
                 }
             }
-        } catch (e: ErrorException.NotFoudException) {
+        } catch (e: ErrorException.NotFoundException) {
             throw e
         }
     }
