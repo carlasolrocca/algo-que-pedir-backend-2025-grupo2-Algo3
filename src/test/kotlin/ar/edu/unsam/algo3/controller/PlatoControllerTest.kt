@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
@@ -38,13 +39,13 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     fun init() {
         platoRepositorio.memoria.clear()
         ingredienteRepositorio.memoria.clear()
+        ingrediente = ingredienteRepositorio.create(Ingrediente(nombre="queso"))
         plato = platoRepositorio.create(buildPlato())
         platoRepositorio.create(buildPlato()).also {
             it.nombre="Vigilante"
             it.descripcion="Falta el dulce"
             it.valorBase=5.5
         }
-        ingrediente = ingredienteRepositorio.create(Ingrediente(nombre="queso"))
     }
 
     // region GET /plato
@@ -79,7 +80,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
 
     // region [actualizar] PUT /plato/{id}
     @Test
-    fun `actualizar una tarea a un valor valido actualiza correctamente`() {
+    fun `actualizar un plato a un valor valido actualiza correctamente`() {
         val platoValido = buildPlato().apply {
             id = plato.id
             descripcion="Cambie la descripcion"
@@ -87,9 +88,9 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
         mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/" + plato.id)
+                    .put("/plato/" + platoValido.id)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(ObjectMapper().writeValueAsString(plato))
+                    .content(ObjectMapper().writeValueAsString(platoValido))
             )
             .andExpect(status().isOk)
             .andExpect(content().contentType("application/json"))
@@ -148,13 +149,13 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
         mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/tareas/${plato.id}")
+                    .put("/plato/${plato.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(platoSinIngredientes)
             )
             .andExpect(status().isOk)
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("$.listaDeIngredientes").value(null))
+            .andExpect(jsonPath("$.listaDeIngredientes").isEmpty)
             .andExpect(jsonPath("$.valorBase").value(5.5))
     }
 
@@ -204,7 +205,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
 
         val nuevoPlatoObject = mapper.readValue(nuevoPlatoResponse, Plato::class.java)
         val nuevoPlato = platoRepositorio.getById(nuevoPlatoObject.id!!)
-        assertEquals(nuevoPlato!!.descripcion, descripcionNuevoPlato)
+        assertEquals(nuevoPlato.descripcion, descripcionNuevoPlato)
     }
 
     @Test
@@ -236,7 +237,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/tareas")
+                    .post("/plato")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoInvalido))
             )
@@ -250,6 +251,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     // region DELETE /tarea/{descripcion}
     @Test
     fun `se puede eliminar un plato existente en forma exitosa`() {
+        platoRepositorio.memoria.clear() //Hago el clear acá de nuevo porque el beforeEach crea 2 platos siempre después del clear
         val plato = buildPlato()
         platoRepositorio.create(plato)
 
@@ -262,8 +264,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `si pasamos tareas que no existen no se pueden borrar`() {
         mockMvc.perform(MockMvcRequestBuilders.delete("/plato/inexistente"))
-            .andExpect { status().isOk }
-            .andExpect(jsonPath("$.length()").value(0))
+            .andExpect(status().isBadRequest)
     }
     // endregion
 
