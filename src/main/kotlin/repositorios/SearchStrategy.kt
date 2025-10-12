@@ -47,3 +47,9 @@ object CuponSearcher: SearchStrategy<Cupon> {
         return objeto.porcentajeDescuento.toString() == value
     }
 }
+
+object PedidoSearcher : SearchStrategy<Pedido> {
+    override fun matches(objeto : Pedido, value : String) : Boolean {
+        return objeto.id.toString() == value
+    }
+}
