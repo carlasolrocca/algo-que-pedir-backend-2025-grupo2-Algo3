@@ -26,4 +26,10 @@ class IngredienteService(private val repositorioIngrediente: IngredienteReposito
         repositorioIngrediente.update(ingrediente)
         return ingrediente
     }
+
+    fun borrarIngrediente(id: Int): Ingrediente {
+        val ingrediente = getById(id)
+        repositorioIngrediente.delete(ingrediente)
+        return ingrediente
+    }
 }
