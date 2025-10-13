@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin("*")
 class PedidoController(val pedidoService: PedidoService) {
+
     @GetMapping("/pedidos")
-    fun listarPedidos() : List<PedidoDTO> = pedidoService.getAll().map { it.PedidoDTO() }
+    fun listarPedidos() : List<PedidoDTO> = pedidoService.getAll()
 
     @GetMapping("/pedidos/{estado}")
     fun listarPedidosPorEstado(@PathVariable estado : String): List<Pedido> = pedidoService.getByEstado(estado)
