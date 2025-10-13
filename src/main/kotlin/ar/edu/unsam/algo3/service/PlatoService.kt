@@ -35,6 +35,11 @@ class PlatoService (
     }
 
     fun update(id: Int, actualizarPlato: Plato): Plato {
+        // Primero valida si id es null, dodino también lo hace en tareas de la misma manera
+        if (actualizarPlato.id == null){
+            throw ErrorException.BusinessException("El objeto debe tener un ID")
+        }
+
         // Validacion extra de URL (como en tareas)
         if (actualizarPlato.id!! != id) {
             throw ErrorException.BusinessException("Id en URL distinto del id que viene en el body")
