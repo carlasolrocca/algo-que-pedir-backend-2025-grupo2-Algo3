@@ -1,24 +1,47 @@
 package ar.edu.unsam.algo3.controller
 
-import org.junit.jupiter.api.DisplayName
+import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.service.LocalService
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.mockito.BDDMockito.given
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@DisplayName("Dado el perfil de un local...")
-class PerfilLocalTest(@Autowired val mockMvc: MockMvc) {
+@WebMvcTest(LocalController::class)
+@DisplayName("Dado el perfil de un local")
+class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
+
+    @MockBean
+    lateinit var localService: LocalService
 
     @Test
-    fun `recibe la petición de los datos del local y devuelve un DTO con lo solicitado`() {
-        mockMvc
-            .perform(MockMvcRequestBuilders.get("/ejemplo/"))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().string("hola"))
+    fun `hacer un get devuelve la información que se le solicita`() {
+
+        val localDTO = LocalDTO(
+            nombre = "Taberna de Moe",
+            urlImagenLocal = "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            direccion = "Av. Siempre Viva",
+            altura = 742,
+            latitud = 39.808327,
+            longitud = -89.643204,
+            porcentajeSobreCadaPlato = 10.0,
+            porcentajeRegaliasDeAutor = 5.0,
+            mediosDePago = setOf()
+        )
+
+        given(localService.obtenerLocalDTO()).willReturn(localDTO)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/local"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.nombre").value("Taberna de Moe"))
+            .andExpect(jsonPath("$.direccion").value("Av. Siempre Viva"))
+            .andExpect(jsonPath("$.altura").value(742))
+            .andExpect(jsonPath("$.porcentajeSobreCadaPlato").value(10.0))
+            .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(5.0))
     }
 }
