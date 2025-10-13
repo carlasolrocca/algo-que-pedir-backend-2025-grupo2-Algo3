@@ -98,7 +98,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si se intenta actualizar una tarea omitiendo su id en json, el sistema rechaza la operacion`() {
+    fun `si se intenta actualizar un plato omitiendo su id en json, el sistema rechaza la operacion`() {
         val platoInvalido = buildPlato().apply {
             id = null
         }
