@@ -1,6 +1,6 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo2.repositorios.Repositorios
+import ar.edu.unsam.algo3.repositorios.Repositorios
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
