@@ -35,8 +35,14 @@ class PlatoService (
     }
 
     fun update(id: Int, actualizarPlato: Plato): Plato {
+        //Es para que verifique primero que se haya ingresado ID antes de si es diferente
+        //Me fallaba uno de los test si no hacía esto, pero probablemnte no es la solución ideal, quizá habría que dejar que ambas validaciones las haga el repo.
+        if (actualizarPlato.id == null){
+            throw ErrorException.BusinessException("El objeto debe tener un ID")
+        }
+
         // Validacion extra de URL (como en tareas)
-        if (actualizarPlato.id!! != id) {
+        if (actualizarPlato.id != id) {
             throw ErrorException.BusinessException("Id en URL distinto del id que viene en el body")
         }
 
