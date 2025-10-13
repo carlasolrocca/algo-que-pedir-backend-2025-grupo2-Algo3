@@ -73,13 +73,7 @@ open class Repositorio<T : TipoRepositorio>(
 @Component
 class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
 @Component
-class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher) {
-    init {
-        create(Ingrediente(nombre = "Pollo"))
-        create(Ingrediente(nombre = "Tomate"))
-        create(Ingrediente(nombre = "Queso"))
-    }
-}
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher)
 @Component
 class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
