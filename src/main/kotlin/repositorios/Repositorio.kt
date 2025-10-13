@@ -89,7 +89,8 @@ class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 @Component
 open class PedidoRepositorio : Repositorio<Pedido>(PedidoSearcher)
 
-
+@Component
+class UsuarioRepositorio : Repositorio<Usuario>(UsuarioSearcher)
 
 // Singletons de algo2:
 object Repositorios {
@@ -111,5 +112,4 @@ object Repositorios {
     val cupon = Repositorio<Cupon>(
         searcher = CuponSearcher,
     )
-    
 }
