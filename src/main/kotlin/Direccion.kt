@@ -10,4 +10,8 @@ class Direccion(
     fun distanciaCon(otraDireccion: Direccion): Double {
         return ubicacion.distance(otraDireccion.ubicacion)
     }
+
+    fun devolverDireccionCompleta() : String {
+        return "${calle} ${altura}"
+    }
 }
