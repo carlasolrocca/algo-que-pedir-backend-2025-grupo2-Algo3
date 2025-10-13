@@ -38,13 +38,13 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     fun init() {
         platoRepositorio.memoria.clear()
         ingredienteRepositorio.memoria.clear()
+        ingrediente = ingredienteRepositorio.create(Ingrediente(nombre="queso"))
         plato = platoRepositorio.create(buildPlato())
         platoRepositorio.create(buildPlato()).also {
             it.nombre="Vigilante"
             it.descripcion="Falta el dulce"
             it.valorBase=5.5
         }
-        ingrediente = ingredienteRepositorio.create(Ingrediente(nombre="queso"))
     }
 
     // region GET /plato
