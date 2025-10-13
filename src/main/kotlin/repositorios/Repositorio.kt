@@ -23,14 +23,6 @@ open class Repositorio<T : TipoRepositorio>(
         return objeto
     }
 
-    fun verificarID(objeto: T): T {
-        // Lanza una excepcion si el objeto no tiene ID
-        val id = requireNotNull(objeto.id) { "El objeto debe tener un ID" }
-
-        // Se verifica que exista en memoria y se elimina
-        return getById(id)
-    }
-
     fun delete(objeto: T) {
         val id = requireNotNull(objeto.id)
         memoria.remove(id)
