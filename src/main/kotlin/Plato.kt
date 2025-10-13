@@ -70,7 +70,7 @@ class Plato(
         // actualizar imagen
         valorBase = otro.valorBase
         esdeAutor = otro.esdeAutor
-        // descuento por plato en promocion
+        porcentajeDescuento = otro.porcentajeDescuento
         listaDeIngredientes = otro.listaDeIngredientes
     }
 }
