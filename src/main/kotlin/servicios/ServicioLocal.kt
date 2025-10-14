@@ -35,4 +35,24 @@ class LocalService {
             mediosDePago = local.mediosDePago
         )
     }
+
+fun actualizarLocalDesdeDTO(localDTO: LocalDTO): LocalDTO {
+
+    local.nombre = localDTO.nombre
+    local.urlImagenLocal = localDTO.urlImagenLocal
+    local.direccion = Direccion(
+        calle = localDTO.direccion,
+        altura = localDTO.altura,
+        ubicacion = Point(localDTO.latitud, localDTO.longitud)
+    )
+    local.porcentajeSobreCadaPlato = localDTO.porcentajeSobreCadaPlato
+    local.porcentajeRegaliasDeAutor = localDTO.porcentajeRegaliasDeAutor
+
+    local.mediosDePago.clear()
+    localDTO.mediosDePago.forEach { medio ->
+        local.agregarMedioDePago(medio)
+    }
+
+    return obtenerLocalDTO()
+}
 }
