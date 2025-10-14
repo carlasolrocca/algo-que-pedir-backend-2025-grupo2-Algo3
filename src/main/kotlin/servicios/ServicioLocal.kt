@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 @Service
 class LocalService {
 
-    // Simulamos un local
     private val local = Local(
         nombre = "Taberna de Moe",
         urlImagenLocal = "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",

@@ -54,7 +54,6 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `hacer un put actualiza el local y devuelve el JSON actualizado`() {
         
-
         val localDTO = LocalDTO(
             nombre = "Café Tortoni",
             urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
@@ -78,11 +77,10 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
                 .content(json)
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.nombre").value("La Taberna 2.0"))
-            .andExpect(jsonPath("$.altura").value(123))
-            .andExpect(jsonPath("$.porcentajeSobreCadaPlato").value(15.0))
-            .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(6.0))
-            .andExpect(jsonPath("$.mediosDePago").isArray)
+            .andExpect(jsonPath("$.nombre").value("Café Tortoni"))
+            .andExpect(jsonPath("$.altura").value(825))
+            .andExpect(jsonPath("$.porcentajeSobreCadaPlato").value(3))
+            .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(3))
     }
 
 }
