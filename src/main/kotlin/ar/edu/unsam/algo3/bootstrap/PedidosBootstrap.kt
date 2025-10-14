@@ -42,7 +42,7 @@ class PedidosBootstrap(
     val local2 = Local("Local Plato 3", Direccion("Calle Verdadera", 456))
 
     fun crearUsuarios() {
-        // usuarioRepositorio.clearInit() --PENDIENTE IMPLEMENTACION--
+        usuarioRepositorio.clearInit() //se implemento
 
         sofia = Usuario(
             nombre = "Sofía",

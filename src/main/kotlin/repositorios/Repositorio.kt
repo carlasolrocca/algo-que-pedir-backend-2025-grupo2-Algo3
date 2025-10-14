@@ -9,7 +9,8 @@ abstract class TipoRepositorio {
 }
 
 open class Repositorio<T : TipoRepositorio>(
-    private val searcher: SearchStrategy<T>
+    private val searcher: SearchStrategy<T>,
+    private val nombreSelector: ((T) -> String)? = null
 ) {
     var idActual: Int = 0
     var memoria: MutableMap<Int, T> = mutableMapOf()
@@ -21,14 +22,6 @@ open class Repositorio<T : TipoRepositorio>(
         objeto.id = id
         memoria[id] = objeto
         return objeto
-    }
-
-    fun verificarID(objeto: T): T {
-        // Lanza una excepcion si el objeto no tiene ID
-        val id = requireNotNull(objeto.id) { "El objeto debe tener un ID" }
-
-        // Se verifica que exista en memoria y se elimina
-        return getById(id)
     }
 
     fun delete(objeto: T) {
@@ -45,6 +38,17 @@ open class Repositorio<T : TipoRepositorio>(
 
     fun getById(id: Int): T {
         return memoria[id] ?: throw ErrorException.NotFoundException("No se encontró un objeto con id $id")
+    }
+
+    fun buscarPorNombre(nombre: String): T? {
+        return nombreSelector?.let { sel ->
+            memoria.values.firstOrNull { sel(it).equals(nombre, ignoreCase = true)}
+        }
+    }
+
+    fun getByNombre(nombre: String): T {
+        return buscarPorNombre(nombre)
+            ?: throw ErrorException.NotFoundException("No se encontró $nombre")
     }
 
     fun search(value: String): List<T> {
@@ -66,19 +70,18 @@ open class Repositorio<T : TipoRepositorio>(
         }
     }
 
-    fun clear(){
+    fun clearInit(){
         memoria.clear()
         idActual = 0
     }
 }
 
 // Hago esta clase para q Spring reconozca que esto es el repo
-// y mockeo  Local y unos ingredientes para probar el plato
 @Component
-class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
+class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher, nombreSelector = { it.nombre })
 
 @Component
-class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher)
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher, nombreSelector = { it.nombre })
 @Component
 class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
