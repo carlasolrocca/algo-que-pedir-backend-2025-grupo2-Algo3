@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import jakarta.validation.Valid
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +20,7 @@ class LocalController(private val localService: LocalService) {
     }
 
     @PutMapping("/local")
-    fun actualizarLocal(@RequestBody localDTO: LocalDTO): LocalDTO {
+    fun actualizarLocal(@RequestBody @Valid localDTO: LocalDTO): LocalDTO {
         return localService.actualizarLocalDesdeDTO(localDTO)
     }
 }

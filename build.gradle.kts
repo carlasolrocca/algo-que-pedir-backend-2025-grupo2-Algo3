@@ -46,6 +46,8 @@ dependencies {
     testImplementation("io.kotest:kotest-extensions-now:${kotestVersion}")
     testImplementation("io.kotest:kotest-runner-junit5:${kotestVersion}")
 
+    // Validación de datos (Bean Validation)
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 kotlin {
