@@ -9,7 +9,8 @@ abstract class TipoRepositorio {
 }
 
 open class Repositorio<T : TipoRepositorio>(
-    private val searcher: SearchStrategy<T>
+    private val searcher: SearchStrategy<T>,
+    private val nombreSelector: ((T) -> String)? = null
 ) {
     var idActual: Int = 0
     var memoria: MutableMap<Int, T> = mutableMapOf()
@@ -39,6 +40,17 @@ open class Repositorio<T : TipoRepositorio>(
         return memoria[id] ?: throw ErrorException.NotFoundException("No se encontró un objeto con id $id")
     }
 
+    fun buscarPorNombre(nombre: String): T? {
+        return nombreSelector?.let { sel ->
+            memoria.values.firstOrNull { sel(it).equals(nombre, ignoreCase = true)}
+        }
+    }
+
+    fun getByNombre(nombre: String): T {
+        return buscarPorNombre(nombre)
+            ?: throw ErrorException.NotFoundException("No se encontró $nombre")
+    }
+
     fun search(value: String): List<T> {
         return memoria.values.filter { searcher.matches(it, value) }
     }
@@ -66,10 +78,10 @@ open class Repositorio<T : TipoRepositorio>(
 
 // Hago esta clase para q Spring reconozca que esto es el repo
 @Component
-class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
+class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher, nombreSelector = { it.nombre })
 
 @Component
-class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher)
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher, nombreSelector = { it.nombre })
 @Component
 class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
