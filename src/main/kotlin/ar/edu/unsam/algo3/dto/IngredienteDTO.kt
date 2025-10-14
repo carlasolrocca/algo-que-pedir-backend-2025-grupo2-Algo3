@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.dto;
+package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
@@ -8,7 +8,7 @@ data class IngredienteDTO(
     var nombre: String,
     var costo: Double,
     var grupo: EnumGrupoAlimenticio,
-    var origen: Boolean
+    var origenAnimal: Boolean
 )
 
 fun Ingrediente.toDTO() = IngredienteDTO(
@@ -16,5 +16,5 @@ fun Ingrediente.toDTO() = IngredienteDTO(
     nombre=nombre,
     costo=costoMercado,
     grupo=grupoAlimenticio,
-    origen=origenAnimal
+    origenAnimal=origenAnimal
 )
