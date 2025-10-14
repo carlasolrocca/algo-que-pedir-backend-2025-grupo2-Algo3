@@ -13,8 +13,8 @@ class PedidoController(val pedidoService: PedidoService) {
     @GetMapping("/pedidos")
     fun listarPedidos() : List<PedidoDTO> = pedidoService.getAll()
 
-    @GetMapping("/pedidos/{estado}")
-    fun listarPedidosPorEstado(@PathVariable estado : String): List<Pedido> = pedidoService.getByEstado(estado)
+    @GetMapping("/pedidos", params = ["estado"])
+    fun listarPedidosPorEstado(@RequestParam("estado") estado : String): List<PedidoDTO> = pedidoService.getByEstado(estado)
 
 //    @GetMapping("/detalle-pedido/{id}")
 //    fun listarPedidosPorEstado(@PathVariable id : Int) : Pedido = pedidoService.getById(id)
