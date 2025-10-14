@@ -14,9 +14,19 @@ enum class EnumGrupoAlimenticio {
 }
 
 data class Ingrediente(
-    @JsonProperty("nombre") val nombre: String = "",
-    @JsonProperty("costo") val costoMercado: Double = 0.0,
-    @JsonProperty("grupo") val grupoAlimenticio: EnumGrupoAlimenticio = EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS,
-    @JsonProperty("origenAnimal") val origenAnimal: Boolean = false
-) : TipoRepositorio()
+    @JsonProperty("nombre") var nombre: String = "",
+    @JsonProperty("costo") var costoMercado: Double = 0.0,
+    @JsonProperty("grupo") var grupoAlimenticio: EnumGrupoAlimenticio = EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS,
+    @JsonProperty("origenAnimal") var origenAnimal: Boolean = false
+) : TipoRepositorio() {
+
+    fun actualizar(otroIngrediente: Ingrediente) {
+        nombre = otroIngrediente.nombre
+        costoMercado = otroIngrediente.costoMercado
+        grupoAlimenticio = otroIngrediente.grupoAlimenticio
+        origenAnimal = otroIngrediente.origenAnimal
+    }
+}
+
+
 

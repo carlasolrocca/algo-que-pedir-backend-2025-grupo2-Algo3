@@ -1,9 +1,9 @@
-package ar.edu.unsam.algo2
-import ar.edu.unsam.algo2.repositorios.IngredienteSearcher
-import ar.edu.unsam.algo2.repositorios.LocalSearcher
-import ar.edu.unsam.algo2.repositorios.Repositorio
-import ar.edu.unsam.algo2.repositorios.Repositorios
-import ar.edu.unsam.algo2.servicios.ServicioRepositorios
+package ar.edu.unsam.algo3
+import ar.edu.unsam.algo3.repositorios.IngredienteSearcher
+import ar.edu.unsam.algo3.repositorios.LocalSearcher
+import ar.edu.unsam.algo3.repositorios.Repositorio
+import ar.edu.unsam.algo3.repositorios.Repositorios
+import ar.edu.unsam.algo3.servicios.ServicioRepositorios
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.time.withConstantNow

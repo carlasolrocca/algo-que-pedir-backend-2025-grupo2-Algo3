@@ -1,6 +1,6 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo2.repositorios.Repositorios
+import ar.edu.unsam.algo3.repositorios.Repositorios
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -23,11 +23,12 @@ class RepositorioSpec: DescribeSpec({
         val usuarioNuevo = Usuario()
 
         beforeEach {
+            repositorioUsuario.clear()
             repositorioUsuario.create(usuarioNuevo)
         }
 
         it("Crear nuevo objeto en el repositorio") {
-            repositorioUsuario.memoria.shouldContain(usuarioNuevo)
+            repositorioUsuario.findAll().shouldContain(usuarioNuevo)
         }
 
         it("Un repo no permite crear dos veces el mismo objeto"){
@@ -38,14 +39,15 @@ class RepositorioSpec: DescribeSpec({
 
         it("Eliminar un objeto del repositorio"){
             repositorioUsuario.delete(usuarioNuevo)
-            repositorioUsuario.memoria.shouldNotContain(usuarioNuevo)
+            repositorioUsuario.findAll().shouldNotContain(usuarioNuevo)
         }
 
         it("Actualizar un objeto del repositorio") {
             usuarioNuevo.nombre = "Actualizado"
             repositorioUsuario.update(usuarioNuevo)
-            val usuarioNuevoEnMemoria = repositorioUsuario.memoria.find { it.id == usuarioNuevo.id }
-            usuarioNuevoEnMemoria?.nombre shouldBe "Actualizado"
+
+            val usuarioNuevoEnMemoria = repositorioUsuario.getById(usuarioNuevo.id!!)
+            usuarioNuevoEnMemoria.nombre shouldBe "Actualizado"
         }
 
         it("Encontrar objeto por su id"){

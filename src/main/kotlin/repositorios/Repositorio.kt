@@ -3,7 +3,6 @@ package ar.edu.unsam.algo3.repositorios
 import ar.edu.unsam.algo3.*
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Repository
 
 abstract class TipoRepositorio {
     @JsonProperty("id") var id: Int? = null
@@ -13,48 +12,47 @@ open class Repositorio<T : TipoRepositorio>(
     private val searcher: SearchStrategy<T>
 ) {
     var idActual: Int = 0
-    val memoria: MutableSet<T> = mutableSetOf<T>()
+    var memoria: MutableMap<Int, T> = mutableMapOf()
 
     fun create(objeto: T): T {
         // Lanza una excepcion del tipo IllegalArgumentException si no cumple la condicion
         require(objeto.id == null) { "El objeto ya esta creado" }
         val id = ++idActual
         objeto.id = id
-        memoria.add(objeto)
+        memoria[id] = objeto
         return objeto
     }
 
     fun verificarID(objeto: T): T {
         // Lanza una excepcion si el objeto no tiene ID
-        requireNotNull(objeto.id) { "El objeto debe tener un ID" }
+        val id = requireNotNull(objeto.id) { "El objeto debe tener un ID" }
 
         // Se verifica que exista en memoria y se elimina
-        return getById(objeto.id!!)
+        return getById(id)
     }
 
     fun delete(objeto: T) {
-        val objetoAEliminar = verificarID(objeto)
-        memoria.remove(objetoAEliminar)
+        val id = requireNotNull(objeto.id)
+        memoria.remove(id)
     }
 
     fun update(objeto: T): T {
-        val objetoAActualizar = verificarID(objeto)
-        delete(objetoAActualizar)
-        memoria.add(objeto)
+        val id = requireNotNull(objeto.id) { "Falta ID para actualizar" }
+        check(memoria.containsKey(id)) { "No existe id $id" }
+        memoria[id] = objeto
         return objeto
     }
 
     fun getById(id: Int): T {
-        return memoria.find { it.id == id }
-            ?: throw ErrorException.NotFoudException("No se encontró un objeto con id $id")
+        return memoria[id] ?: throw ErrorException.NotFoundException("No se encontró un objeto con id $id")
     }
 
     fun search(value: String): List<T> {
-        return memoria.filter { searcher.matches(it, value) }
+        return memoria.values.filter { searcher.matches(it, value) }
     }
 
     fun findAll(): List<T> {
-        return memoria.toList()
+        return memoria.values.toList()
     }
 
     //Actualiza repositorio a través de una lista
@@ -62,10 +60,15 @@ open class Repositorio<T : TipoRepositorio>(
         objetos.forEach { objeto ->
             when {
                 objeto.id == null -> create(objeto) //Si no tiene ID crea el objeto
-                memoria.any { it.id == objeto.id } -> update(objeto) //Si ya tiene ID en memoria actualiza
-                else -> memoria.add(objeto) //Si no está en el repo y tiene ID lo agrega
+                memoria.containsKey(objeto.id) -> update(objeto)
+                else -> memoria[requireNotNull(objeto.id)] = objeto //Si no está en el repo y tiene ID lo agrega
             }
         }
+    }
+
+    fun clear(){
+        memoria.clear()
+        idActual = 0
     }
 }
 
@@ -75,14 +78,7 @@ open class Repositorio<T : TipoRepositorio>(
 class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
 
 @Component
-class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher) {
-    init {
-        create(Ingrediente(nombre = "Pollo"))
-        create(Ingrediente(nombre = "Tomate"))
-        create(Ingrediente(nombre = "Queso"))
-    }
-}
-
+class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher)
 @Component
 class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
