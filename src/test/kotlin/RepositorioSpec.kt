@@ -23,7 +23,7 @@ class RepositorioSpec: DescribeSpec({
         val usuarioNuevo = Usuario()
 
         beforeEach {
-            repositorioUsuario.clear()
+            repositorioUsuario.clearInit()
             repositorioUsuario.create(usuarioNuevo)
         }
 
