@@ -16,8 +16,8 @@ class PedidoController(val pedidoService: PedidoService) {
     @GetMapping("/pedidos", params = ["estado"])
     fun listarPedidosPorEstado(@RequestParam("estado") estado : String): List<PedidoDTO> = pedidoService.getByEstado(estado)
 
-//    @GetMapping("/detalle-pedido/{id}")
-//    fun listarPedidosPorEstado(@PathVariable id : Int) : Pedido = pedidoService.getById(id)
+    @GetMapping("/detalle-pedido/{id}")
+    fun listarPedidosPorEstado(@PathVariable id : Int) : PedidoDTO = pedidoService.getById(id)
 
     @PatchMapping("/pedidos")
     fun actualizarEstado() = pedidoService.actualizarEstado()   //No recibe nada porque siempre pasa al siguiente estado
