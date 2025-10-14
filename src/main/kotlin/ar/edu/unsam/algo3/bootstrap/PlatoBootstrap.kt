@@ -6,19 +6,21 @@ import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.PlatoRepositorio
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Service
 
 @Service
+@DependsOn("ingredienteBootstrap")
 class PlatoBootstrap(
     val platoRepositorio: PlatoRepositorio,
     val ingredienteRepositorio: IngredienteRepositorio
 ): InitializingBean {
 
-    private lateinit var tomate: Ingrediente
-    private lateinit var leche: Ingrediente
-    private lateinit var pollo: Ingrediente
-    private lateinit var arroz: Ingrediente
-    private lateinit var palta: Ingrediente
+    private var tomate: Ingrediente = ingredienteRepositorio.getByNombre("Tomate")
+    private var leche: Ingrediente = ingredienteRepositorio.getByNombre("Leche")
+    private var pollo: Ingrediente = ingredienteRepositorio.getByNombre("Pechuga de pollo")
+    private var arroz: Ingrediente = ingredienteRepositorio.getByNombre("Arroz")
+    private var palta: Ingrediente = ingredienteRepositorio.getByNombre("Palta")
 
     fun crearPlatos() {
         platoRepositorio.clearInit()
@@ -61,48 +63,9 @@ class PlatoBootstrap(
         }
     }
 
-    fun crearIngredientes(){
-        tomate = Ingrediente(
-            "Tomate",
-            0.50,
-            EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS,
-            false
-        )
-        pollo = Ingrediente(
-            "Pechuga de pollo",
-            3.00,
-            EnumGrupoAlimenticio.PROTEINAS,
-            true
-        )
-        arroz = Ingrediente(
-            "Arroz",
-            1.00,
-            EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS,
-            false
-        )
-        leche = Ingrediente(
-            "Leche",
-            2.00,
-            EnumGrupoAlimenticio.LACTEOS,
-            true
-        )
-        palta = Ingrediente(
-            "Palta",
-            1.50,
-            EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS,
-            false
-        )
-        ingredienteRepositorio.apply {
-            create(tomate)
-            create(pollo)
-            create(arroz)
-            create(leche)
-            create(palta)
-        }
-    }
+
 
     override fun afterPropertiesSet() {
-        this.crearIngredientes() // DEBERIA LLAMAR A LOS PLATOS CREADOS, HACER CADENA, INCLUSO PEDIDO LLAMAR A ESTA FUN
         this.crearPlatos()
     }
 }
