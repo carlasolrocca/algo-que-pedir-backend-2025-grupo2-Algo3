@@ -11,9 +11,9 @@ import ar.edu.unsam.algo3.repositorios.PedidoRepositorio
 class PedidoService(
     private val pedidoRepo : PedidoRepositorio
 ) {
-    fun getAll() : List<PedidoDTO> = pedidoRepo.findAll().map {it.toDTO()}
+    fun getAll() : List<PedidoDTO> = pedidoRepo.findAll().map { it.toDTO() }
 
-    fun getByEstado(estado : String) : List<Pedido> = pedidoRepo.search(estado)
+    fun getByEstado(estado : String) : List<PedidoDTO> = pedidoRepo.search(estado).map { it.toDTO() }
 
     fun getById(id: Int) : Pedido = pedidoRepo.getById(id)
 
