@@ -1,10 +1,10 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.Direccion
-import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.dto.LocalDTO
-import ar.edu.unsam.algo3.MedioDePago
 import org.uqbar.geodds.Point
+import ar.edu.unsam.algo3.Local
+import ar.edu.unsam.algo3.Direccion
+import ar.edu.unsam.algo3.MedioDePago
+import ar.edu.unsam.algo3.dto.LocalDTO
 import org.springframework.stereotype.Service
 
 @Service
