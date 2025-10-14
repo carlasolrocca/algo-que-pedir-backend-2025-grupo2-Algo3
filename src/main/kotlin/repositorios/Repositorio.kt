@@ -76,11 +76,19 @@ open class Repositorio<T : TipoRepositorio>(
 // y mockeo  Local y unos ingredientes para probar el plato
 @Component
 class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
+
 @Component
 class IngredienteRepositorio: Repositorio<Ingrediente>(IngredienteSearcher)
 @Component
 class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 
+@Component
+open class PedidoRepositorio : Repositorio<Pedido>(PedidoSearcher)
+
+@Component
+class UsuarioRepositorio : Repositorio<Usuario>(UsuarioSearcher)
+
+// Singletons de algo2:
 object Repositorios {
     val usuario = Repositorio<Usuario>(
         searcher = UsuarioSearcher,
@@ -100,5 +108,4 @@ object Repositorios {
     val cupon = Repositorio<Cupon>(
         searcher = CuponSearcher,
     )
-    
 }

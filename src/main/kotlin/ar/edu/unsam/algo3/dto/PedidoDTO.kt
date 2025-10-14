@@ -1,0 +1,32 @@
+package ar.edu.unsam.algo3.dto
+
+import ar.edu.unsam.algo3.Pedido
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
+data class PedidoDTO (
+    var id: Int,
+    var cliente: ClienteInfoDTO,
+    var hora : String,
+    var items : Int,
+    var precioTotal : Double,
+    var estado : String,
+//    var direccion : String,
+    var medioDePago : String
+)
+
+private val formateoHora = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "AR"))
+
+//Convierto al objeto de dominio Pedido en un DTO con la info que le sirve a la vista
+fun Pedido.toDTO() : PedidoDTO =
+    PedidoDTO (
+        id!!,
+        cliente = this.cliente.toDTO(),
+        hora = this.horarioPedido.format(formateoHora),
+        items = this.platosDelPedido.size,
+        precioTotal = this.costoTotalPedido(),
+        estado = this.estadoDelPedido.name,
+//        direccion = this.cliente.direccion.devolverDireccionCompleta(),
+        medioDePago = this.medioDePago.name
+    )
+

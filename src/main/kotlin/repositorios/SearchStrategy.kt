@@ -47,3 +47,20 @@ object CuponSearcher: SearchStrategy<Cupon> {
         return objeto.porcentajeDescuento.toString() == value
     }
 }
+
+object PedidoSearcher : SearchStrategy<Pedido> {
+    override fun matches(objeto : Pedido, value : String) : Boolean {
+        val estadosValidos : Map<String, EnumEstadosPedido> = mapOf(
+            "pendiente" to EnumEstadosPedido.PENDIENTE,
+            "preparado" to EnumEstadosPedido.PREPARADO,
+            "entregado" to EnumEstadosPedido.ENTREGADO,
+            "cancelado" to EnumEstadosPedido.CANCELADO
+        )
+
+        //Toma lo que vino en la url, lo trimeo y paso a minus y evaluo si esta en el map
+        val estadoAEvaluar = estadosValidos[value.trim().lowercase()] ?: throw IllegalArgumentException("El estado $value no es valido")
+
+        //Compara y evalua
+        return objeto.estadoDelPedido == estadoAEvaluar
+    }
+}
