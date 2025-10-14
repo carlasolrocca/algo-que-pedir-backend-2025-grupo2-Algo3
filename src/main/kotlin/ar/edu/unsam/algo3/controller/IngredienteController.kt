@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class IngredienteController(val ingredienteService: IngredienteService) {
     @GetMapping("/ingrediente")
     fun listarIngredientes(): List<IngredienteDTO> =
-        ingredienteService.getAll().map { it.toDTO() }.toMutableList()
+        ingredienteService.getAll().map { it.toDTO() }
 
     @GetMapping("/ingrediente/{id}")
     fun ingredientePorId(@PathVariable id: Int): IngredienteDTO = ingredienteService.getById(id).toDTO()
