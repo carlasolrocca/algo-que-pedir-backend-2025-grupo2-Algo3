@@ -58,14 +58,13 @@ open class Repositorio<T : TipoRepositorio>(
         }
     }
 
-    fun clear(){
+    fun clearInit(){
         memoria.clear()
         idActual = 0
     }
 }
 
 // Hago esta clase para q Spring reconozca que esto es el repo
-// y mockeo  Local y unos ingredientes para probar el plato
 @Component
 class PlatoRepositorio: Repositorio<Plato>(PlatoSearcher)
 
