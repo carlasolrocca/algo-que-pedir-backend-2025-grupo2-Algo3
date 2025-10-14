@@ -1,4 +1,4 @@
-package bootstrap;
+package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
@@ -21,7 +21,7 @@ class PlatoBootstrap(
     private lateinit var palta: Ingrediente
 
     fun crearPlatos() {
-        // platoRepositorio.clearInit()
+        platoRepositorio.clearInit()
         val ensalada = Plato(
             nombre = "Ensalada Primavera",
             descripcion = "Nutritiva ensalada fresca",
@@ -102,7 +102,7 @@ class PlatoBootstrap(
     }
 
     override fun afterPropertiesSet() {
-        this.crearIngredientes()
+        this.crearIngredientes() // DEBERIA LLAMAR A LOS PLATOS CREADOS, HACER CADENA, INCLUSO PEDIDO LLAMAR A ESTA FUN
         this.crearPlatos()
     }
 }

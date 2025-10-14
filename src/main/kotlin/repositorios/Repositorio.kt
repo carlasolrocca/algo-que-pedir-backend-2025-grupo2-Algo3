@@ -66,7 +66,7 @@ open class Repositorio<T : TipoRepositorio>(
         }
     }
 
-    fun clear(){
+    fun clearInit(){
         memoria.clear()
         idActual = 0
     }
