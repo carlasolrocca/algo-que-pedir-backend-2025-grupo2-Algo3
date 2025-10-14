@@ -1,16 +1,19 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.dto.LocalDTO
-import ar.edu.unsam.algo3.service.LocalService
 import org.junit.jupiter.api.Test
+import org.mockito.BDDMockito.given
+import ar.edu.unsam.algo3.MedioDePago
+import ar.edu.unsam.algo3.dto.LocalDTO
 import org.junit.jupiter.api.DisplayName
+import org.springframework.http.MediaType
+import ar.edu.unsam.algo3.service.LocalService
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import org.mockito.BDDMockito.given
 
 @WebMvcTest(LocalController::class)
 @DisplayName("Dado el perfil de un local")
@@ -18,6 +21,9 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
 
     @MockBean
     lateinit var localService: LocalService
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     @Test
     fun `hacer un get devuelve la información que se le solicita`() {
@@ -44,4 +50,39 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             .andExpect(jsonPath("$.porcentajeSobreCadaPlato").value(10.0))
             .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(5.0))
     }
+
+    @Test
+    fun `hacer un put actualiza el local y devuelve el JSON actualizado`() {
+        
+
+        val localDTO = LocalDTO(
+            nombre = "Café Tortoni",
+            urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
+            direccion = "Avenida de Mayo",
+            altura = 825,
+            latitud = -34.6086531,
+            longitud = -58.3782121,
+            porcentajeSobreCadaPlato = 3.0,
+            porcentajeRegaliasDeAutor = 3.0,
+            mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TRANSFERENCIA_BANCARIA)
+            
+        )
+
+        given(localService.actualizarLocalDesdeDTO(localDTO)).willReturn(localDTO)
+
+        val json = objectMapper.writeValueAsString(localDTO)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/local")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.nombre").value("La Taberna 2.0"))
+            .andExpect(jsonPath("$.altura").value(123))
+            .andExpect(jsonPath("$.porcentajeSobreCadaPlato").value(15.0))
+            .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(6.0))
+            .andExpect(jsonPath("$.mediosDePago").isArray)
+    }
+
 }
