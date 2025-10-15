@@ -151,11 +151,17 @@ class AppBootstrap(
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
-            Direccion("Av. Libertador",2300)
+            Direccion("Avenida Libertador", 2300, Point(90, -90)),
+            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            3.0,
+            3.0
         )
         local2 = Local(
             "Local Plato 3",
-            Direccion("Calle Verdadera", 456)
+            Direccion("Calle Verdadera", 456, Point(22, -22)),
+            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            1.5,
+            1.0
         )
 
         localRepositorio.apply{
@@ -202,7 +208,8 @@ class AppBootstrap(
             nombre = "Veggie Salad",
             descripcion = "Una ensalada sin maltrato animal",
             valorBase = 18.0,
-            esdeAutor = true
+            esdeAutor = true,
+            local = local1
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(palta)
@@ -213,7 +220,8 @@ class AppBootstrap(
             nombre = "Pizza Vegetariana",
             descripcion = "Pizza vegetariana con ingredientes variados",
             valorBase = 14.25,
-            esdeAutor = false
+            esdeAutor = false, 
+            local = local2
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(queso)
@@ -236,7 +244,8 @@ class AppBootstrap(
             nombre = "Pastel de Chocolate",
             descripcion = "Pastel de chocolate rico con glaseado",
             valorBase = 6.50,
-            esdeAutor = true
+            esdeAutor = true,
+            local = localMoe
         ).apply {
             agregarIngrediente(bizcocho)
             agregarIngrediente(chocolate)
@@ -258,10 +267,10 @@ class AppBootstrap(
     private lateinit var jose: Usuario
     private lateinit var miguel: Usuario
 
-    val direccion1 = Direccion("Av. Siempre Viva", 555)
-    val direccion2 = Direccion("Calle Falsa", 123)
-    val direccion3 = Direccion("Cucha Cucha", 45)
-    val direccion4 = Direccion("Av. Rigoleau", 333)
+    val direccion1 = Direccion("Av. Siempre Viva", 555, Point(9.808327, -89.643204))
+    val direccion2 = Direccion("Calle Falsa", 123, Point(11.1,22.2))
+    val direccion3 = Direccion("Cucha Cucha", 45, Point(33.3,44.4))
+    val direccion4 = Direccion("Av. Rigoleau", 333, Point(55.4,-66.6))
 
     fun crearUsuarios() {
         usuarioRepositorio.clearInit()
