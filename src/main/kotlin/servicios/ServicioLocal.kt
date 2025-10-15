@@ -33,6 +33,8 @@ class LocalService {
             porcentajeRegaliasDeAutor = local.porcentajeRegaliasDeAutor,
             mediosDePago = local.mediosDePago
         )
+
+        //Cambiar esta responsabilidad al Controller, y modelarlo con un ID de Local
     }
 
 fun actualizarLocalDesdeDTO(localDTO: LocalDTO): LocalDTO {

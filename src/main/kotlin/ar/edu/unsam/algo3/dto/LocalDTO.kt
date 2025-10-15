@@ -4,6 +4,8 @@ import ar.edu.unsam.algo3.MedioDePago
 import jakarta.validation.constraints.*
 
 data class LocalDTO(
+
+    //Cambiar las validaciones a la clase del Local
     @field:NotBlank(message = "El nombre no puede estar vacío")
     val nombre: String,
 
