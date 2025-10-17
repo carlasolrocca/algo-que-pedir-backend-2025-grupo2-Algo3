@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.bootstrap
+/*package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
@@ -57,8 +57,6 @@ class IngredienteBootstrap(
         }
     }
 
-    override fun afterPropertiesSet() {
-        this.crearIngredientes()
-    }
 
-}
+
+}*/

@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.bootstrap
+/*package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.EnumEstadosPedido
@@ -23,14 +23,12 @@ class PedidosBootstrap(
     val usuarioRepositorio : UsuarioRepositorio
 ) : InitializingBean {
 
-    private lateinit var sofia: Usuario
-    private lateinit var micaela: Usuario
+
     private lateinit var plato1 : Plato
     private lateinit var plato2 : Plato
     private lateinit var plato3 : Plato
 
-    val direccion1 = Direccion("Av. Siempre Viva", 555)
-    val direccion2 = Direccion("Cucha Cucha", 45)
+
 
     val tomate = Ingrediente("Tomate", 2.0, EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS)
     val queso = Ingrediente("Queso", 3.5, EnumGrupoAlimenticio.LACTEOS)
@@ -38,31 +36,9 @@ class PedidosBootstrap(
     val pan = Ingrediente("Pan", 2.0, EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS)
     val lechuga = Ingrediente("Lechuga", 1.0, EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS)
 
-    val local1 = Local("Local Plato 1 y Plato 2", Direccion("Calle Falsa", 123))
-    val local2 = Local("Local Plato 3", Direccion("Calle Verdadera", 456))
 
-    fun crearUsuarios() {
-        usuarioRepositorio.clearInit() //se implemento
 
-        sofia = Usuario(
-            nombre = "Sofía",
-            apellido = "Miller",
-            username = "smiller2005",
-            direccion = direccion1
-        )
 
-        micaela = Usuario(
-            nombre = "Micaela",
-            apellido = "Moreno",
-            username = "mmoreno2005",
-            direccion = direccion2
-        )
-
-        usuarioRepositorio.apply{
-            create(sofia)
-            create(micaela)
-        }
-    }
 
     fun crearPlatos(){
         // platoRepositorio.clearInit() --PENDIENTE IMPLEMENTACION--
@@ -91,38 +67,11 @@ class PedidosBootstrap(
         }
     }
 
-    fun crearPedidos() {
-        // pedidoRepositorio.clearInit() --PENDIENTE IMPLEMENTACION--
 
-        pedidoRepositorio.create(
-            Pedido(
-                cliente = sofia,
-                local = local1,
-                estadoDelPedido = EnumEstadosPedido.PENDIENTE,
-                medioDePago = MedioDePago.QR,
-                horarioPedido = LocalTime.of(12,30)
-            ).apply {
-                agregarPlatoAlPedido(plato1)
-                agregarPlatoAlPedido(plato2)
-            }
-        )
-
-        pedidoRepositorio.create(
-            Pedido(
-                cliente = micaela,
-                local = local2,
-                estadoDelPedido = EnumEstadosPedido.ENTREGADO,
-                medioDePago = MedioDePago.EFECTIVO,
-                horarioPedido = LocalTime.of(15,45)
-            ).apply {
-                agregarPlatoAlPedido(plato3)
-            }
-        )
-    }
 
     override fun afterPropertiesSet() {
         crearUsuarios()
         crearPlatos()
         crearPedidos()
     }
-}
+}*/
