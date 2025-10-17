@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 class Local(
+    id: Int = 0, //Esto después debería asignarse automáticamente en función del ID del último local. 
     nombre: String = "",
     direccion: Direccion = Direccion(),
     urlImagenLocal: String = "",
@@ -10,7 +11,6 @@ class Local(
     porcentajeRegaliasDeAutor: Double = 0.0
 ) : TipoRepositorio() {
 
-    // --- ATRIBUTOS ---
     var nombre: String = nombre
         set(value) {
             require(value.isNotBlank()) { "El nombre no puede estar vacío" }
@@ -19,8 +19,8 @@ class Local(
 
     var direccion: Direccion = direccion
         set(value) {
-            require(value.calle.isNotBlank()) { "La calle no puede estar vacía" }
             require(value.altura > 0) { "La altura debe ser mayor que 0" }
+            require(value.calle.isNotBlank()) { "La calle no puede estar vacía" }
             field = value
         }
 
@@ -42,12 +42,12 @@ class Local(
             field = value
         }
 
-    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0
     var inboxMensajes: InboxMensajes = InboxMensajes()
+    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val puntuacionUsuarios: MutableList<Double> = mutableListOf()
 
-    // --- INIT VALIDATION ---
+    // Validaciones previas a inicializar el Local
     init {
         require(nombre.isNotBlank()) { "El nombre no puede estar vacío" }
         require(direccion.altura > 0) { "La altura debe ser mayor que 0" }
@@ -57,7 +57,6 @@ class Local(
         require(porcentajeRegaliasDeAutor in 0.0..100.0) { "El porcentaje de regalías de autor debe estar entre 0 y 100" }
     }
 
-    // --- FUNCIONALIDAD EXISTENTE (sin cambios) ---
     fun puntuar(puntaje: Double) {
         if (puntaje in 1.0..5.0) {
             puntuacionUsuarios.add(puntaje)
