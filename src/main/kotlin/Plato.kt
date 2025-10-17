@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3
 
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -11,7 +12,9 @@ class Plato(
     var descripcion: String = "Descripcion plato de autor",
     var valorBase: Double = 0.0,
 ): TipoRepositorio() {
+    @JsonIgnore
     var fechaLanzamiento: LocalDate = LocalDate.now()
+
     var porcentajeDescuento: Double = 0.0
     var listaDeIngredientes: MutableSet<Ingrediente> = mutableSetOf()
 
@@ -52,4 +55,22 @@ class Plato(
         return listaDeIngredientes.any { usuario.esIngredienteProhibido(it) }
     }
 
+    // Validaciones para crear nuevo plato (back)
+    fun validar() {
+        if (nombre.isEmpty()) throw ErrorException.BusinessException("Debe ingresar un nombre")
+        if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
+        // tiene que contener una imagen y debe ser tipo image
+        if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
+    }
+
+    // Actualizacion para el plato
+    fun actualizar(otro: Plato) {
+        nombre = otro.nombre
+        descripcion = otro.descripcion
+        // actualizar imagen
+        valorBase = otro.valorBase
+        esdeAutor = otro.esdeAutor
+        porcentajeDescuento = otro.porcentajeDescuento
+        listaDeIngredientes = otro.listaDeIngredientes
+    }
 }
