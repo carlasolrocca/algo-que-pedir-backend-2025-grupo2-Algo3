@@ -86,4 +86,26 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             .andExpect(jsonPath("$.porcentajeRegaliasDeAutor").value(3))
     }
 
-}
+    @Test
+    fun `hacer un get por id devuelve el local correcto`() {
+        val localDTO = LocalDTO(
+            id = 2,
+            nombre = "Café Tortoni",
+            urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
+            direccion = "Avenida de Mayo",
+            altura = 825,
+            latitud = -34.6086531,
+            longitud = -58.3782121,
+            porcentajeSobreCadaPlato = 3.0,
+            porcentajeRegaliasDeAutor = 3.0,
+            mediosDePago = setOf()
+        )
+
+        given(localService.obtenerLocalPorId(2)).willReturn(localDTO)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/local/2"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.nombre").value("Café Tortoni"))
+    }
+
+} // Fin LocalControllerTest
