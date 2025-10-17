@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RestController
 @CrossOrigin(origins = ["http://localhost:5173"])
 class LocalController(private val localService: LocalService) {
 
-    @GetMapping("/local")
-    fun obtenerLocal(): LocalDTO {
-        return localService.obtenerLocalDTO()
-    }
-
     @GetMapping("/local/{id}")
     fun obtenerLocalPorId(@PathVariable id: Int): LocalDTO {
         return localService.obtenerLocalPorId(id)

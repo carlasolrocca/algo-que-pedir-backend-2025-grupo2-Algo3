@@ -11,22 +11,6 @@ import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 @Service
 class LocalService(private val localRepositorio: LocalRepositorio) {
 
-    fun obtenerLocalDTO(): LocalDTO {
-        val local = localRepositorio.findAll().first()
-        return LocalDTO(
-            id = local.id!!,
-            nombre = local.nombre,
-            urlImagenLocal = local.urlImagenLocal,
-            direccion = local.direccion.calle,
-            altura = local.direccion.altura,
-            latitud = local.direccion.ubicacion.latitude(),
-            longitud = local.direccion.ubicacion.longitude(),
-            porcentajeSobreCadaPlato = local.porcentajeSobreCadaPlato,
-            porcentajeRegaliasDeAutor = local.porcentajeRegaliasDeAutor,
-            mediosDePago = local.mediosDePago
-        )
-    }
-
     fun obtenerLocalPorId(id: Int): LocalDTO {
         val local = localRepositorio.getById(id)
         return LocalDTO(
@@ -44,7 +28,7 @@ class LocalService(private val localRepositorio: LocalRepositorio) {
     }
 
     fun actualizarLocalDesdeDTO(localDTO: LocalDTO): LocalDTO {
-        val local = localRepositorio.getById(localDTO.id!!) // obtener el local existente
+        val local = localRepositorio.getById(localDTO.id) // obtener el local existente
         local.nombre = localDTO.nombre
         local.urlImagenLocal = localDTO.urlImagenLocal
         local.direccion = Direccion(
@@ -60,4 +44,5 @@ class LocalService(private val localRepositorio: LocalRepositorio) {
 
         return obtenerLocalPorId(local.id!!)
     }
+
 } // Fin clase LocalService
