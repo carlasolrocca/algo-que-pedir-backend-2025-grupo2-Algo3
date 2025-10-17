@@ -23,6 +23,7 @@ class LocalService {
 
     fun obtenerLocalDTO(): LocalDTO {
         return LocalDTO(
+            id = local.id ?: 0,
             nombre = local.nombre,
             urlImagenLocal = local.urlImagenLocal,
             direccion = local.direccion.calle,

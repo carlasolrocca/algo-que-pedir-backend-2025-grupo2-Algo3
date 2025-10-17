@@ -3,7 +3,6 @@ package ar.edu.unsam.algo3
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 class Local(
-    id: Int = 0, //Esto después debería asignarse automáticamente en función del ID del último local. 
     nombre: String = "",
     direccion: Direccion = Direccion(),
     urlImagenLocal: String = "",
