@@ -9,6 +9,7 @@ import org.springframework.http.MediaType
 import ar.edu.unsam.algo3.service.LocalService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.test.web.servlet.MockMvc
+import ar.edu.unsam.algo3.controller.LocalController
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -29,6 +30,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
     fun `hacer un get devuelve la información que se le solicita`() {
 
         val localDTO = LocalDTO(
+            id = 1,
             nombre = "Taberna de Moe",
             urlImagenLocal = "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             direccion = "Av. Siempre Viva",
@@ -55,6 +57,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
     fun `hacer un put actualiza el local y devuelve el JSON actualizado`() {
         
         val localDTO = LocalDTO(
+            id = 2,
             nombre = "Café Tortoni",
             urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
             direccion = "Avenida de Mayo",
