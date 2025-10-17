@@ -6,6 +6,8 @@ import jakarta.validation.constraints.*
 data class LocalDTO(
 
     //Cambiar las validaciones a la clase del Local
+    val id: Int,
+    
     val nombre: String,
 
     val urlImagenLocal: String,
