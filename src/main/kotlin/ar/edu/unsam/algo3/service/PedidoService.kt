@@ -1,0 +1,21 @@
+package ar.edu.unsam.algo3.service
+
+import ar.edu.unsam.algo3.Pedido
+import ar.edu.unsam.algo3.dto.PedidoDTO
+import ar.edu.unsam.algo3.dto.toDTO
+import org.springframework.stereotype.Service
+import ar.edu.unsam.algo3.repositorios.PedidoRepositorio
+
+
+@Service
+class PedidoService(
+    private val pedidoRepo : PedidoRepositorio
+) {
+    fun getAll() : List<PedidoDTO> = pedidoRepo.findAll().map { it.toDTO() }
+
+    fun getByEstado(estado : String) : List<PedidoDTO> = pedidoRepo.search(estado).map { it.toDTO() }
+
+    fun getById(id: Int) : PedidoDTO = pedidoRepo.getById(id).toDTO()
+
+    fun actualizarEstado(){}
+}

@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 enum class EnumEstadosPedido{
     PENDIENTE,
@@ -11,7 +12,7 @@ enum class EnumEstadosPedido{
     CANCELADO
 }
 
-class Pedido(
+class Pedido (
     val cliente: Usuario = Usuario(),
     val local: Local = Local(),
     val delivery: Delivery = Delivery(),
@@ -19,7 +20,7 @@ class Pedido(
     var medioDePago : MedioDePago = MedioDePago.EFECTIVO,
     var horarioPedido : LocalTime = LocalTime.now(),
     var fechaPedido : LocalDate = LocalDate.now()
-) {
+) : TipoRepositorio() {
     val ANTIGUEDAD_MINIMA_CLIENTE = 1               //¿No corresponderia que esto lo tenga el USUARIO?
     val platosDelPedido: MutableList<Plato> = mutableListOf()
     var cupon: Cupon? = null                        //Le asigno una variable Cupon a la clase Pedido
