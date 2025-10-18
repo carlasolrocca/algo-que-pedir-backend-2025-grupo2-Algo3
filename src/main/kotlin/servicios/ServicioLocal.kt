@@ -14,7 +14,7 @@ class LocalService(private val localRepositorio: LocalRepositorio) {
     fun obtenerLocalPorId(id: Int): LocalDTO {
         val local = localRepositorio.getById(id)
         return LocalDTO(
-            id = local.id!!,
+            idLocal = local.id!!,
             nombre = local.nombre,
             urlImagenLocal = local.urlImagenLocal,
             direccion = local.direccion.calle,
@@ -28,7 +28,7 @@ class LocalService(private val localRepositorio: LocalRepositorio) {
     }
 
     fun actualizarLocalDesdeDTO(localDTO: LocalDTO): LocalDTO {
-        val local = localRepositorio.getById(localDTO.id) // obtener el local existente
+        val local = localRepositorio.getById(localDTO.idLocal) // obtener el local existente
         local.nombre = localDTO.nombre
         local.urlImagenLocal = localDTO.urlImagenLocal
         local.direccion = Direccion(
