@@ -1,16 +1,15 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.Direccion
-import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.dto.LocalDTO
-import ar.edu.unsam.algo3.MedioDePago
 import org.uqbar.geodds.Point
+import ar.edu.unsam.algo3.Local
+import ar.edu.unsam.algo3.Direccion
+import ar.edu.unsam.algo3.MedioDePago
+import ar.edu.unsam.algo3.dto.LocalDTO
 import org.springframework.stereotype.Service
 
 @Service
 class LocalService {
 
-    // Simulamos un local
     private val local = Local(
         nombre = "Taberna de Moe",
         urlImagenLocal = "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
@@ -35,4 +34,24 @@ class LocalService {
             mediosDePago = local.mediosDePago
         )
     }
+
+fun actualizarLocalDesdeDTO(localDTO: LocalDTO): LocalDTO {
+
+    local.nombre = localDTO.nombre
+    local.urlImagenLocal = localDTO.urlImagenLocal
+    local.direccion = Direccion(
+        calle = localDTO.direccion,
+        altura = localDTO.altura,
+        ubicacion = Point(localDTO.latitud, localDTO.longitud)
+    )
+    local.porcentajeSobreCadaPlato = localDTO.porcentajeSobreCadaPlato
+    local.porcentajeRegaliasDeAutor = localDTO.porcentajeRegaliasDeAutor
+
+    local.mediosDePago.clear()
+    localDTO.mediosDePago.forEach { medio ->
+        local.agregarMedioDePago(medio)
+    }
+
+    return obtenerLocalDTO()
+}
 }

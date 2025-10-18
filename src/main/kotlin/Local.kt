@@ -3,13 +3,13 @@ package ar.edu.unsam.algo3
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 class Local(
-    val nombre: String = "",
-    val direccion: Direccion = Direccion(),
+    var nombre: String = "",
+    var direccion: Direccion = Direccion(),
     var urlImagenLocal: String = "",
     var porcentajeSobreCadaPlato: Double = 0.0,
     var porcentajeRegaliasDeAutor: Double = 0.0,
 ): TipoRepositorio() {
-    val mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
+    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0                   //El local define su rango de puntuacion para ser confiable
     var inboxMensajes : InboxMensajes = InboxMensajes()
     val puntuacionUsuarios: MutableList<Double> = mutableListOf()
