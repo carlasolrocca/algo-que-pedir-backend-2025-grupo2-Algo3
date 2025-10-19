@@ -9,9 +9,9 @@ data class PlatoDTO(
     var valorBase: Double,
     var esDeAutor: Boolean,
     var estaEnPromocion: Boolean,
-    var valorPorcentaje: Double,
+    var porcentajeDescuento: Double,
     var costoProduccion: Double,
-    var ingredientes: MutableSet<IngredienteDTO>
+    var listaDeIngredientes: MutableSet<IngredienteDTO>
 )
 
 fun Plato.toDTO() = PlatoDTO(
@@ -21,7 +21,7 @@ fun Plato.toDTO() = PlatoDTO(
     valorBase=valorBase,
     esDeAutor=esdeAutor,
     estaEnPromocion= !this.esNuevo(),
-    valorPorcentaje=porcentajeDescuento,
+    porcentajeDescuento=this.porcentajeDescuento,
     costoProduccion= this.costoDeProduccion(),
-    ingredientes= this.listaDeIngredientes.map { it.toDTO() }.toMutableSet()
+    listaDeIngredientes= this.listaDeIngredientes.map { it.toDTO() }.toMutableSet()
 )
