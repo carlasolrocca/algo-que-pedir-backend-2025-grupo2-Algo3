@@ -61,6 +61,7 @@ class Plato(
         if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
         // tiene que contener una imagen y debe ser tipo image
         if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
+        if (!esNuevo() && (porcentajeDescuento <= 0 || porcentajeDescuento >= 100)) throw ErrorException.BusinessException("El descuento debe estar entre 1% y 100%")
     }
 
     // Actualizacion para el plato
@@ -71,6 +72,7 @@ class Plato(
         valorBase = otro.valorBase
         esdeAutor = otro.esdeAutor
         porcentajeDescuento = otro.porcentajeDescuento
+        listaDeIngredientes.clear()
         listaDeIngredientes = otro.listaDeIngredientes
     }
 }
