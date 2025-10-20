@@ -9,7 +9,7 @@ data class PlatoDTO(
     var imagenUrl: String,
     var valorBase: Double,
     var esDeAutor: Boolean,
-    var estaEnPromocion: Boolean,
+    var esNuevo: Boolean,
     var porcentajeDescuento: Double,
     var costoProduccion: Double,
     var listaDeIngredientes: MutableSet<IngredienteDTO>
@@ -22,7 +22,7 @@ fun Plato.toDTO() = PlatoDTO(
     imagenUrl = this.getImagenUrl(),
     valorBase=valorBase,
     esDeAutor=esdeAutor,
-    estaEnPromocion= !this.esNuevo(),
+    esNuevo= this.esNuevo(),
     porcentajeDescuento=this.porcentajeDescuento,
     costoProduccion= this.costoDeProduccion(),
     listaDeIngredientes= this.listaDeIngredientes.map { it.toDTO() }.toMutableSet()
