@@ -7,7 +7,9 @@ class Local(
     direccion: Direccion = Direccion(),
     urlImagenLocal: String = "",
     porcentajeSobreCadaPlato: Double = 0.0,
-    porcentajeRegaliasDeAutor: Double = 0.0
+    porcentajeRegaliasDeAutor: Double = 0.0,
+    var usuario: String = "",
+    var password: String = ""
 ) : TipoRepositorio() {
 
     var nombre: String = nombre

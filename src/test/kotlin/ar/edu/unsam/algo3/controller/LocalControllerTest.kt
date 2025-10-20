@@ -29,7 +29,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `hacer un get por id devuelve el local correcto`() {
         val localDTO = LocalDTO(
-            id = 2,
+            idLocal = 2,
             nombre = "Café Tortoni",
             urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
             direccion = "Avenida de Mayo",
@@ -52,7 +52,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
     fun `hacer un put actualiza el local y devuelve el JSON actualizado`() {
         
         val localDTO = LocalDTO(
-            id = 2,
+            idLocal = 2,
             nombre = "Café Tortoni",
             urlImagenLocal = "https://upload.wikimedia.org/wikipedia/commons/5/51/Caf%C3%A9_Tortoni.JPG",
             direccion = "Avenida de Mayo",
