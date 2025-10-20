@@ -17,6 +17,7 @@ import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
+import java.time.LocalDate
 import java.time.LocalTime
 
 @Service
@@ -185,9 +186,22 @@ class AppBootstrap(
     private lateinit var pizzaVegetariana: Plato
     private lateinit var hamburguesaConQueso: Plato
     private lateinit var pastelDeChocolate: Plato
+    private lateinit var deLaCasa: Plato
 
     fun crearPlatos() {
         platoRepositorio.clearInit()
+
+         deLaCasa = Plato(
+             nombre = "Especial de la Casa",
+             descripcion = "Primer plato realizado por el local",
+             imagenNombre = "pescado-papas-fritas.png",
+             valorBase = 16.75,
+             esdeAutor = true,
+             local = local1
+         ).apply {
+             agregarIngrediente(pechugaDePollo)
+             fechaLanzamiento= LocalDate.of(2024,10,20)
+         }
 
          alitasPicantes = Plato(
             nombre = "Alitas de pollo picantes",
@@ -267,6 +281,7 @@ class AppBootstrap(
         }
 
         platoRepositorio.apply {
+            create(deLaCasa)
             create(alitasPicantes)
             create(arrozConLeche)
             create(veggieSalad)
