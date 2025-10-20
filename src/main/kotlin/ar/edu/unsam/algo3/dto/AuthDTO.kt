@@ -14,6 +14,7 @@ data class RegisterRequest(
 data class AuthResponse(
     val success: Boolean,
     val message: String,
-    val usuario: String? = null
+    val usuario: String? = null,
+    val idLocal: Int? = null
 )
 

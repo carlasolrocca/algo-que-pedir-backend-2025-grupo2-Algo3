@@ -17,7 +17,8 @@ object UsuarioSearcher : SearchStrategy<Usuario> {
 object LocalSearcher: SearchStrategy<Local> {
     override fun matches(objeto: Local, value: String): Boolean {
         return objeto.nombre.contains(value, ignoreCase = true) ||
-                objeto.direccion.calle == value
+                objeto.direccion.calle == value ||
+                objeto.usuario == value
     }
 }
 

@@ -8,6 +8,8 @@ class Local(
     var urlImagenLocal: String = "",
     var porcentajeSobreCadaPlato: Double = 0.0,
     var porcentajeRegaliasDeAutor: Double = 0.0,
+    var usuario: String = "",
+    var password: String = ""
 ): TipoRepositorio() {
     var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0                   //El local define su rango de puntuacion para ser confiable
