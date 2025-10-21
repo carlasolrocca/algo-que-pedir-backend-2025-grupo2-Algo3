@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @CrossOrigin(
     origins = ["http://localhost:5173"],
     allowedHeaders = ["*"],
-    methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS]
+    methods = [RequestMethod.GET, RequestMethod.PUT] //, RequestMethod.P, RequestMethod.DELETE, RequestMethod.OPTIONS]
 )
 class LocalController(private val localService: LocalService) {
 
