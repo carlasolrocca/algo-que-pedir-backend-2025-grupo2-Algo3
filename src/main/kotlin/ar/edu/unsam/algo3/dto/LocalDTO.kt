@@ -24,5 +24,7 @@ data class LocalDTO(
 
     val porcentajeRegaliasDeAutor: Double,
 
+    val usuario: String,
+
     val mediosDePago: Set<MedioDePago>
 )

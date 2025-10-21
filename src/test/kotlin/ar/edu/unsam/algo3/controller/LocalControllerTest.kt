@@ -38,6 +38,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             longitud = -58.3782121,
             porcentajeSobreCadaPlato = 3.0,
             porcentajeRegaliasDeAutor = 3.0,
+            usuario = "local2",
             mediosDePago = setOf()
         )
 
@@ -60,7 +61,9 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             latitud = -34.6086531,
             longitud = -58.3782121,
             porcentajeSobreCadaPlato = 3.0,
+            usuario = "local1",
             porcentajeRegaliasDeAutor = 3.0,
+
             mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TRANSFERENCIA_BANCARIA)
             
         )
