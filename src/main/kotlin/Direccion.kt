@@ -3,8 +3,8 @@ package ar.edu.unsam.algo3
 import org.uqbar.geodds.Point
 
 class Direccion(
-    val calle: String = "",
-    val altura: Int = 0,
+    val calle: String = "calle",
+    val altura: Int = 550,
     val ubicacion: Point = Point(0, 0)
 ) {
     init {
