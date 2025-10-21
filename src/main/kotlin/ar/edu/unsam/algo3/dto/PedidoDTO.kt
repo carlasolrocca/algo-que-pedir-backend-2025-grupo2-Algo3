@@ -11,8 +11,8 @@ data class PedidoDTO (
     var items : Int,
     var precioTotal : Double,
     var estado : String,
-//    var direccion : String,
-    var medioDePago : String
+    var medioDePago : String,
+    var direccion : DireccionDTO
 )
 
 private val formateoHora = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "AR"))
@@ -26,7 +26,7 @@ fun Pedido.toDTO() : PedidoDTO =
         items = this.platosDelPedido.size,
         precioTotal = this.costoTotalPedido(),
         estado = this.estadoDelPedido.name,
-//        direccion = this.cliente.direccion.devolverDireccionCompleta(),
-        medioDePago = this.medioDePago.name
+        medioDePago = this.medioDePago.name,
+        direccion = this.cliente.direccion.toDTO()
     )
 
