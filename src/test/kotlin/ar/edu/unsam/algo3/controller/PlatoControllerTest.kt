@@ -1,9 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Plato
-import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.PlatoRepositorio
 import com.fasterxml.jackson.databind.ObjectMapper
