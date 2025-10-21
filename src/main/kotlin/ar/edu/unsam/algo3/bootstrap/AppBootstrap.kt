@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 import java.time.LocalTime
+import ar.edu.unsam.algo3.utils.HashUtils
 
 @Service
 class AppBootstrap(
@@ -153,7 +154,9 @@ class AppBootstrap(
             Direccion("Av. Siempre Viva", 742, Point(9.808327, -89.643204)),
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             10.0,
-            5.0
+            5.0,
+            "local1",
+            HashUtils.hash53("local1")
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.TRANSFERENCIA_BANCARIA)
@@ -163,14 +166,18 @@ class AppBootstrap(
             Direccion("Avenida Libertador", 2300, Point(90, -90)),
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             3.0,
-            3.0
+            3.0,
+            "local2",
+            HashUtils.hash53("local2")
         )
         local2 = Local(
             "Local Plato 3",
             Direccion("Calle Verdadera", 456, Point(22, -22)),
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             1.5,
-            1.0
+            1.0,
+            "local3",
+            HashUtils.hash53("local3")
         )
 
         localRepositorio.apply{

@@ -15,12 +15,13 @@ class AuthController (private val authService: AuthService){
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<AuthResponse> {
         return try {
-            val esValido = authService.validarUser(loginRequest.usuario, loginRequest.password)
-            if(esValido){
+            val local = authService.validarLocal(loginRequest.usuario, loginRequest.password)
+            if(local != null){
                 ResponseEntity.ok(AuthResponse(
                     success = true,
                     message = "Login Exitoso",
                     usuario = loginRequest.usuario,
+                    idLocal = local.id
                 ))
             }
             else {
@@ -66,11 +67,12 @@ class AuthController (private val authService: AuthService){
 
             val nuevoUser = authService.crearUser(registerRequest.usuario, registerRequest.password)
 
-            if(nuevoUser){
+            if(nuevoUser != null){
                 ResponseEntity.status(HttpStatus.CREATED).body(AuthResponse(
                     success = true,
                     message = "Usuario creado con exito.",
-                    usuario = registerRequest.usuario
+                    usuario = registerRequest.usuario,
+                    idLocal = nuevoUser.id
                 ))
             }
             else{
