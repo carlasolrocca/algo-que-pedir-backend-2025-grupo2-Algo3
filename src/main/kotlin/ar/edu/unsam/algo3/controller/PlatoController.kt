@@ -21,8 +21,8 @@ class PlatoController(val platoService: PlatoService) {
         platoService.create(platoBody).toDTO()
 
     @PutMapping("/plato/{id}")
-    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoBody: Plato): Plato =
-        platoService.update(id, platoBody)
+    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoBody: Plato): PlatoDTO =
+        platoService.update(id, platoBody).toDTO()
 
     @DeleteMapping("/plato/{id}")
     fun borrarPlato(@PathVariable id: Int): List<Plato> =

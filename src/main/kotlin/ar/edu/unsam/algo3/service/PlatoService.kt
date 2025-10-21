@@ -20,14 +20,9 @@ class PlatoService (
     fun getById(id: Int) = platoRepository.getById(id)
 
     fun create(nuevoPlato: Plato): Plato {
-        if (nuevoPlato.id !== null) {
+        if (nuevoPlato.id != null) {
             throw ErrorException.BusinessException("No se debe pasar el identificador del plato")
         }
-        // Evito tener platos duplicados, sino se generan dos veces
-        if (platoIdentico(nuevoPlato)) {
-            throw ErrorException.BusinessException("Ya existe un plato identico a ${nuevoPlato.nombre}")
-        }
-
         asignarLocal(nuevoPlato)
         asignarIngredientes(nuevoPlato)
         nuevoPlato.validar()
@@ -39,18 +34,20 @@ class PlatoService (
         if (actualizarPlato.id == null){
             throw ErrorException.BusinessException("El objeto debe tener un ID")
         }
-
         // Validacion extra de URL (como en tareas)
-        if (actualizarPlato.id!! != id) {
+        if (actualizarPlato.id!! !== id) {
             throw ErrorException.BusinessException("Id en URL distinto del id que viene en el body")
         }
 
-        // deberia validar si se actualizo ingredientes, agregarlos y usar el repo de ingredientes
         val platoExistente = platoRepository.getById(id) // se recupera el plato actual del repo
-        asignarIngredientes(platoExistente)
+
+        // valida si se actualizan ingredientes, agregarlos y usar el repo de ingredientes
+        asignarIngredientes(actualizarPlato)
+
         platoExistente.actualizar(actualizarPlato) // pisa campo a campo los nuevos valores para la instancia existente
         platoExistente.validar()
-        return platoRepository.update(actualizarPlato) // y aca se actualiza en el repo con el nuevo y lo devuelve
+
+        return platoRepository.update(platoExistente) // y aca se actualiza en el repo con el nuevo y lo devuelve
     }
 
     fun delete(id: Int): List<Plato> {
@@ -77,34 +74,25 @@ class PlatoService (
          */
     }
 
-    // Para agregar los ingredientes con su repo al plato (nuevo/actualizar)
+    // Agregar los ingredientes al palto, verificando con su repo que existan (nuevo/actualizar)
     fun asignarIngredientes(plato: Plato){
         val ingredientesActuales = plato.listaDeIngredientes.toMutableSet()
-        plato.listaDeIngredientes.clear() // borro lo que habia para asignar solo los que son validos
+        plato.listaDeIngredientes.clear()
 
         // Filtro los ingredientes que existan en el repo, sino los guardo para mostrar en una lista los q no existen
-        val ingredinetesFaltantes = mutableListOf<String>()
+        val ingredientesFaltantes = mutableSetOf<String>()
         ingredientesActuales.forEach { ingrediente ->
-            val ingredientesExistentes =
-                ingredienteRepository.findAll().find { it.nombre.equals(ingrediente.nombre, ignoreCase = true) }
-                //ingredienteRepository.getById(ingrediente.id!!)
-            requireNotNull(ingredientesExistentes) { ingredinetesFaltantes.add(ingrediente.nombre) }
-            plato.agregarIngrediente(ingredientesExistentes)
+            val ingredienteExistente = ingredienteRepository.getByNombre(ingrediente.nombre)
+
+            if (ingredienteExistente != null) {
+                plato.agregarIngrediente(ingredienteExistente)
+            } else {
+                ingredientesFaltantes.add(ingrediente.nombre)
+            }
         }
 
-        if (ingredinetesFaltantes.isNotEmpty()) {
-            throw ErrorException.BusinessException("No se encontraron los ingredientes: ${ingredinetesFaltantes.joinToString()}")
-        }
-    }
-
-    // Validacion. UN POCO ME HACE RUIDO peeeero...
-    fun platoIdentico(plato: Plato): Boolean {
-        val posiblesDuplicados = platoRepository.search(plato.nombre)
-        return posiblesDuplicados.any { p ->
-            p.local.nombre.equals(plato.local.nombre, ignoreCase = true) &&
-            p.nombre.equals(plato.nombre, ignoreCase = true) &&
-            p.descripcion.equals(plato.descripcion, ignoreCase = true) &&
-            p.valorBase == plato.valorBase
+        if (ingredientesFaltantes.isNotEmpty()) {
+            throw ErrorException.BusinessException("No se encontraron los ingredientes: ${ingredientesFaltantes.joinToString()}")
         }
     }
 }

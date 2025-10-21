@@ -10,6 +10,7 @@ class Plato(
     var esdeAutor: Boolean = false,
     var nombre: String = "Nombre plato de autor",
     var descripcion: String = "Descripcion plato de autor",
+    var imagenNombre: String = "plato-nuevo.jpg",
     var valorBase: Double = 0.0,
 ): TipoRepositorio() {
     @JsonIgnore
@@ -55,22 +56,29 @@ class Plato(
         return listaDeIngredientes.any { usuario.esIngredienteProhibido(it) }
     }
 
+    // Metodo para obtener la URL completa de la imagen
+    @JsonIgnore
+    fun getImagenUrl(): String = "images/$imagenNombre"
+
     // Validaciones para crear nuevo plato (back)
     fun validar() {
         if (nombre.isEmpty()) throw ErrorException.BusinessException("Debe ingresar un nombre")
         if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
-        // tiene que contener una imagen y debe ser tipo image
+        if (imagenNombre.isEmpty()) throw ErrorException.BusinessException("Debe proporcionar una imagen")
         if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
+        if (!esNuevo() && (porcentajeDescuento <= 0 || porcentajeDescuento >= 100))
+            throw ErrorException.BusinessException("El descuento debe estar entre 1% y 100%")
     }
 
     // Actualizacion para el plato
     fun actualizar(otro: Plato) {
         nombre = otro.nombre
         descripcion = otro.descripcion
-        // actualizar imagen
+        imagenNombre = otro.imagenNombre
         valorBase = otro.valorBase
         esdeAutor = otro.esdeAutor
         porcentajeDescuento = otro.porcentajeDescuento
+        listaDeIngredientes.clear()
         listaDeIngredientes = otro.listaDeIngredientes
     }
 }

@@ -17,6 +17,7 @@ import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
+import java.time.LocalDate
 import java.time.LocalTime
 import ar.edu.unsam.algo3.utils.HashUtils
 
@@ -41,6 +42,7 @@ class AppBootstrap(
     private lateinit var glaseado: Ingrediente
     private lateinit var bizcocho: Ingrediente
     private lateinit var manteca: Ingrediente
+    private lateinit var aji: Ingrediente
 
     fun crearIngredientes() {
         ingredienteRepositorio.clearInit()
@@ -117,6 +119,12 @@ class AppBootstrap(
             EnumGrupoAlimenticio.GRASAS_Y_ACEITES,
             true
         )
+        aji = Ingrediente(
+            "Aji picante",
+            3.5,
+            EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS,
+            false
+        )
         ingredienteRepositorio.apply {
             create(tomate)
             create(pechugaDePollo)
@@ -130,6 +138,7 @@ class AppBootstrap(
             create(glaseado)
             create(bizcocho)
             create(manteca)
+            create(aji)
         }
     }
 
@@ -178,26 +187,40 @@ class AppBootstrap(
         }
     }
 
-    private lateinit var ensalada: Plato
+    private lateinit var alitasPicantes: Plato
     private lateinit var arrozConLeche: Plato
     private lateinit var veggieSalad: Plato
     private lateinit var pizzaVegetariana: Plato
     private lateinit var hamburguesaConQueso: Plato
     private lateinit var pastelDeChocolate: Plato
+    private lateinit var deLaCasa: Plato
 
     fun crearPlatos() {
         platoRepositorio.clearInit()
 
-         ensalada = Plato(
-            nombre = "Ensalada Primavera",
-            descripcion = "Nutritiva ensalada fresca",
+         deLaCasa = Plato(
+             nombre = "Especial de la Casa",
+             descripcion = "Primer plato realizado por el local",
+             imagenNombre = "pescado-papas-fritas.png",
+             valorBase = 16.75,
+             esdeAutor = true,
+             local = local1
+         ).apply {
+             agregarIngrediente(pechugaDePollo)
+             fechaLanzamiento= LocalDate.of(2024,10,20)
+         }
+
+         alitasPicantes = Plato(
+            nombre = "Alitas de pollo picantes",
+            descripcion = "Picantes alitas de pollo estilo mexicano",
+            imagenNombre = "alitas-picantes.png",
             valorBase = 10.0,
             esdeAutor = true,
              local = local1
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(pechugaDePollo)
-            agregarIngrediente(arroz)
+            agregarIngrediente(aji)
         }
 
          arrozConLeche = Plato(
@@ -214,18 +237,21 @@ class AppBootstrap(
          veggieSalad = Plato(
             nombre = "Veggie Salad",
             descripcion = "Una ensalada sin maltrato animal",
+            imagenNombre = "ensalada-huerta.png",
             valorBase = 18.0,
             esdeAutor = true,
             local = local1
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(palta)
-            agregarIngrediente(arroz)
+            agregarIngrediente(lechuga)
+             agregarIngrediente(queso)
         }
 
         pizzaVegetariana = Plato(
             nombre = "Pizza Vegetariana",
             descripcion = "Pizza vegetariana con ingredientes variados",
+            imagenNombre = "pizza-vegetariana.png",
             valorBase = 14.25,
             esdeAutor = false, 
             local = local2
@@ -237,6 +263,7 @@ class AppBootstrap(
         hamburguesaConQueso = Plato(
             nombre = "Hamburguesa con Queso",
             descripcion = "Hamburguesa clásica con queso y papas fritas",
+            imagenNombre = "hamburguesa-con-queso.png",
             valorBase = 10.50,
             esdeAutor = false,
             local = local2
@@ -250,6 +277,7 @@ class AppBootstrap(
         pastelDeChocolate = Plato(
             nombre = "Pastel de Chocolate",
             descripcion = "Pastel de chocolate rico con glaseado",
+            imagenNombre = "pastel-chocolate.png",
             valorBase = 6.50,
             esdeAutor = true,
             local = localMoe
@@ -260,7 +288,8 @@ class AppBootstrap(
         }
 
         platoRepositorio.apply {
-            create(ensalada)
+            create(deLaCasa)
+            create(alitasPicantes)
             create(arrozConLeche)
             create(veggieSalad)
             create(pizzaVegetariana)
@@ -331,7 +360,7 @@ class AppBootstrap(
             medioDePago = MedioDePago.QR,
             horarioPedido = LocalTime.of(12,30)
         ).apply {
-            agregarPlatoAlPedido(ensalada)
+            agregarPlatoAlPedido(alitasPicantes)
             agregarPlatoAlPedido(arrozConLeche)
         }
         pedido2 = Pedido(
