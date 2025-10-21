@@ -3,9 +3,9 @@ package ar.edu.unsam.algo3
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 
 class Local(
-    nombre: String = "",
+    nombre: String = "local",
     direccion: Direccion = Direccion(),
-    urlImagenLocal: String = "",
+    urlImagenLocal: String = "urldefault.com",
     porcentajeSobreCadaPlato: Double = 0.0,
     porcentajeRegaliasDeAutor: Double = 0.0,
     var usuario: String = "",
