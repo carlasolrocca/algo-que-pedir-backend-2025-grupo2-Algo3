@@ -7,7 +7,7 @@ data class IngredienteDTO(
     var id: Int,
     var nombre: String,
     var costo: Double,
-    var grupo: EnumGrupoAlimenticio,
+    var grupoAlimenticio: EnumGrupoAlimenticio,
     var origenAnimal: Boolean
 )
 
@@ -15,6 +15,6 @@ fun Ingrediente.toDTO() = IngredienteDTO(
     id=id!!,
     nombre=nombre,
     costo=costoMercado,
-    grupo=grupoAlimenticio,
+    grupoAlimenticio=grupoAlimenticio,
     origenAnimal=origenAnimal
 )
