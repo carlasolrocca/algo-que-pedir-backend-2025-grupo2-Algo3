@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.EnumGrupoAlimenticio
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Plato
+import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.PlatoRepositorio
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -203,8 +204,11 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
             .andExpect(content().contentType("application/json"))
             .andReturn().response.contentAsString
 
-        val nuevoPlatoObject = mapper.readValue(nuevoPlatoResponse, Plato::class.java)
-        val nuevoPlato = platoRepositorio.getById(nuevoPlatoObject.id!!)
+        // Parsear el JSON manualmente para extraer el ID
+        val jsonNode = mapper.readTree(nuevoPlatoResponse)
+        val platoId = jsonNode.get("id").asInt()
+
+        val nuevoPlato = platoRepositorio.getById(platoId)
         assertEquals(nuevoPlato.descripcion, descripcionNuevoPlato)
     }
 
