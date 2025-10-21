@@ -23,6 +23,7 @@ class LocalService(private val localRepositorio: LocalRepositorio) {
             longitud = local.direccion.ubicacion.longitude(),
             porcentajeSobreCadaPlato = local.porcentajeSobreCadaPlato,
             porcentajeRegaliasDeAutor = local.porcentajeRegaliasDeAutor,
+            usuario = local.usuario,
             mediosDePago = local.mediosDePago
         )
     }
