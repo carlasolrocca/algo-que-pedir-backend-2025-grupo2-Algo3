@@ -19,17 +19,18 @@ class PlatoService (
 
     fun getById(id: Int) = platoRepository.getById(id)
 
-    fun create(nuevoPlato: Plato): Plato {
+    fun create(nuevoPlato: Plato, idLocal: Int): Plato {
         if (nuevoPlato.id != null) {
             throw ErrorException.BusinessException("No se debe pasar el identificador del plato")
         }
-        asignarLocal(nuevoPlato)
+        asignarLocal(nuevoPlato, idLocal)
         asignarIngredientes(nuevoPlato)
+
         nuevoPlato.validar()
         return platoRepository.create(nuevoPlato)
     }
 
-    fun update(id: Int, actualizarPlato: Plato): Plato {
+    fun update(id: Int, actualizarPlato: Plato, idLocal: Int): Plato {
         // Primero valida si id es null, dodino también lo hace en tareas de la misma manera
         if (actualizarPlato.id == null){
             throw ErrorException.BusinessException("El objeto debe tener un ID")
@@ -40,6 +41,10 @@ class PlatoService (
         }
 
         val platoExistente = platoRepository.getById(id) // se recupera el plato actual del repo
+        // Se valida que el local que intenta modificar el plato sea el dueño
+        if (platoExistente.local.id !== idLocal) {
+            throw ErrorException.BusinessException("No tiene permisos para modificar este plato")
+        }
 
         // valida si se actualizan ingredientes, agregarlos y usar el repo de ingredientes
         asignarIngredientes(actualizarPlato)
@@ -57,25 +62,13 @@ class PlatoService (
     }
 
     // Para asignar al local el plato nuevo
-    fun asignarLocal(plato: Plato){
-        // Mockeo el local, no se como asignarlo.
-        // Infiero que debe de venir el id del usuario (cookies?, lo q hablamos sobre el login el martes) y buscarlo en el repo para asignarlo
-        plato.local = Local(
-            nombre = "Local False",
-            direccion = Direccion("Calle falsa 123")
-        )
-
-        /*
-        val nombreAsignatario = tareaActualizada.asignatario?.nombre
-        // Solo llamamos a getAsignatario si el nombre contiene un valor distinto de null
-        tareaActualizada.asignatario = nombreAsignatario?.let {
-            usuariosRepository.getAsignatario(it) ?: throw NotFoundException("No se encontró el usuario <$it>")
-        }
-         */
+    private fun asignarLocal(plato: Plato, idLocal: Int) {
+        plato.local = localRepository.getById(idLocal)
+            ?: throw ErrorException.NotFoundException("No se encontró el local con id <$idLocal>")
     }
 
     // Agregar los ingredientes al palto, verificando con su repo que existan (nuevo/actualizar)
-    fun asignarIngredientes(plato: Plato){
+    private fun asignarIngredientes(plato: Plato){
         val ingredientesActuales = plato.listaDeIngredientes.toMutableSet()
         plato.listaDeIngredientes.clear()
 
