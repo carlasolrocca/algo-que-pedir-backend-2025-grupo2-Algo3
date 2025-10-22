@@ -1,7 +1,9 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Ingrediente
+import ar.edu.unsam.algo3.Local
 import ar.edu.unsam.algo3.Plato
+import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.PlatoRepositorio
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -30,6 +32,8 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     lateinit var platoRepositorio: PlatoRepositorio
     @Autowired
     lateinit var ingredienteRepositorio: IngredienteRepositorio
+    @Autowired
+    lateinit var localRepositorio: LocalRepositorio
 
     lateinit var plato: Plato
     lateinit var ingrediente: Ingrediente
@@ -188,13 +192,14 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     fun `crear un plato a un valor valido actualiza correctamente`() {
         val descripcionNuevoPlato = "Implementar un servicio REST para crear un plato"
         val mapper = ObjectMapper()
+        val localTest = localRepositorio.create(Local("Local Test"))
         val platoValido = buildPlato().apply {
             descripcion = descripcionNuevoPlato
         }
         val nuevoPlatoResponse = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/plato")
+                    .post("/plato?idLocal=${localTest.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(platoValido))
             )
@@ -208,6 +213,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
 
         val nuevoPlato = platoRepositorio.getById(platoId)
         assertEquals(nuevoPlato.descripcion, descripcionNuevoPlato)
+        assertEquals(localTest.id, nuevoPlato.local.id)
     }
 
     @Test
