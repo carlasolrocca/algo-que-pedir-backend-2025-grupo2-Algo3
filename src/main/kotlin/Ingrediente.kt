@@ -15,10 +15,15 @@ enum class EnumGrupoAlimenticio {
 
 data class Ingrediente(
     @JsonProperty("nombre") var nombre: String = "",
-    @JsonProperty("costo") var costoMercado: Double = 0.0,
-    @JsonProperty("grupo") var grupoAlimenticio: EnumGrupoAlimenticio = EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS,
+    @JsonProperty("costoMercado") var costoMercado: Double = 0.0,
+    @JsonProperty("grupoAlimenticio") var grupoAlimenticio: EnumGrupoAlimenticio = EnumGrupoAlimenticio.CEREALES_Y_TUBERCULOS,
     @JsonProperty("origenAnimal") var origenAnimal: Boolean = false
 ) : TipoRepositorio() {
+
+    fun validar(){
+        if (nombre.trim().isEmpty()) throw ErrorException.BusinessException("El nombre del ingrediente no puede estar vacio.")
+        if (costoMercado <= 0) throw ErrorException.BusinessException("El costo de mercado debe ser un valor positivo.")
+    }
 
     fun actualizar(otroIngrediente: Ingrediente) {
         nombre = otroIngrediente.nombre

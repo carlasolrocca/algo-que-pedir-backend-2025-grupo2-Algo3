@@ -2,34 +2,34 @@
   {
     "id": 1,
     "nombre": "Leche",
-    "costo": 200.5,
-    "grupo": "LACTEOS",
+    "costoMercado": 200.5,
+    "grupoAlimenticio": "LACTEOS",
     "origenAnimal": true
   },
   {
     "nombre": "Arroz",
-    "costo": 100.5,
-    "grupo": "CEREALES_Y_TUBERCULOS",
+    "costoMercado": 100.5,
+    "grupoAlimenticio": "CEREALES_Y_TUBERCULOS",
     "origenAnimal": false
   },
   {
     "id": 3,
     "nombre": "Azúcar",
-    "costo": 200.0,
-    "grupo": "AZUCARES_Y_DULCES",
+    "costoMercado": 200.0,
+    "grupoAlimenticio": "AZUCARES_Y_DULCES",
     "origenAnimal": false
   },
   {
     "nombre": "Pollo",
-    "costo": 400.5,
-    "grupo": "PROTEINAS",
+    "costoMercado": 400.5,
+    "grupoAlimenticio": "PROTEINAS",
     "origenAnimal": true
   },
   {
     "id": 2,
     "nombre": "Manzana",
-    "costo": 100.0,
-    "grupo": "FRUTAS_Y_VERDURAS",
+    "costoMercado": 100.0,
+    "grupoAlimenticio": "FRUTAS_Y_VERDURAS",
     "origenAnimal": false
   }
 ]
