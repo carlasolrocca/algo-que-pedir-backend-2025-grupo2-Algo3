@@ -8,7 +8,7 @@ import java.util.Locale
 data class PedidoDTO (
     var id: Int,
     var cliente: ClienteInfoDTO,
-    var direccion : DireccionDTO
+    var direccion : DireccionDTO,
     var hora : String,
     var items : Int,
     var precioTotal : Double,
