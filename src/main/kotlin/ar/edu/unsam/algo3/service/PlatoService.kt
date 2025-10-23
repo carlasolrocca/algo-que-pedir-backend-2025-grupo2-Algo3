@@ -36,7 +36,7 @@ class PlatoService (
             throw ErrorException.BusinessException("El objeto debe tener un ID")
         }
         // Validacion extra de URL (como en tareas)
-        if (actualizarPlato.id!! !== id) {
+        if (actualizarPlato.id!! != id) {
             throw ErrorException.BusinessException("Id en URL distinto del id que viene en el body")
         }
 
@@ -64,7 +64,6 @@ class PlatoService (
     // Para asignar al local el plato nuevo
     private fun asignarLocal(plato: Plato, idLocal: Int) {
         plato.local = localRepository.getById(idLocal)
-            ?: throw ErrorException.NotFoundException("No se encontró el local con id <$idLocal>")
     }
 
     // Agregar los ingredientes al palto, verificando con su repo que existan (nuevo/actualizar)

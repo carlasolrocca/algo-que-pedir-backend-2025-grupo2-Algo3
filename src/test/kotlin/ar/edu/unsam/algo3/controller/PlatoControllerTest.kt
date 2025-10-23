@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import kotlin.jvm.java
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,17 +36,21 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
 
     lateinit var plato: Plato
     lateinit var ingrediente: Ingrediente
+    lateinit var localTest: Local
 
     @BeforeEach
     fun init() {
         platoRepositorio.memoria.clear()
         ingredienteRepositorio.memoria.clear()
+        localRepositorio.memoria.clear()
+        localTest = localRepositorio.create(Local(nombre = "Local Test"))
         ingrediente = ingredienteRepositorio.create(Ingrediente(nombre="queso"))
         plato = platoRepositorio.create(buildPlato())
         platoRepositorio.create(buildPlato()).also {
             it.nombre="Vigilante"
             it.descripcion="Falta el dulce"
             it.valorBase=5.5
+            it.local = localTest
         }
     }
 
@@ -74,7 +77,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si se pide una tarea con un id que no existe se produce un error`() {
+    fun `si se pide un plato con un id que no existe se produce un error`() {
         mockMvc
             .perform(MockMvcRequestBuilders.get("/plato/20000"))
             .andExpect(status().isNotFound)
@@ -84,32 +87,54 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     // region [actualizar] PUT /plato/{id}
     @Test
     fun `actualizar un plato a un valor valido actualiza correctamente`() {
-        val platoValido = buildPlato().apply {
+        val platoValido = buildPlato() .apply {
             id = plato.id
-            descripcion="Cambie la descripcion"
+            descripcion="Cambie la descripción"
+            local = plato.local
         }
         mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/" + platoValido.id)
+                    .put("/plato/${platoValido.id}?idLocal=${plato.local.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoValido))
             )
             .andExpect(status().isOk)
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("$.descripcion").value("Cambie la descripcion"))
+            .andExpect(jsonPath("$.descripcion").value("Cambie la descripción"))
+    }
+
+    @Test
+    fun `actualizar un plato con idLocal distinto debe devolver error`() {
+        // Crear dos locales distintos
+        val localPropio = buildLocal()
+        val otroLocal = buildLocal().apply { nombre = "Otro Local" }
+
+        val platoActualizado = buildPlato().apply {
+            descripcion = "Intento de actualización incorrecto"
+            local = localPropio
+        }
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .put("/plato/${platoActualizado.id}?idLocal=${otroLocal.id}")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ObjectMapper().writeValueAsString(platoActualizado))
+            )
+            .andExpect(status().isBadRequest)
     }
 
     @Test
     fun `si se intenta actualizar un plato omitiendo su id en json, el sistema rechaza la operacion`() {
         val platoInvalido = buildPlato().apply {
             id = null
+            local = plato.local
         }
 
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/" + plato.id)
+                    .put("/plato/" + plato.id + "?=idLocal=${localTest.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoInvalido))
             )
@@ -120,16 +145,17 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si se intenta actualizar una tarea con datos vacios, el sistema rechaza la operacion`() {
+    fun `si se intenta actualizar un plato con datos vacios, el sistema rechaza la operacion`() {
         val platoInvalido = buildPlato().apply {
             id = plato.id
             descripcion = ""
+            local = plato.local
         }
 
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/" + plato.id)
+                    .put("/plato/${plato.id}?idLocal=${plato.local.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoInvalido))
             )
@@ -140,31 +166,29 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `se puede desasignar omitiendo el ingrediente, esto actualiza la tarea correctamente`() {
-        val platoSinIngredientes = """
-            {
-                "id": ${plato.id},
-                "descripcion":  "Resolver testeo unitario del plato",
-                "valorBase": 5.5
-            }
-        """.trimIndent()
+    fun `se puede actualizar omitiendo el ingrediente, esto actualiza el palto correctamente`() {
+        val platoSinIngredientes = buildPlato().apply {
+            id = plato.id
+            listaDeIngredientes.clear()
+            local = plato.local
+        }
 
         mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/${plato.id}")
+                    .put("/plato/${plato.id}?idLocal=${plato.local.id}")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(platoSinIngredientes)
+                    .content(ObjectMapper().writeValueAsString(platoSinIngredientes))
             )
             .andExpect(status().isOk)
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.listaDeIngredientes").isEmpty)
-            .andExpect(jsonPath("$.valorBase").value(5.5))
+            .andExpect(jsonPath("$.valorBase").value(20.0))
     }
 
-
     @Test
-    fun `si se intenta actualizar una tarea con id diferente en el request y en el body, el sistema rechaza la operacion`() {
+    fun `si se intenta actualizar un plato con id diferente en el request y en el body, el sistema rechaza la operacion`() {
+        val localTest = buildLocal()
         val platoJson = """
             {
                 "id": ${plato.id},
@@ -176,7 +200,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .put("/plato/" + 2)
+                    .put("/plato/" + 2 + "?idLocal=${localTest.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(platoJson)
             )
@@ -189,10 +213,10 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
 
     // region [crear] POST /plato
     @Test
-    fun `crear un plato a un valor valido actualiza correctamente`() {
+    fun `crear un plato valido actualiza correctamente y se asigna al local`() {
         val descripcionNuevoPlato = "Implementar un servicio REST para crear un plato"
         val mapper = ObjectMapper()
-        val localTest = localRepositorio.create(Local("Local Test"))
+        val localTest = buildLocal()
         val platoValido = buildPlato().apply {
             descripcion = descripcionNuevoPlato
         }
@@ -217,7 +241,23 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si se intenta crear una tarea con datos incorrectos, el sistema rechaza la operacion`() {
+    fun `si se intenta crear un plato con idLocal inexistente devuelve error`() {
+        val platoValido = buildPlato()
+        val errorMessage = mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .post("/plato?idLocal=9999")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ObjectMapper().writeValueAsString(platoValido))
+            )
+            .andExpect(status().isNotFound)
+            .andReturn().resolvedException?.message
+
+        assertEquals(errorMessage, "No se encontró un objeto con id 9999")
+    }
+
+    @Test
+    fun `si se intenta crear un plato con datos incorrectos, el sistema rechaza la operacion`() {
         val platoInvalido = buildPlato().apply {
             valorBase = 0.0
         }
@@ -225,7 +265,7 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/plato")
+                    .post("/plato?idLocal=${localTest.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoInvalido))
             )
@@ -236,16 +276,16 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si se intenta crear una tarea pasando un id, el sistema rechaza la operacion`() {
+    fun `si se intenta crear un plato pasando un id, el sistema rechaza la operacion`() {
         val platoInvalido = buildPlato().apply {
             id = 100
-            descripcion = ""
+            descripcion = "Intento de crear con ID"
         }
 
         val errorMessage = mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/plato")
+                    .post("/plato?idLocal=${localTest.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ObjectMapper().writeValueAsString(platoInvalido))
             )
@@ -253,6 +293,25 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
             .andReturn().resolvedException?.message
 
         assertEquals(errorMessage, "No se debe pasar el identificador del plato")
+    }
+
+    @Test
+    fun `si se intenta crear un plato con ingredientes inexistentes devuelve error`() {
+        val platoConIngredienteInvalido = buildPlato().apply {
+            agregarIngrediente(Ingrediente(nombre = "Ingrediente Falso"))
+        }
+
+        val errorMessage = mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .post("/plato?idLocal=${localTest.id}")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ObjectMapper().writeValueAsString(platoConIngredienteInvalido))
+            )
+            .andExpect(status().isNotFound)
+            .andReturn().resolvedException?.message
+
+        assertEquals(errorMessage, "No se encontró Ingrediente Falso")
     }
     // endregion
 
@@ -270,18 +329,21 @@ class PlatoControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `si pasamos tareas que no existen no se pueden borrar`() {
+    fun `si pasamos platos que no existen no se pueden borrar`() {
         mockMvc.perform(MockMvcRequestBuilders.delete("/plato/inexistente"))
             .andExpect(status().isBadRequest)
     }
     // endregion
 
-    fun buildPlato(): Plato {
+    private fun buildPlato(): Plato {
         return  Plato().apply {
             nombre="Pizza"
             descripcion="Muy sabrosa, clásica"
             valorBase=20.0
+            local=localTest
             agregarIngrediente(ingrediente)
         }
     }
+
+    private fun buildLocal(): Local = localRepositorio.create(Local("Local Test"))
 }
