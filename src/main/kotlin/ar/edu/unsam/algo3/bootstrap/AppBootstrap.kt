@@ -159,7 +159,7 @@ class AppBootstrap(
             HashUtils.hash53("local1")
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
-            agregarMedioDePago(MedioDePago.TRANSFERENCIA_BANCARIA)
+            agregarMedioDePago(MedioDePago.TARJETA_CREDITO)
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",

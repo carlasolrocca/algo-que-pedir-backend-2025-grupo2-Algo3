@@ -9,7 +9,6 @@ import org.springframework.http.MediaType
 import ar.edu.unsam.algo3.service.LocalService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.test.web.servlet.MockMvc
-import ar.edu.unsam.algo3.controller.LocalController
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -61,7 +60,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             longitud = -58.3782121,
             porcentajeSobreCadaPlato = 3.0,
             porcentajeRegaliasDeAutor = 3.0,
-            mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TRANSFERENCIA_BANCARIA)
+            mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TARJETA_CREDITO)
             
         )
 
