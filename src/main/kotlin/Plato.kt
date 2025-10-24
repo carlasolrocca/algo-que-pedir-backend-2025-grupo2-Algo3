@@ -15,7 +15,7 @@ class Plato(
 ): TipoRepositorio() {
     @JsonIgnore
     var fechaLanzamiento: LocalDate = LocalDate.now()
-
+    var estaEnPromo: Boolean = false
     var porcentajeDescuento: Double = 0.0
     var listaDeIngredientes: MutableSet<Ingrediente> = mutableSetOf()
 
@@ -66,7 +66,7 @@ class Plato(
         if (descripcion.isEmpty()) throw ErrorException.BusinessException("Debe ingresar una descripcion")
         if (imagenNombre.isEmpty()) throw ErrorException.BusinessException("Debe proporcionar una imagen")
         if (valorBase <= 0) throw ErrorException.BusinessException("El precio debe ser mayor a cero")
-        if (!esNuevo() && (porcentajeDescuento <= 0 || porcentajeDescuento >= 100))
+        if (estaEnPromo && (porcentajeDescuento <= 0 || porcentajeDescuento >= 100))
             throw ErrorException.BusinessException("El descuento debe estar entre 1% y 100%")
     }
 
@@ -77,6 +77,7 @@ class Plato(
         imagenNombre = otro.imagenNombre
         valorBase = otro.valorBase
         esdeAutor = otro.esdeAutor
+        estaEnPromo = otro.estaEnPromo
         porcentajeDescuento = otro.porcentajeDescuento
         listaDeIngredientes.clear()
         listaDeIngredientes = otro.listaDeIngredientes

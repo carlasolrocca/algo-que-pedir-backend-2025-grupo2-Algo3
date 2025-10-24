@@ -17,12 +17,12 @@ class PlatoController(val platoService: PlatoService) {
     fun platoPorId(@PathVariable id: Int) = platoService.getById(id)?.toDTO()
 
     @PostMapping("/plato")
-    fun crearPlato(@RequestBody platoBody: Plato): PlatoDTO =
-        platoService.create(platoBody).toDTO()
+    fun crearPlato(@RequestBody platoBody: Plato, @RequestParam idLocal: Int): PlatoDTO =
+        platoService.create(platoBody, idLocal).toDTO()
 
     @PutMapping("/plato/{id}")
-    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoBody: Plato): PlatoDTO =
-        platoService.update(id, platoBody).toDTO()
+    fun actualizarPlato(@PathVariable id: Int, @RequestBody platoBody: Plato, @RequestParam idLocal: Int): PlatoDTO =
+        platoService.update(id, platoBody, idLocal).toDTO()
 
     @DeleteMapping("/plato/{id}")
     fun borrarPlato(@PathVariable id: Int): List<Plato> =
