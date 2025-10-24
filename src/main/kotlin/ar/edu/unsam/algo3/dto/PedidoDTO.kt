@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.EnumEstadosPedido
+import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -12,8 +13,7 @@ data class PedidoDTO (
     var hora : String,
     var items : Int,
     var precioTotal : Double,
-    var estado : String,
-    var medioDePago : String,
+    var medioDePago : MedioDePago,
     var estadoPedido : EnumEstadosPedido
 )
 
@@ -28,8 +28,7 @@ fun Pedido.toDTO() : PedidoDTO =
         hora = this.horarioPedido.format(formateoHora),
         items = this.platosDelPedido.size,
         precioTotal = this.costoTotalPedido(),
-        estado = this.estadoDelPedido.name,
-        medioDePago = this.medioDePago.name,
+        medioDePago = this.medioDePago,
         estadoPedido = this.estadoDelPedido
     )
 
