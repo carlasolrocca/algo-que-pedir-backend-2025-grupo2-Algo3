@@ -159,7 +159,7 @@ class AppBootstrap(
             HashUtils.hash53("local1")
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
-            agregarMedioDePago(MedioDePago.TARJETA_CREDITO)
+            agregarMedioDePago(MedioDePago.TARJETA)
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
@@ -349,6 +349,11 @@ class AppBootstrap(
 
     private lateinit var pedido1: Pedido
     private lateinit var pedido2: Pedido
+    private lateinit var pedido3: Pedido
+    private lateinit var pedido4: Pedido
+    private lateinit var pedido5: Pedido
+    private lateinit var pedido6: Pedido
+    private lateinit var pedido7: Pedido
 
     fun crearPedidos() {
          pedidoRepositorio.clearInit()
@@ -357,7 +362,7 @@ class AppBootstrap(
             cliente = sofia,
             local = local1,
             estadoDelPedido = EnumEstadosPedido.PENDIENTE,
-            medioDePago = MedioDePago.QR,
+            medioDePago = MedioDePago.TARJETA,
             horarioPedido = LocalTime.of(12,30)
         ).apply {
             agregarPlatoAlPedido(alitasPicantes)
@@ -373,9 +378,69 @@ class AppBootstrap(
             agregarPlatoAlPedido(hamburguesaConQueso)
         }
 
+        pedido3 = Pedido(
+            cliente = jose,
+            local = local1,
+            estadoDelPedido = EnumEstadosPedido.CANCELADO,
+            medioDePago = MedioDePago.QR,
+            horarioPedido = LocalTime.of(12,0)
+        ).apply{
+            agregarPlatoAlPedido(veggieSalad)
+        }
+
+        pedido4 = Pedido(
+            cliente = miguel,
+            local = local2,
+            estadoDelPedido = EnumEstadosPedido.ENTREGADO,
+            medioDePago = MedioDePago.TARJETA,
+            horarioPedido = LocalTime.of(13,0)
+        ).apply{
+            agregarPlatoAlPedido(pizzaVegetariana)
+            agregarPlatoAlPedido(hamburguesaConQueso)
+        }
+
+        pedido5 = Pedido(
+            cliente = micaela,
+            local = local1,
+            estadoDelPedido = EnumEstadosPedido.PENDIENTE,
+            medioDePago = MedioDePago.QR,
+            horarioPedido = LocalTime.of(15,30)
+        ).apply{
+            agregarPlatoAlPedido(veggieSalad)
+            agregarPlatoAlPedido(alitasPicantes)
+            agregarPlatoAlPedido(arrozConLeche)
+        }
+
+        pedido6 = Pedido(
+            cliente = sofia,
+            local = local1,
+            estadoDelPedido = EnumEstadosPedido.ENTREGADO,
+            medioDePago = MedioDePago.QR,
+            horarioPedido = LocalTime.of(14,43)
+        ).apply{
+            agregarPlatoAlPedido(veggieSalad)
+            agregarPlatoAlPedido(deLaCasa)
+            agregarPlatoAlPedido(arrozConLeche)
+        }
+
+        pedido7 = Pedido(
+            cliente = jose,
+            local = localMoe,
+            estadoDelPedido = EnumEstadosPedido.PREPARADO,
+            medioDePago = MedioDePago.QR,
+            horarioPedido = LocalTime.of(14,43)
+        ).apply{
+            agregarPlatoAlPedido(pastelDeChocolate)
+        }
+
         pedidoRepositorio.apply{
             create(pedido1)
             create(pedido2)
+            create(pedido3)
+            create(pedido4)
+            create(pedido5)
+            create(pedido6)
+            create(pedido7)
         }
     }
 
