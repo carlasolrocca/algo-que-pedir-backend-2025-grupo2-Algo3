@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin("*")
 class PedidoController(val pedidoService: PedidoService) {
-
+    //Llamada redundandte porque el home ya trae los pedidos Pendientes
     @GetMapping("/pedidos")
     fun listarPedidos() : List<PedidoDTO> = pedidoService.getAll()
 

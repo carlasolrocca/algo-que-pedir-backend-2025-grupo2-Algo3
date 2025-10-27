@@ -22,7 +22,7 @@ private val formateoHora = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "AR
 //Convierto al objeto de dominio Pedido en un DTO con la info que le sirve a la vista
 fun Pedido.toDTO() : PedidoDTO =
     PedidoDTO (
-        id!!,
+        id= id!!,
         cliente = this.cliente.toDTO(),
         direccion = this.cliente.direccion.toDTO(),
         hora = this.horarioPedido.format(formateoHora),
