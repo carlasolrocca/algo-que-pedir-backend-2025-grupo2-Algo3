@@ -60,7 +60,7 @@ class LocalControllerTest(@Autowired val mockMvc: MockMvc) {
             longitud = -58.3782121,
             porcentajeSobreCadaPlato = 3.0,
             porcentajeRegaliasDeAutor = 3.0,
-            mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TARJETA_CREDITO)
+            mediosDePago = setOf(MedioDePago.EFECTIVO, MedioDePago.TARJETA)
             
         )
 
