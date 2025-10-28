@@ -4,5 +4,5 @@ package ar.edu.unsam.algo3
 enum class MedioDePago {
     EFECTIVO,
     QR,
-    TRANSFERENCIA_BANCARIA
+    TARJETA
 }

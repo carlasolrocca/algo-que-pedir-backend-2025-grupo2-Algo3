@@ -121,6 +121,10 @@ class Usuario(
         }
     }
     // *** FIN COMMAND USUARIO ***
+
+    fun devolverNombreCompleto() : String {
+        return "${nombre} ${apellido}"
+    }
 }
 
 

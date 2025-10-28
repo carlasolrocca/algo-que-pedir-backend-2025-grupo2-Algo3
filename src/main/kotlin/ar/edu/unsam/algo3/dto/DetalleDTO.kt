@@ -14,6 +14,7 @@ data class PlatoSimpleDTO(
 data class PedidoDetalleDTO(
     val id: Int,
     val cliente: ClienteInfoDTO,
+    val direccion: DireccionDTO,
     val platos: List<PlatoSimpleDTO>,
     val subtotal: Double,
     val comisionDelivery: Double,
@@ -42,6 +43,7 @@ fun Pedido.toDetalleDTO(): PedidoDetalleDTO {
     return PedidoDetalleDTO(
         id = this.id!!,
         cliente = this.cliente.toDTO(),
+        direccion = this.cliente.direccion.toDTO(),
         platos = this.platosDelPedido.map { it.toSimpleDTO() },
         subtotal = subtotal,
         comisionDelivery = comisionDelivery,
