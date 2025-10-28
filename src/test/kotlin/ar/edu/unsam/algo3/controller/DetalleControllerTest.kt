@@ -106,13 +106,13 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `el detalle incluye información del cliente`() {
+    fun `el detalle incluye informacion del cliente`() {
         mockMvc
             .perform(MockMvcRequestBuilders.get("/detalle-pedido/${pedidoTest.id}"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.cliente.nombre").value("Juan Pérez"))
             .andExpect(jsonPath("$.cliente.username").value("juanperez"))
-            .andExpect(jsonPath("$.cliente.direccion").exists())
+            .andExpect(jsonPath("$.direccion.direccion").exists())
     }
 
     @Test
@@ -127,7 +127,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `el detalle incluye información de totales`() {
+    fun `el detalle incluye informacion de totales`() {
         mockMvc
             .perform(MockMvcRequestBuilders.get("/detalle-pedido/${pedidoTest.id}"))
             .andExpect(status().isOk)
@@ -161,7 +161,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `pedido con múltiples platos muestra todos en el detalle`() {
+    fun `pedido con multiples platos muestra todos en el detalle`() {
         val plato2 = platoRepositorio.create(Plato(
             nombre = "Hamburguesa Completa",
             descripcion = "Hamburguesa con todos los ingredientes",
@@ -228,7 +228,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
         val pedidoTransferencia = pedidoRepositorio.create(Pedido(
             cliente = clienteTest,
             local = localTest,
-            medioDePago = MedioDePago.TRANSFERENCIA_BANCARIA,
+            medioDePago = MedioDePago.TARJETA,
             fechaPedido = LocalDate.now()
         ).apply {
             agregarPlatoAlPedido(platoTest)
@@ -237,7 +237,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
         mockMvc
             .perform(MockMvcRequestBuilders.get("/detalle-pedido/${pedidoTransferencia.id}"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.medioDePago").value("TRANSFERENCIA_BANCARIA"))
+            .andExpect(jsonPath("$.medioDePago").value("TARJETA"))
     }
 
     @Test
@@ -377,7 +377,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `el total incluye subtotal más comisión más incremento`() {
+    fun `el total incluye subtotal mas comision mas incremento`() {
         val response = mockMvc
             .perform(MockMvcRequestBuilders.get("/detalle-pedido/${pedidoTest.id}"))
             .andExpect(status().isOk)
@@ -394,7 +394,7 @@ class DetalleControllerTest(@Autowired val mockMvc: MockMvc) {
     }
 
     @Test
-    fun `la comisión del delivery es el 10 por ciento del subtotal`() {
+    fun `la comision del delivery es el 10 por ciento del subtotal`() {
         val response = mockMvc
             .perform(MockMvcRequestBuilders.get("/detalle-pedido/${pedidoTest.id}"))
             .andExpect(status().isOk)

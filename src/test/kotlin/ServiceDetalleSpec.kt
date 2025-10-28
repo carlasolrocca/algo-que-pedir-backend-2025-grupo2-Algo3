@@ -112,7 +112,7 @@ class ServiceDetalleSpec {
 
         assertEquals("Juan Pérez", detalle.cliente.nombre)
         assertEquals("juanperez", detalle.cliente.username)
-        assertTrue(detalle.cliente.direccion.contains("Av. Siempre Viva"))
+        assertTrue(detalle.direccion.direccion.contains("Av. Siempre Viva"))
     }
 
     @Test
@@ -227,7 +227,7 @@ class ServiceDetalleSpec {
         val pedidoTransferencia = pedidoRepositorio.create(Pedido(
             cliente = clienteTest,
             local = localTest,
-            medioDePago = MedioDePago.TRANSFERENCIA_BANCARIA,
+            medioDePago = MedioDePago.TARJETA,
             fechaPedido = LocalDate.now()
         ).apply {
             agregarPlatoAlPedido(platoTest)
@@ -389,7 +389,7 @@ class ServiceDetalleSpec {
         val pedidoTransferencia = pedidoRepositorio.create(Pedido(
             cliente = clienteTest,
             local = localTest,
-            medioDePago = MedioDePago.TRANSFERENCIA_BANCARIA,
+            medioDePago = MedioDePago.TARJETA,
             fechaPedido = LocalDate.now()
         ).apply {
             agregarPlatoAlPedido(platoTest)
