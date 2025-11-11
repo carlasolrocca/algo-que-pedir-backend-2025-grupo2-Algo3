@@ -1,5 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
+import ar.edu.unsam.algo3.Local
+import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.MedioDePago
 import jakarta.validation.constraints.*
 
@@ -26,3 +28,18 @@ data class LocalDTO(
 
     val mediosDePago: Set<MedioDePago>
 )
+
+fun Local.toDto(): LocalDTO {
+    return LocalDTO(
+        idLocal = this.id!!,
+        nombre = this.nombre,
+        urlImagenLocal = this.urlImagenLocal,
+        direccion = this.direccion.calle,
+        altura = this.direccion.altura,
+        latitud = this.direccion.ubicacion.latitude(),
+        longitud = this.direccion.ubicacion.longitude(),
+        porcentajeSobreCadaPlato = this.porcentajeSobreCadaPlato,
+        porcentajeRegaliasDeAutor = this.porcentajeRegaliasDeAutor,
+        mediosDePago = this.mediosDePago
+    )
+}

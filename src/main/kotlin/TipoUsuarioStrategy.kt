@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3
+ package ar.edu.unsam.algo3
 
 interface UsuarioStrategy {
     fun aceptaPlato(usuario: Usuario, plato: Plato) : Boolean
@@ -44,8 +44,8 @@ class UsuarioFielStrategy : UsuarioStrategy {
 }
 
 class UsuarioMarketingStrategy : UsuarioStrategy {
+    var textoLlamativo = mutableSetOf<String>()
     override fun aceptaPlato(usuario: Usuario, plato: Plato): Boolean {
-        val textoLlamativo = setOf("nutritivo", "bajo en sodio", "sin azucar")
         return textoLlamativo.any { Regex(it, RegexOption.IGNORE_CASE).containsMatchIn(plato.descripcion) }
     }
 }
