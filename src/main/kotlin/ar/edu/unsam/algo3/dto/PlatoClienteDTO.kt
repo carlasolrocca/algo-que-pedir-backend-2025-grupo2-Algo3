@@ -1,0 +1,21 @@
+package ar.edu.unsam.algo3.dto
+
+import ar.edu.unsam.algo3.Plato
+
+data class PlatoClienteDTO (
+    var id: Int,
+    var nombre: String,
+    var descripcion: String,
+    var imagenUrl: String,
+    var precioUnitario: Double,
+    var popular: Boolean
+)
+
+fun Plato.toClienteDTO() = PlatoClienteDTO(
+    id = id!!,
+    nombre = nombre,
+    descripcion = descripcion,
+    imagenUrl= this.getImagenUrl(),
+    precioUnitario= this.valorDeVenta(),
+    popular= true                   //Por el momento, deberia haber una logica para que sea popular o no
+)

@@ -1,8 +1,11 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toDto
 import ar.edu.unsam.algo3.service.LocalService
+import ar.edu.unsam.algo3.dto.toClienteDTO
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -34,5 +37,12 @@ class LocalController(private val localService: LocalService) {
     @GetMapping("/locales")
     fun obtenerTodosLosLocales(): List<LocalDTO> {
         return localService.obtenerTodosLosLocales().map { local -> local.toDto() }
+    }
+
+    @GetMapping("/local/{id}/platos")
+    fun obtenerPlatosDelLocal(@PathVariable id: Int): List<PlatoClienteDTO> {
+        val platosDelLocal = localService.obtenerPlatosDisponibles(id)
+
+        return platosDelLocal.map{ it.toClienteDTO()}
     }
 }
