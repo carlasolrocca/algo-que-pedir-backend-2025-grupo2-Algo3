@@ -87,4 +87,15 @@ class PlatoService (
             throw ErrorException.BusinessException("No se encontraron los ingredientes: ${ingredientesFaltantes.joinToString()}")
         }
     }
+
+    //Metodo para filtrar del repo a todos los platos que pertenecen a un local
+    fun getPlatosByLocalID(localID : Int) : List<Plato> {
+        val localABuscar = localRepository.getById(localID)
+
+        val listaPlatos = platoRepository.findAll().filter {
+            plato -> plato.local.id == localABuscar.id
+        }.toMutableList()
+
+        return listaPlatos
+    }
 }
