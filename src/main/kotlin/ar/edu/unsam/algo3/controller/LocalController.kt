@@ -40,6 +40,7 @@ class LocalController(private val localService: LocalService) {
         return localService.obtenerTodosLosLocales().map { local -> local.toDto() }
     }
 
+    //Va a devolver la lista de platos que necesita el front de la pagina de Usuario
     @GetMapping("/local/{id}/platos")
     fun obtenerPlatosDelLocal(@PathVariable id: Int): List<PlatoClienteDTO> {
         val platosDelLocal = localService.obtenerPlatosDisponibles(id)
@@ -47,6 +48,7 @@ class LocalController(private val localService: LocalService) {
         return platosDelLocal.map{ it.toClienteDTO()}
     }
 
+    //Devuelve el DTO del Local que se usa en el front de la pagina de Usuario
     @GetMapping("/local/{id}")
     fun obtenerLocalClientePorId(@PathVariable id: Int): LocalClienteDTO {
         return localService.obtenerLocalPorId(id).toClienteDTO()
