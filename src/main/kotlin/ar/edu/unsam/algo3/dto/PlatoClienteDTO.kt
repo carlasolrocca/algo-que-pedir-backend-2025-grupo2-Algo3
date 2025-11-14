@@ -12,9 +12,9 @@ data class PlatoClienteDTO (
 )
 
 fun Plato.toClienteDTO() = PlatoClienteDTO(
-    id = id!!,
-    nombre = nombre,
-    descripcion = descripcion,
+    id = this.id!!,
+    nombre = this.nombre,
+    descripcion = this.descripcion,
     imagenUrl= this.getImagenUrl(),
     precioUnitario= this.valorDeVenta(),
     popular= true                   //Por el momento, deberia haber una logica para que sea popular o no
