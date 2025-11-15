@@ -29,7 +29,7 @@ class LocalController(private val localService: LocalService) {
         return localService.obtenerLocalPorId(id).toDto()
     }
 
-    @PutMapping("/local")
+    @PutMapping("/localAdmin")
     fun actualizarLocal(@RequestBody localDTO: LocalDTO): LocalDTO {
         println("DTO recibido: ${localDTO}")
         return localService.actualizarLocalDesdeDTO(localDTO).toDto()
