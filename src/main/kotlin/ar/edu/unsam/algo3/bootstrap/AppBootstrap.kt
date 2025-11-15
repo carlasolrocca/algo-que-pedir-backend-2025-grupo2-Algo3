@@ -226,6 +226,7 @@ class AppBootstrap(
          arrozConLeche = Plato(
             nombre = "Arroz con Leche",
             descripcion = "Riquisimo postre de nuestras abuelas",
+            imagenNombre = "arroz-con-leche.png",
             valorBase = 7.5,
             esdeAutor = false,
              local = local1
