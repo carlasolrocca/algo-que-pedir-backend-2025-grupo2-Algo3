@@ -204,7 +204,8 @@ class AppBootstrap(
              imagenNombre = "pescado-papas-fritas.png",
              valorBase = 16.75,
              esdeAutor = true,
-             local = local1
+             local = local1,
+             popular = true
          ).apply {
              agregarIngrediente(pechugaDePollo)
              fechaLanzamiento= LocalDate.of(2024,10,20)
@@ -216,8 +217,10 @@ class AppBootstrap(
             imagenNombre = "alitas-picantes.png",
             valorBase = 10.0,
             esdeAutor = true,
-             local = local1
-        ).apply {
+            local = local1,
+            popular = true
+
+         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(pechugaDePollo)
             agregarIngrediente(aji)
@@ -229,8 +232,9 @@ class AppBootstrap(
             imagenNombre = "arroz-con-leche.png",
             valorBase = 7.5,
             esdeAutor = false,
-             local = local1
-        ).apply {
+            local = local1,
+            popular = false
+         ).apply {
             agregarIngrediente(leche)
             agregarIngrediente(arroz)
         }
@@ -241,8 +245,9 @@ class AppBootstrap(
             imagenNombre = "ensalada-huerta.png",
             valorBase = 18.0,
             esdeAutor = true,
-            local = local1
-        ).apply {
+            local = local1,
+            popular = false
+         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(palta)
             agregarIngrediente(lechuga)
@@ -255,7 +260,8 @@ class AppBootstrap(
             imagenNombre = "pizza-vegetariana.png",
             valorBase = 14.25,
             esdeAutor = false, 
-            local = local2
+            local = local2,
+            popular = true
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(queso)
@@ -267,7 +273,8 @@ class AppBootstrap(
             imagenNombre = "hamburguesa-con-queso.png",
             valorBase = 10.50,
             esdeAutor = false,
-            local = local2
+            local = local2,
+            popular = false
         ).apply {
             agregarIngrediente(medallonDeCarne)
             agregarIngrediente(queso)
@@ -281,7 +288,8 @@ class AppBootstrap(
             imagenNombre = "pastel-chocolate.png",
             valorBase = 6.50,
             esdeAutor = true,
-            local = localMoe
+            local = localMoe,
+            popular = true
         ).apply {
             agregarIngrediente(bizcocho)
             agregarIngrediente(chocolate)
