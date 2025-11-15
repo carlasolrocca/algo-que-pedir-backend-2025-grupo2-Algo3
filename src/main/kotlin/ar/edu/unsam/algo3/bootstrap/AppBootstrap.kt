@@ -164,7 +164,7 @@ class AppBootstrap(
         local1 = Local(
             "Local Plato 1 y Plato 2",
             Direccion("Avenida Libertador", 2300, Point(90, -90)),
-            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
             3.0,
             "local2",
@@ -173,7 +173,7 @@ class AppBootstrap(
         local2 = Local(
             "Local Plato 3",
             Direccion("Calle Verdadera", 456, Point(22, -22)),
-            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
             1.0,
             "local3",
