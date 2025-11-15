@@ -6,7 +6,6 @@ import ar.edu.unsam.algo3.Local
 import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Plato
-import ar.edu.unsam.algo3.dto.LocalDTO
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 

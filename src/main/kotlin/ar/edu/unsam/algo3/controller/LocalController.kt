@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Plato
+import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toDto
@@ -23,7 +24,7 @@ import kotlin.collections.map
 )
 class LocalController(private val localService: LocalService) {
 
-    @GetMapping("/local/{id}")
+    @GetMapping("/localAdmin/{id}")
     fun obtenerLocalPorId(@PathVariable id: Int): LocalDTO {
         return localService.obtenerLocalPorId(id).toDto()
     }
@@ -39,10 +40,17 @@ class LocalController(private val localService: LocalService) {
         return localService.obtenerTodosLosLocales().map { local -> local.toDto() }
     }
 
+    //Va a devolver la lista de platos que necesita el front de la pagina de Usuario
     @GetMapping("/local/{id}/platos")
     fun obtenerPlatosDelLocal(@PathVariable id: Int): List<PlatoClienteDTO> {
         val platosDelLocal = localService.obtenerPlatosDisponibles(id)
 
         return platosDelLocal.map{ it.toClienteDTO()}
+    }
+
+    //Devuelve el DTO del Local que se usa en el front de la pagina de Usuario
+    @GetMapping("/local/{id}")
+    fun obtenerLocalClientePorId(@PathVariable id: Int): LocalClienteDTO {
+        return localService.obtenerLocalPorId(id).toClienteDTO()
     }
 }
