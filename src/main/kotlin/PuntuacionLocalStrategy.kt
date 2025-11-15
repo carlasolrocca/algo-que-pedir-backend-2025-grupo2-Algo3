@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 // *** Interface para definir estrategias de puntuación de locales ***
 // Cada Strategy devuelve un Double que alimenta al metodo puntuarLocal() de Usuario

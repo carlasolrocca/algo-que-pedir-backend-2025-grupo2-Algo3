@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 class GestorObserversPedido {
     val observers : MutableList<PedidoObserver> = mutableListOf()

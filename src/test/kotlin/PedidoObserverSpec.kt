@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize

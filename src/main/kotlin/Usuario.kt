@@ -1,6 +1,6 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
-import ar.edu.unsam.algo2.repositorios.TipoRepositorio
+import ar.edu.unsam.algo3.repositorios.TipoRepositorio
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -121,6 +121,10 @@ class Usuario(
         }
     }
     // *** FIN COMMAND USUARIO ***
+
+    fun devolverNombreCompleto() : String {
+        return "${nombre} ${apellido}"
+    }
 }
 
 

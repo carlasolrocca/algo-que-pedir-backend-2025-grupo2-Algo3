@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
@@ -45,7 +45,7 @@ class PedidoSpec : DescribeSpec({
        val localBodegon = Local(nombre = "Bodegon", porcentajeSobreCadaPlato = 5.0, porcentajeRegaliasDeAutor = 15.0, direccion = Direccion(calle = "Calle falsa", altura = 1500, ubicacion = Point(20, 30)))    //para cliente Fiel e Impaciente
             .apply{
                 agregarMedioDePago(MedioDePago.EFECTIVO)
-                agregarMedioDePago(MedioDePago.TRANSFERENCIA_BANCARIA)
+                agregarMedioDePago(MedioDePago.TARJETA)
                 puntuar(5.0)
             }
 
@@ -86,7 +86,7 @@ class PedidoSpec : DescribeSpec({
             agregarPlatoAlPedido(platoNutritivo)
             cambiaDeEstado(EnumEstadosPedido.PREPARADO)
         }
-        val pedidoImpaciente = Pedido(cliente = clienteImpaciente, local = localBodegon, delivery = deliveryLocal, medioDePago = MedioDePago.TRANSFERENCIA_BANCARIA, horarioPedido = LocalTime.of(13,12)).apply{
+        val pedidoImpaciente = Pedido(cliente = clienteImpaciente, local = localBodegon, delivery = deliveryLocal, medioDePago = MedioDePago.TARJETA, horarioPedido = LocalTime.of(13,12)).apply{
             agregarPlatoAlPedido(platoBodegon)
             agregarPlatoAlPedido(platoAutor)
             cambiaDeEstado(EnumEstadosPedido.PREPARADO)
@@ -127,7 +127,7 @@ class PedidoSpec : DescribeSpec({
 
                 shouldThrow<PedidoException.MedioDePagoInvalido> {
                     pedidoNutritivo.apply{
-                        cambiarMedioDePago(MedioDePago.TRANSFERENCIA_BANCARIA)
+                        cambiarMedioDePago(MedioDePago.TARJETA)
                     }
                 }
             }

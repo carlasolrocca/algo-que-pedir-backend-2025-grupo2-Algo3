@@ -1,5 +1,7 @@
- package ar.edu.unsam.algo2
+ package ar.edu.unsam.algo3
 
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 import java.time.DayOfWeek
 
 // Se usa sealed class para agrupar las excepciones del usuario. ninguna clase fuera de las definidas dentro del sealed class pueden heredar de ella.
@@ -39,8 +41,11 @@ sealed class LocalException(mensaje: String) : Exception(mensaje) {
     class puntajeFueraDeRango() : LocalException("El puntaje asignado está fuera de rango (1 a 5)")
 }
 
-sealed class RepositorioException(mensaje: String) : Exception(mensaje) {
-    class NotFoudException(mensaje: String) : RepositorioException(mensaje)
+sealed class ErrorException(mensaje: String) : Exception(mensaje) {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    class NotFoundException(mensaje: String) : ErrorException(mensaje)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    class BusinessException(mensaje: String) : ErrorException(mensaje)
 }
 
 sealed class CuponException(mensaje: String) : Exception(mensaje) {

@@ -1,6 +1,6 @@
-package ar.edu.unsam.algo2.repositorios
+package ar.edu.unsam.algo3.repositorios
 
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.*
 
 interface SearchStrategy<T: TipoRepositorio> {
     fun matches(objeto: T, value: String): Boolean
@@ -17,7 +17,8 @@ object UsuarioSearcher : SearchStrategy<Usuario> {
 object LocalSearcher: SearchStrategy<Local> {
     override fun matches(objeto: Local, value: String): Boolean {
         return objeto.nombre.contains(value, ignoreCase = true) ||
-                objeto.direccion.calle == value
+                objeto.direccion.calle == value ||
+                objeto.usuario == value
     }
 }
 
@@ -45,5 +46,25 @@ object PlatoSearcher: SearchStrategy<Plato> {
 object CuponSearcher: SearchStrategy<Cupon> {
     override fun matches(objeto: Cupon, value: String): Boolean {
         return objeto.porcentajeDescuento.toString() == value
+    }
+}
+
+object PedidoSearcher : SearchStrategy<Pedido> {
+    override fun matches(objeto : Pedido, value : String) : Boolean {
+        val estadosValidos : Map<String, EnumEstadosPedido> = mapOf(
+            "pendiente" to EnumEstadosPedido.PENDIENTE,
+            "preparado" to EnumEstadosPedido.PREPARADO,
+            "entregado" to EnumEstadosPedido.ENTREGADO,
+            "cancelado" to EnumEstadosPedido.CANCELADO
+        )
+
+        //Toma lo que vino en la url, lo trimea y pasa a minus
+        val valorNormalizado = value.trim().lowercase()
+
+        //Evaluo si esta en el map
+        val estadoAEvaluar = estadosValidos[valorNormalizado] ?: throw IllegalArgumentException("El estado $value no es valido")
+
+        //Compara y evalua
+        return objeto.estadoDelPedido == estadoAEvaluar
     }
 }
