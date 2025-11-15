@@ -17,5 +17,5 @@ fun Plato.toClienteDTO() = PlatoClienteDTO(
     descripcion = this.descripcion,
     imagenUrl= this.getImagenUrl(),
     precioUnitario= this.valorDeVenta(),
-    popular= true                   //Por el momento, deberia haber una logica para que sea popular o no
+    popular= this.popular                   //Por el momento, deberia haber una logica para que sea popular o no
 )

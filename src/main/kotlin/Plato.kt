@@ -12,6 +12,7 @@ class Plato(
     var descripcion: String = "Descripcion plato de autor",
     var imagenNombre: String = "plato-nuevo.jpg",
     var valorBase: Double = 0.0,
+    var popular : Boolean = false
 ): TipoRepositorio() {
     @JsonIgnore
     var fechaLanzamiento: LocalDate = LocalDate.now()
