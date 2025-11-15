@@ -54,14 +54,20 @@ class Pedido (
     //Metodo para calcular valor del pedido
     fun costoTotalPedido(): Double {
         val costoTotal = valorVentaPlatos() + costoDeEntrega() //¿No deberia haber un metodo en Delivery?
-        if (medioDePago != MedioDePago.EFECTIVO) {                        //Recargo por pago con QR o TRANSFERENCIA
-            return 1.05 * costoTotal
-        } else {
-            return costoTotal
-        }
+        return costoTotal + costoMedioDePago(costoTotal)
     }
 
+    //Metodo para calcular el costo del envio
     fun costoDeEntrega(): Double = valorVentaPlatos() * 0.10
+
+    //Metodo para calcular costo por medio de pago
+    fun costoMedioDePago(costo: Double): Double {
+        if (medioDePago != MedioDePago.EFECTIVO) {                        //Recargo por pago con QR o TRANSFERENCIA
+            return 0.05 * costo
+        } else {
+            return 0.00
+        }
+    }
 
     //Auxiliar para sumar todos los costos de cada plata del pedido.
     fun valorVentaPlatos(): Double {
