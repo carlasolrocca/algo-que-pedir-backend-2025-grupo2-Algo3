@@ -36,6 +36,8 @@ class Pedido (
         }
     }
 
+    fun cantidadDePlatos() = platosDelPedido.size
+
     //Auxiliar para validar si el plato pertenece al local. Arroja exception en caso de que no
     fun platoEstaEnLocal(plato: Plato): Boolean {
         if (plato.local.equals(this.local)) {
