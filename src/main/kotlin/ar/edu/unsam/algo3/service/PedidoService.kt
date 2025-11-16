@@ -16,7 +16,7 @@ class PedidoService(
 
     fun getByEstado(estado : String) : List<PedidoDTO> = pedidoRepo.search(estado).map { it.toDTO() }
 
-    fun getById(id: Int) : PedidoDTO = pedidoRepo.getById(id).toDTO()
+    fun getById(id: Int) : Pedido = pedidoRepo.getById(id)
 
     fun actualizarEstado(id : Int, nuevoEstado : String){
         val pedido = pedidoRepo.getById(id)     //Busco el objeto Pedido
