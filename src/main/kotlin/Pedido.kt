@@ -111,6 +111,9 @@ class Pedido (
     //Agregué este metodo porque no tenía manera de hacer funcionar el if en delivery
     fun estaPreparado() = this.estadoDelPedido == EnumEstadosPedido.PREPARADO
 
+    // Calcula distancia entre local y cliente
+    fun distanciaClienteLocal(): Double = cliente.direccion.distanciaCon(local.direccion)
+
     //Devuelve si el Pedido contiene un plato lanzado en un dia especifico (usado en Cupon)
     fun tienePlatoLanzadoEl(dia : DayOfWeek): Boolean{
         return platosDelPedido.any{ it.fechaLanzamiento.dayOfWeek == dia}
