@@ -22,7 +22,10 @@ class PedidoController(val pedidoService: PedidoService) {
     @GetMapping("/checkout-pedido/{id}")
     fun pedidoPorId(@PathVariable id: Int): PedidoClienteDTO = pedidoService.getById(id).toClienteDTO()
 
-    //Endpoint para la actualizacion de estado del Pedido
+    @PostMapping("/checkout-pedido")
+    fun pedidoCheckout(@RequestBody pedidoBody: PedidoClienteDTO): PedidoClienteDTO = pedidoService.actualizarPedidoCheckout(pedidoBody)
+
+        //Endpoint para la actualizacion de estado del Pedido
     @PatchMapping("/pedidos")
     fun actualizarEstado(@RequestBody updateDTO: PedidoUpdateDTO) {
         pedidoService.actualizarEstado(updateDTO.id, updateDTO.nuevoEstado)
