@@ -8,6 +8,7 @@ class Local(
     urlImagenLocal: String = "urldefault.com",
     porcentajeSobreCadaPlato: Double = 0.0,
     porcentajeRegaliasDeAutor: Double = 0.0,
+    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf(),
     var usuario: String = "",
     var password: String = ""
 ) : TipoRepositorio() {
@@ -45,7 +46,6 @@ class Local(
 
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0
     var inboxMensajes: InboxMensajes = InboxMensajes()
-    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val puntuacionUsuarios: MutableList<Double> = mutableListOf()
 
     // Validaciones previas a inicializar el Local
