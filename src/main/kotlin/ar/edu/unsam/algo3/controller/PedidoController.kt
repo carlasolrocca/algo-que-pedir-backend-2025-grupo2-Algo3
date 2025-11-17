@@ -1,7 +1,9 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Pedido
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoClienteDTO
 import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoUpdateDTO
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toClienteDTO
 import ar.edu.unsam.algo3.service.PedidoService
 import ar.edu.unsam.algo3.dto.PedidoDTO
 import org.springframework.web.bind.annotation.*
@@ -16,6 +18,9 @@ class PedidoController(val pedidoService: PedidoService) {
 
     @GetMapping("/pedidos", params = ["estado"])
     fun listarPedidosPorEstado(@RequestParam("estado") estado : String): List<PedidoDTO> = pedidoService.getByEstado(estado)
+
+    @GetMapping("/checkout-pedido/{id}")
+    fun pedidoPorId(@PathVariable id: Int): PedidoClienteDTO = pedidoService.getById(id).toClienteDTO()
 
     //Endpoint para la actualizacion de estado del Pedido
     @PatchMapping("/pedidos")
