@@ -1,10 +1,13 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 
+import ar.edu.unsam.algo3.Delivery
 import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
+import ar.edu.unsam.algo3.Usuario
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toClienteDTO
+import ar.edu.unsam.algo3.dto.toDomain
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -42,4 +45,14 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         tarifaEntrega = this.costoDeEntrega(),
         costoTotalPedido = this.costoTotalPedido()
     )
+}
+
+fun PedidoClienteDTO.toDomain(): Pedido {
+    return Pedido(
+        local = this.local.toDomain(),
+        medioDePago = this.medioDePago,
+        platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList()
+    ). apply {
+        this.id = this@toDomain.id
+    }
 }
