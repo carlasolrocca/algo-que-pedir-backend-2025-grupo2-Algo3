@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.AuthResponse
 import ar.edu.unsam.algo3.dto.AuthResponseUsuario
+import ar.edu.unsam.algo3.dto.LoginRequest
 import ar.edu.unsam.algo3.dto.RegisterRequest
 import ar.edu.unsam.algo3.service.AuthUsuarioService
 import org.springframework.http.HttpStatus
@@ -24,5 +25,18 @@ class AuthUserController(private val authUserService : AuthUsuarioService) {
         )
 
         return ResponseEntity(response, HttpStatus.CREATED)
+    }
+
+    @PostMapping("/api/login")
+    fun login(@RequestBody dataLogin : LoginRequest) : ResponseEntity<AuthResponseUsuario> {
+        val usuarioLogueado = authUserService.loginUsuario(dataLogin)
+
+        val response = AuthResponseUsuario(
+            success = true,
+            message = "Login exitoso!",
+            usuario = usuarioLogueado.usuario
+        )
+
+        return ResponseEntity(response, HttpStatus.OK)
     }
 }
