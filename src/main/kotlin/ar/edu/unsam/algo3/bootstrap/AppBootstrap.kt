@@ -323,7 +323,7 @@ class AppBootstrap(
         sofia = Usuario(
             nombre = "Sofía",
             apellido = "Miller",
-            username = "smiller2005",
+            usuario = "smiller2005",
             password = HashUtils.hash53("123"),
             direccion = direccion1
         )
@@ -331,7 +331,7 @@ class AppBootstrap(
         micaela = Usuario(
             nombre = "Micaela",
             apellido = "Moreno",
-            username = "mmoreno2005",
+            usuario = "mmoreno2005",
             password = HashUtils.hash53("123"),
             direccion = direccion2
         )
@@ -339,7 +339,7 @@ class AppBootstrap(
         jose = Usuario(
             nombre = "Jose",
             apellido = "Gomez",
-            username = "jgomez1998",
+            usuario = "jgomez1998",
             password = HashUtils.hash53("123"),
             direccion = direccion3
         )
@@ -347,7 +347,7 @@ class AppBootstrap(
         miguel = Usuario(
             nombre = "Miguel",
             apellido = "Manso",
-            username = "mmanso2002",
+            usuario = "mmanso2002",
             password = HashUtils.hash53("123"),
             direccion = direccion4
         )

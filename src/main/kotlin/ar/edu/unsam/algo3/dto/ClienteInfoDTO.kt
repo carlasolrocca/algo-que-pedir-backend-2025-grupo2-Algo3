@@ -10,5 +10,5 @@ data class ClienteInfoDTO (
 fun Usuario.toDTO() : ClienteInfoDTO =
     ClienteInfoDTO(
         nombre = this.devolverNombreCompleto(),
-        username = this.username,
+        username = this.usuario,
     )
