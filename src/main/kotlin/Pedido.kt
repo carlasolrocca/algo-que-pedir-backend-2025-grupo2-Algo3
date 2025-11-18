@@ -36,6 +36,8 @@ class Pedido (
         }
     }
 
+    fun cantidadDePlatos() = platosDelPedido.size
+
     //Auxiliar para validar si el plato pertenece al local. Arroja exception en caso de que no
     fun platoEstaEnLocal(plato: Plato): Boolean {
         if (plato.local.equals(this.local)) {
@@ -53,11 +55,21 @@ class Pedido (
 
     //Metodo para calcular valor del pedido
     fun costoTotalPedido(): Double {
-        val costoTotal = valorVentaPlatos() + (0.10 * valorVentaPlatos()) //¿No deberia haber un metodo en Delivery?
+        return subtotalConEntrega() + costoMedioDePago()
+    }
+
+    //Metodo para calcular el costo del envio
+    fun costoDeEntrega(): Double = valorVentaPlatos() * 0.10
+
+    //Subtotal con costo de entrega
+    fun subtotalConEntrega(): Double = valorVentaPlatos() + costoDeEntrega()
+
+    //Metodo para calcular costo por medio de pago
+    fun costoMedioDePago(): Double {
         if (medioDePago != MedioDePago.EFECTIVO) {                        //Recargo por pago con QR o TRANSFERENCIA
-            return 1.05 * costoTotal
+            return 0.05 * subtotalConEntrega()
         } else {
-            return costoTotal
+            return 0.00
         }
     }
 
@@ -98,6 +110,9 @@ class Pedido (
 
     //Agregué este metodo porque no tenía manera de hacer funcionar el if en delivery
     fun estaPreparado() = this.estadoDelPedido == EnumEstadosPedido.PREPARADO
+
+    // Calcula distancia entre local y cliente
+    fun distanciaClienteLocal(): Double = cliente.direccion.distanciaCon(local.direccion)
 
     //Devuelve si el Pedido contiene un plato lanzado en un dia especifico (usado en Cupon)
     fun tienePlatoLanzadoEl(dia : DayOfWeek): Boolean{

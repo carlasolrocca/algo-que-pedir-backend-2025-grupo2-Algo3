@@ -151,7 +151,7 @@ class AppBootstrap(
 
         localMoe = Local(
             "Taberna de Moe",
-            Direccion("Av. Siempre Viva", 742, Point(9.808327, -89.643204)),
+            Direccion("Av. Siempre Viva", 742, Point(-34.58, -58.542)),
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             10.0,
             5.0,
@@ -163,7 +163,7 @@ class AppBootstrap(
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
-            Direccion("Avenida Libertador", 2300, Point(90, -90)),
+            Direccion("Avenida Libertador", 2300, Point(-34.58, -58.56)),
             "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
             3.0,
@@ -172,7 +172,7 @@ class AppBootstrap(
         )
         local2 = Local(
             "Local Plato 3",
-            Direccion("Calle Verdadera", 456, Point(22, -22)),
+            Direccion("Calle Verdadera", 456, Point(-34.58, -58.58)),
             "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
             1.0,
@@ -312,10 +312,10 @@ class AppBootstrap(
     private lateinit var jose: Usuario
     private lateinit var miguel: Usuario
 
-    val direccion1 = Direccion("Av. Siempre Viva", 555, Point(9.808327, -89.643204))
-    val direccion2 = Direccion("Calle Falsa", 123, Point(11.1,22.2))
-    val direccion3 = Direccion("Cucha Cucha", 45, Point(33.3,44.4))
-    val direccion4 = Direccion("Av. Rigoleau", 333, Point(55.4,-66.6))
+    val direccion1 = Direccion("Av. Siempre Viva", 555, Point(-34.58, -58.53))
+    val direccion2 = Direccion("Calle Falsa", 123, Point(-34.58, -58.53))
+    val direccion3 = Direccion("Cucha Cucha", 45, Point(-34.58, -58.53))
+    val direccion4 = Direccion("Av. Rigoleau", 333, Point(-34.58, -58.53))
 
     fun crearUsuarios() {
         usuarioRepositorio.clearInit()
