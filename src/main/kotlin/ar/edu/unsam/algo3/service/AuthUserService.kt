@@ -9,6 +9,7 @@ import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import ar.edu.unsam.algo3.utils.HashUtils
 import org.springframework.http.ResponseEntity
 import ar.edu.unsam.algo3.Direccion
+import ar.edu.unsam.algo3.dto.LoginRequest
 import org.uqbar.geodds.Point
 
 
@@ -39,5 +40,18 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
 
         usuarioRepositorio.create(nuevoUsuarioRegistrado)
         return nuevoUsuarioRegistrado
+    }
+
+    fun loginUsuario(dataLogin : LoginRequest): Usuario {
+        val usuarioEncontrado = usuarioRepositorio.search(dataLogin.usuario).firstOrNull()
+            ?: throw ErrorException.BusinessException("Usuario o contraseña incorrectos")
+
+        val passwordHasheada = HashUtils.hash53(dataLogin.password)
+
+        if(usuarioEncontrado.password != passwordHasheada){
+            throw ErrorException.BusinessException("Usuario o contraseña incorrectas")
+        }
+
+        return usuarioEncontrado
     }
 }
