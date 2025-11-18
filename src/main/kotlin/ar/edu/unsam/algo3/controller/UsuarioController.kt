@@ -18,12 +18,12 @@ class UsuarioController(private val usuarioService: UsuarioService) {
         return usuarioService.obtenerLocalesAPuntuar(id)
     }
 
-    @PostMapping("/usuario/{id}/puntuar-local/{localId}")
+    @PostMapping("/usuario/{id}/puntuar-local/{idLocal}")
     fun puntuarLocal(
         @PathVariable id: Int,
-        @PathVariable localId: Int,
+        @PathVariable idLocal: Int,
         @RequestBody request: PuntuacionRequest
     ) {
-        usuarioService.puntuarLocal(id, localId, request.puntuacion)
+        usuarioService.puntuarLocal(id, idLocal, request.puntuacion)
     }
 }

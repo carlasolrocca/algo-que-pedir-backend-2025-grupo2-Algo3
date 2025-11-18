@@ -457,11 +457,20 @@ class AppBootstrap(
         }
     }
 
+    fun configurarLocalesAPuntuar() {
+        val fechaReciente = LocalDate.now().minusDays(3)
+        sofia.agregarLocalAPuntuar(local1, fechaReciente)
+        sofia.agregarLocalAPuntuar(localMoe, fechaReciente)
+        micaela.agregarLocalAPuntuar(local2, fechaReciente)
+        miguel.agregarLocalAPuntuar(local2, LocalDate.now().minusDays(5))
+    }
+
     override fun afterPropertiesSet() {
         this.crearIngredientes()
         this.crearLocales()
         this.crearPlatos()
         this.crearUsuarios()
         this.crearPedidos()
+        this.configurarLocalesAPuntuar()
     }
 }

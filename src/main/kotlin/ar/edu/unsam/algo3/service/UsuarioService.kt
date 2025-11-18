@@ -27,7 +27,7 @@ class UsuarioService(
         val usuario = usuarioRepositorio.getById(idUsuario)
         val local = localRepositorio.getById(idLocal)
 
-        // Llama al método de Usuario que valida y puntúa
+        // Llama al metodo de Usuario que valida y puntúa
         usuario.puntuarLocal(local, puntuacion)
     }
 }
