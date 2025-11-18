@@ -155,11 +155,12 @@ class AppBootstrap(
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             10.0,
             5.0,
-            "local1",
-            HashUtils.hash53("local1")
+            usuario = "local1",
+            password = HashUtils.hash53("local1")
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.TARJETA)
+            agregarMedioDePago(MedioDePago.QR)
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
@@ -167,18 +168,24 @@ class AppBootstrap(
             "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
             3.0,
-            "local2",
-            HashUtils.hash53("local2")
-        )
+            usuario = "local2",
+            password = HashUtils.hash53("local2")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.TARJETA)
+        }
         local2 = Local(
             "Local Plato 3",
             Direccion("Calle Verdadera", 456, Point(-34.58, -58.58)),
             "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
             1.0,
-            "local3",
-            HashUtils.hash53("local3")
-        )
+            usuario = "local3",
+            password = HashUtils.hash53("local3")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.QR)
+        }
 
         localRepositorio.apply{
             create(localMoe)

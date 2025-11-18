@@ -19,3 +19,13 @@ fun Plato.toClienteDTO() = PlatoClienteDTO(
     precioUnitario= this.valorDeVenta(),
     popular= this.popular                   //Por el momento, deberia haber una logica para que sea popular o no
 )
+
+fun PlatoClienteDTO.toDomain(): Plato {
+    return Plato(
+        nombre = this.nombre,
+        descripcion= this.descripcion,
+        valorBase = this.precioUnitario
+    ).apply{
+        this.id = this@toDomain.id
+    }
+}

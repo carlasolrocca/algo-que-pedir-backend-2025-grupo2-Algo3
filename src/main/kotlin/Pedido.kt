@@ -19,10 +19,10 @@ class Pedido (
     var estadoDelPedido: EnumEstadosPedido = EnumEstadosPedido.PENDIENTE,
     var medioDePago : MedioDePago = MedioDePago.EFECTIVO,
     var horarioPedido : LocalTime = LocalTime.now(),
-    var fechaPedido : LocalDate = LocalDate.now()
+    var fechaPedido : LocalDate = LocalDate.now(),
+    val platosDelPedido: MutableList<Plato> = mutableListOf()
 ) : TipoRepositorio() {
     val ANTIGUEDAD_MINIMA_CLIENTE = 1               //¿No corresponderia que esto lo tenga el USUARIO?
-    val platosDelPedido: MutableList<Plato> = mutableListOf()
     var cupon: Cupon? = null                        //Le asigno una variable Cupon a la clase Pedido
 
     //Metodos para agregar o eliminar platos dentro del pedido
