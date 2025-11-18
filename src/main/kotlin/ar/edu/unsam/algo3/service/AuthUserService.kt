@@ -24,7 +24,7 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
         }
 
         if(existeUser(dataUsuario.usuario)){
-            throw ErrorException.BusinessException("El usuario `${dataUsuario.usuario}` ya existe`")
+            throw ErrorException.BusinessException("El usuario ${dataUsuario.usuario} ya existe`")
         }
 
         val passwordHasheada = HashUtils.hash53(dataUsuario.password)
