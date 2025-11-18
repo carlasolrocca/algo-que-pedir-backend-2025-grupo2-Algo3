@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.service
+package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.Usuario
 import org.springframework.stereotype.Service
