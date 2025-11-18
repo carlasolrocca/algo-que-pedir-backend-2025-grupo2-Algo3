@@ -34,7 +34,10 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
             apellido= "Usuario",
             usuario= dataUsuario.usuario,
             password = passwordHasheada,
-            direccion = Direccion("Casa usuario prueba", 456, Point(21,.4, 17.3))
+            direccion = Direccion("Casa usuario prueba", 456, ontrolPoint(21,.4, 17.3))
         )
+
+        usuarioRepositorio.create(nuevoUsuarioRegistrado)
+        return nuevoUsuarioRegistrado
     }
 }
