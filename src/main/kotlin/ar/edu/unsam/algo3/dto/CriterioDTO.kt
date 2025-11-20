@@ -34,3 +34,16 @@ fun UsuarioStrategy.toTipoCriterioDTO(): TipoCriterioDTO {
         else -> throw IllegalArgumentException("Tipo de criterio desconocido.")
     }
 }
+
+fun TipoCriterioDTO.toStrategy(): UsuarioStrategy {
+    return when (this) {
+        TipoCriterioDTO.COMBINADO -> UsuarioCombinadoStrategy()
+        TipoCriterioDTO.VEGANO -> UsuarioVeganoStrategy()
+        TipoCriterioDTO.EXQUISITO -> UsuarioExquisitoStrategy()
+        TipoCriterioDTO.CONSERVADOR -> UsuarioConservadorStrategy()
+        TipoCriterioDTO.FIEL -> UsuarioFielStrategy()
+        TipoCriterioDTO.MARKETING -> UsuarioMarketingStrategy()
+        TipoCriterioDTO.IMPACIENTE -> UsuarioImpacienteStrategy()
+        TipoCriterioDTO.GENERAL -> UsuarioGeneralStrategy()
+    }
+}
