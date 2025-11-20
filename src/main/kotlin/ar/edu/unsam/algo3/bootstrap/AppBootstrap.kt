@@ -151,34 +151,41 @@ class AppBootstrap(
 
         localMoe = Local(
             "Taberna de Moe",
-            Direccion("Av. Siempre Viva", 742, Point(9.808327, -89.643204)),
+            Direccion("Av. Siempre Viva", 742, Point(-34.58, -58.542)),
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             10.0,
             5.0,
-            "local1",
-            HashUtils.hash53("local1")
+            usuario = "local1",
+            password = HashUtils.hash53("local1")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.TARJETA)
+            agregarMedioDePago(MedioDePago.QR)
+        }
+        local1 = Local(
+            "Local Plato 1 y Plato 2",
+            Direccion("Avenida Libertador", 2300, Point(-34.58, -58.56)),
+            "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
+            3.0,
+            3.0,
+            usuario = "local2",
+            password = HashUtils.hash53("local2")
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.TARJETA)
         }
-        local1 = Local(
-            "Local Plato 1 y Plato 2",
-            Direccion("Avenida Libertador", 2300, Point(90, -90)),
-            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
-            3.0,
-            3.0,
-            "local2",
-            HashUtils.hash53("local2")
-        )
         local2 = Local(
             "Local Plato 3",
-            Direccion("Calle Verdadera", 456, Point(22, -22)),
-            "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
+            Direccion("Calle Verdadera", 456, Point(-34.58, -58.58)),
+            "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
             1.0,
-            "local3",
-            HashUtils.hash53("local3")
-        )
+            usuario = "local3",
+            password = HashUtils.hash53("local3")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.QR)
+        }
 
         localRepositorio.apply{
             create(localMoe)
@@ -204,7 +211,8 @@ class AppBootstrap(
              imagenNombre = "pescado-papas-fritas.png",
              valorBase = 16.75,
              esdeAutor = true,
-             local = local1
+             local = local1,
+             popular = true
          ).apply {
              agregarIngrediente(pechugaDePollo)
              fechaLanzamiento= LocalDate.of(2024,10,20)
@@ -216,8 +224,10 @@ class AppBootstrap(
             imagenNombre = "alitas-picantes.png",
             valorBase = 10.0,
             esdeAutor = true,
-             local = local1
-        ).apply {
+            local = local1,
+            popular = true
+
+         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(pechugaDePollo)
             agregarIngrediente(aji)
@@ -226,10 +236,12 @@ class AppBootstrap(
          arrozConLeche = Plato(
             nombre = "Arroz con Leche",
             descripcion = "Riquisimo postre de nuestras abuelas",
+            imagenNombre = "arroz-con-leche.png",
             valorBase = 7.5,
             esdeAutor = false,
-             local = local1
-        ).apply {
+            local = local1,
+            popular = false
+         ).apply {
             agregarIngrediente(leche)
             agregarIngrediente(arroz)
         }
@@ -240,8 +252,9 @@ class AppBootstrap(
             imagenNombre = "ensalada-huerta.png",
             valorBase = 18.0,
             esdeAutor = true,
-            local = local1
-        ).apply {
+            local = local1,
+            popular = false
+         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(palta)
             agregarIngrediente(lechuga)
@@ -254,7 +267,8 @@ class AppBootstrap(
             imagenNombre = "pizza-vegetariana.png",
             valorBase = 14.25,
             esdeAutor = false, 
-            local = local2
+            local = local2,
+            popular = true
         ).apply {
             agregarIngrediente(tomate)
             agregarIngrediente(queso)
@@ -266,7 +280,8 @@ class AppBootstrap(
             imagenNombre = "hamburguesa-con-queso.png",
             valorBase = 10.50,
             esdeAutor = false,
-            local = local2
+            local = local2,
+            popular = false
         ).apply {
             agregarIngrediente(medallonDeCarne)
             agregarIngrediente(queso)
@@ -280,7 +295,8 @@ class AppBootstrap(
             imagenNombre = "pastel-chocolate.png",
             valorBase = 6.50,
             esdeAutor = true,
-            local = localMoe
+            local = localMoe,
+            popular = true
         ).apply {
             agregarIngrediente(bizcocho)
             agregarIngrediente(chocolate)
@@ -303,10 +319,10 @@ class AppBootstrap(
     private lateinit var jose: Usuario
     private lateinit var miguel: Usuario
 
-    val direccion1 = Direccion("Av. Siempre Viva", 555, Point(9.808327, -89.643204))
-    val direccion2 = Direccion("Calle Falsa", 123, Point(11.1,22.2))
-    val direccion3 = Direccion("Cucha Cucha", 45, Point(33.3,44.4))
-    val direccion4 = Direccion("Av. Rigoleau", 333, Point(55.4,-66.6))
+    val direccion1 = Direccion("Av. Siempre Viva", 555, Point(-34.58, -58.53))
+    val direccion2 = Direccion("Calle Falsa", 123, Point(-34.58, -58.53))
+    val direccion3 = Direccion("Cucha Cucha", 45, Point(-34.58, -58.53))
+    val direccion4 = Direccion("Av. Rigoleau", 333, Point(-34.58, -58.53))
 
     fun crearUsuarios() {
         usuarioRepositorio.clearInit()
@@ -314,28 +330,32 @@ class AppBootstrap(
         sofia = Usuario(
             nombre = "Sofía",
             apellido = "Miller",
-            username = "smiller2005",
+            usuario = "smiller2005",
+            password = HashUtils.hash53("123"),
             direccion = direccion1
         )
 
         micaela = Usuario(
             nombre = "Micaela",
             apellido = "Moreno",
-            username = "mmoreno2005",
+            usuario = "mmoreno2005",
+            password = HashUtils.hash53("123"),
             direccion = direccion2
         )
 
         jose = Usuario(
             nombre = "Jose",
             apellido = "Gomez",
-            username = "jgomez1998",
+            usuario = "jgomez1998",
+            password = HashUtils.hash53("123"),
             direccion = direccion3
         )
 
         miguel = Usuario(
             nombre = "Miguel",
             apellido = "Manso",
-            username = "mmanso2002",
+            usuario = "mmanso2002",
+            password = HashUtils.hash53("123"),
             direccion = direccion4
         )
 
@@ -444,11 +464,20 @@ class AppBootstrap(
         }
     }
 
+    fun configurarLocalesAPuntuar() {
+        val fechaReciente = LocalDate.now().minusDays(3)
+        sofia.agregarLocalAPuntuar(local1, fechaReciente)
+        sofia.agregarLocalAPuntuar(localMoe, fechaReciente)
+        micaela.agregarLocalAPuntuar(local2, fechaReciente)
+        miguel.agregarLocalAPuntuar(local2, LocalDate.now().minusDays(5))
+    }
+
     override fun afterPropertiesSet() {
         this.crearIngredientes()
         this.crearLocales()
         this.crearPlatos()
         this.crearUsuarios()
         this.crearPedidos()
+        this.configurarLocalesAPuntuar()
     }
 }

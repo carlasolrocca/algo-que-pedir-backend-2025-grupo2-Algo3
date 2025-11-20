@@ -50,7 +50,7 @@ class ServiceDetalleSpec {
         clienteTest = usuarioRepositorio.create(Usuario(
             nombre = "Juan",
             apellido = "Pérez",
-            username = "juanperez",
+            usuario = "juanperez",
             direccion = Direccion(
                 calle = "Av. Siempre Viva",
                 altura = 123
