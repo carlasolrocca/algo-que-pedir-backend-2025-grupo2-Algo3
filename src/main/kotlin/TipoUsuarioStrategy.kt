@@ -45,6 +45,11 @@ class UsuarioFielStrategy : UsuarioStrategy {
 
 class UsuarioMarketingStrategy : UsuarioStrategy {
     var textoLlamativo = mutableSetOf<String>()
+
+    fun agregarTexto(texto: String){
+        textoLlamativo.add(texto)
+    }
+
     override fun aceptaPlato(usuario: Usuario, plato: Plato): Boolean {
         return textoLlamativo.any { Regex(it, RegexOption.IGNORE_CASE).containsMatchIn(plato.descripcion) }
     }
