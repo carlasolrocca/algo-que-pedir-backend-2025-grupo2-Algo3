@@ -3,6 +3,9 @@ package ar.edu.unsam.algo3.service;
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Usuario
+import ar.edu.unsam.algo3.UsuarioFielStrategy
+import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
+import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service
@@ -16,30 +19,34 @@ class UsuarioService(
     private val localRepositorio: LocalRepositorio,
     private val ingredienteRepositorio: IngredienteRepositorio
 ) {
-    fun getById(id: Int) = usuarioRepositorio.getById((id))
+    fun getById(id: Int) = usuarioRepositorio.getById(id)
 
-    fun update(id: Int, actualizarUsuario: Usuario): Usuario {
-        if (actualizarUsuario.id == null) {
+    fun update(id: Int, usuarioActualizado: Usuario): Usuario {
+        if (usuarioActualizado.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }
-        if (actualizarUsuario.id!! != id) {
-            throw ErrorException.BusinessException("El id en la URL es distinto del id que viene en el body")
+        if (usuarioActualizado.id!! != id) {
+            throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioActualizado.id)")
         }
 
         val usuarioExistente = usuarioRepositorio.getById(id)
-        asignarPreferencias()
+
+        // Asignacion del criterio
+        asignarCriterio(usuarioActualizado)
+
+        // Asignacion de los ingredientes preferidos y los que se evitan
         asignarIngredientes(
-            actualizarUsuario,
-            actualizarUsuario.ingredientesPreferidos,
+            usuarioActualizado,
+            usuarioActualizado.ingredientesPreferidos,
             "preferidos",
             agregar = { usuario, ingrediente -> usuario.agregarPreferido(ingrediente) })
         asignarIngredientes(
-            actualizarUsuario,
-            actualizarUsuario.ingredientesProhibidos,
+            usuarioActualizado,
+            usuarioActualizado.ingredientesProhibidos,
             "prohibidos",
             agregar = { usuario, ingrediente -> usuario.agregarProhibido(ingrediente) })
 
-        usuarioExistente.actualizar(actualizarUsuario)
+        usuarioExistente.actualizar(usuarioActualizado)
         usuarioExistente.validar()
 
         return usuarioRepositorio.update(usuarioExistente)
@@ -64,6 +71,7 @@ class UsuarioService(
         usuario.puntuarLocal(local, puntuacion)
     }
 
+    // Metodos internos para la asignacion de los ingredientes y el criterio.
     private fun asignarIngredientes(
         usuario: Usuario,
         ingredientesActuales: MutableSet<Ingrediente>,
@@ -87,7 +95,33 @@ class UsuarioService(
         if (ingredientesFaltantes.isNotEmpty()) {
             throw ErrorException.BusinessException("No se encontraron los ingredientes: $tipoIngrediente: ${ingredientesFaltantes.joinToString()}")
         }
+    }
 
+    private fun asignarCriterio(usuario: Usuario){
+        when (val criterio = usuario.tipoDeUsuario) {
+            is UsuarioFielStrategy -> {
+                // validar y obtener el local del repositorio
+                val localesCopia = criterio.localesPreferidos.toMutableSet()
+                criterio.localesPreferidos.clear()
 
+                localesCopia.forEach { local ->
+                    val localExistente = localRepositorio.getById(local.id!!)
+                    criterio.agregarLocalPreferido(localExistente)
+                }
+            }
+
+            is UsuarioMarketingStrategy -> {
+                // Valida que efectivamente tenga alguna palabra clave agregada
+                if (criterio.textoLlamativo.isEmpty()) {
+                    throw ErrorException.BusinessException("El criterio Marketing debe tener al menos una palabra clave")
+                }
+            }
+
+            is UsuarioImpacienteStrategy -> {
+                if (usuario.distanciaMaximaCercana <= 0) {
+                    throw ErrorException.BusinessException("La distancia debe ser mayor a cero")
+                }
+            }
+        }
     }
 }
