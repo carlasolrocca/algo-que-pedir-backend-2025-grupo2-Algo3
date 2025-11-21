@@ -18,9 +18,5 @@ data class AuthResponse(
     val idLocal: Int? = null
 )
 
-data class AuthResponseUsuario(
-    val success: Boolean,
-    val message: String,
-    val usuario: String? = null,
-)
+
 
