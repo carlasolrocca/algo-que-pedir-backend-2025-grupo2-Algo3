@@ -2,14 +2,15 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.dto.AuthResponse
 import org.springframework.stereotype.Service
-import ar.edu.unsam.algo3.dto.RegisterRequest
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import ar.edu.unsam.algo3.utils.HashUtils
 import org.springframework.http.ResponseEntity
 import ar.edu.unsam.algo3.Direccion
-import ar.edu.unsam.algo3.dto.LoginRequest
+import ar.edu.unsam.algo3.dto.InfoUsuarioResponse
+import ar.edu.unsam.algo3.dto.LoginRequestUsuario
+import ar.edu.unsam.algo3.dto.RegisterRequestUsuario
+import ar.edu.unsam.algo3.dto.toInfoUsuarioDTO
 import org.uqbar.geodds.Point
 
 
@@ -19,7 +20,7 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
         return usuarioRepositorio.search(usuario).isNotEmpty()
     }
 
-    fun registrarUsuario(dataUsuario: RegisterRequest): Usuario {
+    fun registrarUsuario(dataUsuario: RegisterRequestUsuario): Usuario {
         if(dataUsuario.password != dataUsuario.confirmarPassword){
             throw ErrorException.BusinessException("Las contraseñas no coinciden")
         }
@@ -30,19 +31,26 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
 
         val passwordHasheada = HashUtils.hash53(dataUsuario.password)
 
+        //El unico valor que no es real es el del Point pero calle y altura lo recibe del Formulario
+        val nuevaDireccionUsuario = Direccion(
+            calle = dataUsuario.calle,
+            altura = dataUsuario.altura.toInt(),
+            ubicacion = Point(31.4, 20.5)
+        )
+
         val nuevoUsuarioRegistrado = Usuario(
-            nombre= "Prueba",                   //El usuario solo registra su username+pass, como tomas los datos de Nombre y etc?
-            apellido= "Usuario",
+            nombre= dataUsuario.nombre,
+            apellido= dataUsuario.apellido,
             usuario= dataUsuario.usuario,
             password = passwordHasheada,
-            direccion = Direccion("Casa usuario prueba", 456, Point(21.4, 17.3))
+            direccion = nuevaDireccionUsuario
         )
 
         usuarioRepositorio.create(nuevoUsuarioRegistrado)
         return nuevoUsuarioRegistrado
     }
 
-    fun loginUsuario(dataLogin : LoginRequest): Usuario {
+    fun loginUsuario(dataLogin : LoginRequestUsuario): Usuario {
         val usuarioEncontrado = usuarioRepositorio.search(dataLogin.usuario).firstOrNull()
             ?: throw ErrorException.BusinessException("Usuario o contraseña incorrectos")
 
@@ -53,5 +61,10 @@ class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
         }
 
         return usuarioEncontrado
+    }
+
+    //Retorna toda la lista de usuarios registrados en la app
+    fun obtenerTodosLosUsuarios(): List<InfoUsuarioResponse> {
+        return usuarioRepositorio.findAll().map { usuario -> usuario.toInfoUsuarioDTO() }
     }
 }
