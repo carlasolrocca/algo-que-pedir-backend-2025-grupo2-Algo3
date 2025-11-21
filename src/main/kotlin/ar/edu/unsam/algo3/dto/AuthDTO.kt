@@ -18,3 +18,5 @@ data class AuthResponse(
     val idLocal: Int? = null
 )
 
+
+

@@ -337,28 +337,32 @@ class AppBootstrap(
         sofia = Usuario(
             nombre = "Sofía",
             apellido = "Miller",
-            username = "smiller2005",
+            usuario = "smiller2005",
+            password = HashUtils.hash53("123"),
             direccion = direccion1
         )
 
         micaela = Usuario(
             nombre = "Micaela",
             apellido = "Moreno",
-            username = "mmoreno2005",
+            usuario = "mmoreno2005",
+            password = HashUtils.hash53("123"),
             direccion = direccion2
         )
 
         jose = Usuario(
             nombre = "Jose",
             apellido = "Gomez",
-            username = "jgomez1998",
+            usuario = "jgomez1998",
+            password = HashUtils.hash53("123"),
             direccion = direccion3
         )
 
         miguel = Usuario(
             nombre = "Miguel",
             apellido = "Manso",
-            username = "mmanso2002",
+            usuario = "mmanso2002",
+            password = HashUtils.hash53("123"),
             direccion = direccion4
         )
 
@@ -467,11 +471,20 @@ class AppBootstrap(
         }
     }
 
+    fun configurarLocalesAPuntuar() {
+        val fechaReciente = LocalDate.now().minusDays(3)
+        sofia.agregarLocalAPuntuar(local1, fechaReciente)
+        sofia.agregarLocalAPuntuar(localMoe, fechaReciente)
+        micaela.agregarLocalAPuntuar(local2, fechaReciente)
+        miguel.agregarLocalAPuntuar(local2, LocalDate.now().minusDays(5))
+    }
+
     override fun afterPropertiesSet() {
         this.crearIngredientes()
         this.crearLocales()
         this.crearPlatos()
         this.crearUsuarios()
         this.crearPedidos()
+        this.configurarLocalesAPuntuar()
     }
 }

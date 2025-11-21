@@ -9,7 +9,7 @@ class Usuario(
     var nombre: String = "",
     var apellido: String = "",
     var direccion: Direccion = Direccion(),
-    var username: String = "",
+    var usuario: String = "",
     val password: String = "",
     var fechaNacimiento: LocalDate = LocalDate.now(),
     var distanciaMaximaCercana: Double = 0.0,
@@ -73,7 +73,7 @@ class Usuario(
             throw UsuarioException.LocalAPuntuarVencido()
         }
     }
-    
+
     //elimino ingrediente de set de preferidos
     fun eliminarPreferido(ingrediente: Ingrediente) {
         ingredientesPreferidos.remove(ingrediente)

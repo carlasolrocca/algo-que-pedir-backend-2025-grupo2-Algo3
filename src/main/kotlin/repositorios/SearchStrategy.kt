@@ -10,7 +10,7 @@ object UsuarioSearcher : SearchStrategy<Usuario> {
     override fun matches(objeto: Usuario, value: String): Boolean {
         return objeto.nombre.contains(value, ignoreCase = true) ||
                 objeto.apellido.contains(value, ignoreCase = true) ||
-                objeto.username == value
+                objeto.usuario == value
     }
 }
 
