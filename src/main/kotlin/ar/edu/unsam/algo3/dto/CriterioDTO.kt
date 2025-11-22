@@ -10,6 +10,12 @@ import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.UsuarioVeganoStrategy
 
+data class CriterioDTO(
+    val tipo: TipoCriterioDTO,
+    val localesPreferidos: Set<Int>? = null,
+    val palabrasClave: Set<String>? = null,
+    val subCriterios: Set<CriterioDTO>? = null
+)
 enum class TipoCriterioDTO {
     COMBINADO,
     VEGANO,
@@ -21,16 +27,25 @@ enum class TipoCriterioDTO {
     GENERAL
 }
 
-fun UsuarioStrategy.toTipoCriterioDTO(): TipoCriterioDTO {
+fun UsuarioStrategy.toCriterioDTO(): CriterioDTO {
     return when (this) {
-        is UsuarioCombinadoStrategy -> TipoCriterioDTO.COMBINADO
-        is UsuarioVeganoStrategy -> TipoCriterioDTO.VEGANO
-        is UsuarioExquisitoStrategy -> TipoCriterioDTO.EXQUISITO
-        is UsuarioConservadorStrategy -> TipoCriterioDTO.CONSERVADOR
-        is UsuarioFielStrategy -> TipoCriterioDTO.FIEL
-        is UsuarioMarketingStrategy -> TipoCriterioDTO.MARKETING
-        is UsuarioImpacienteStrategy -> TipoCriterioDTO.IMPACIENTE
-        is UsuarioGeneralStrategy -> TipoCriterioDTO.GENERAL
+        is UsuarioCombinadoStrategy -> CriterioDTO(
+            tipo = TipoCriterioDTO.COMBINADO,
+            subCriterios = this.requisitosParticulares.map { it.toCriterioDTO() }.toSet()
+        )
+        is UsuarioVeganoStrategy -> CriterioDTO( tipo = TipoCriterioDTO.VEGANO)
+        is UsuarioExquisitoStrategy -> CriterioDTO( tipo = TipoCriterioDTO.EXQUISITO)
+        is UsuarioConservadorStrategy -> CriterioDTO( tipo = TipoCriterioDTO.CONSERVADOR)
+        is UsuarioFielStrategy -> CriterioDTO(
+            tipo = TipoCriterioDTO.FIEL,
+            localesPreferidos = this.localesPreferidos.mapNotNull { it.id }.toSet()
+        )
+        is UsuarioMarketingStrategy -> CriterioDTO(
+            tipo = TipoCriterioDTO.MARKETING,
+            palabrasClave = this.textoLlamativo.toSet()
+        )
+        is UsuarioImpacienteStrategy -> CriterioDTO( tipo = TipoCriterioDTO.IMPACIENTE )
+        is UsuarioGeneralStrategy -> CriterioDTO( tipo = TipoCriterioDTO.GENERAL)
         else -> throw IllegalArgumentException("Tipo de criterio desconocido.")
     }
 }
