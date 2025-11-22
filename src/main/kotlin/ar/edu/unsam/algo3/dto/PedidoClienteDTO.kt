@@ -1,13 +1,19 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Delivery
+import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
 import ar.edu.unsam.algo3.Usuario
+import ar.edu.unsam.algo3.dto.ClienteInfoDTO
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toClienteDTO
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.dto.toDomain
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -25,7 +31,8 @@ data class PedidoClienteDTO(
     var costoSubtotalPedido: Double,
     var recargoMedioDePago: Double,
     var tarifaEntrega: Double,
-    var costoTotalPedido: Double
+    var costoTotalPedido: Double,
+    var usuario: ClienteInfoDTO
 )
 
 private val formateoFecha = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es", "AR"))
@@ -43,16 +50,23 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         costoSubtotalPedido = this.valorVentaPlatos(),
         recargoMedioDePago = this.costoMedioDePago(),
         tarifaEntrega = this.costoDeEntrega(),
-        costoTotalPedido = this.costoTotalPedido()
+        costoTotalPedido = this.costoTotalPedido(),
+        usuario = this.cliente.toDTO()
     )
 }
 
 fun PedidoClienteDTO.toDomain(): Pedido {
+    if (costoTotalPedido != this.costoTotalPedido){
+        throw ErrorException.BusinessException("El costo enviado no coincide con el costo real")
+    }
+    val instant = Instant.parse(this.fechaPedido)
+    val zonaBuenosAires = ZoneId.of("America/Argentina/Buenos_Aires")
+    val fechaLocal: LocalDate = instant.atZone(zonaBuenosAires).toLocalDate()
     return Pedido(
         local = this.local.toDomain(),
         medioDePago = this.medioDePago,
-        platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList()
-    ). apply {
-        this.id = this@toDomain.id
-    }
+        platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
+        fechaPedido = fechaLocal,
+        cliente = this.usuario.toDomain()
+    )
 }
