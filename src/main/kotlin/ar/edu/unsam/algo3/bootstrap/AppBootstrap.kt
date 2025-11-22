@@ -9,6 +9,9 @@ import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.Usuario
+import ar.edu.unsam.algo3.UsuarioCombinadoStrategy
+import ar.edu.unsam.algo3.UsuarioMarketingStrategy
+import ar.edu.unsam.algo3.UsuarioVeganoStrategy
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 import ar.edu.unsam.algo3.repositorios.PedidoRepositorio
@@ -327,13 +330,29 @@ class AppBootstrap(
     fun crearUsuarios() {
         usuarioRepositorio.clearInit()
 
+        val criterioCombinado = UsuarioCombinadoStrategy().apply {
+            agregarUsuarios(UsuarioVeganoStrategy())
+            agregarUsuarios(UsuarioMarketingStrategy().apply {
+                agregarTexto("vegano")
+                agregarTexto("sin carne")
+                agregarTexto("palta")
+            })
+        }
+
         sofia = Usuario(
             nombre = "Sofía",
             apellido = "Miller",
             usuario = "smiller2005",
             password = HashUtils.hash53("123"),
-            direccion = direccion1
-        )
+            direccion = direccion1,
+            distanciaMaximaCercana = 6.0,
+            tipoDeUsuario = criterioCombinado
+        ).apply {
+            agregarPreferido(tomate)
+            agregarPreferido(palta)
+            agregarProhibido(medallonDeCarne)
+            agregarProhibido(leche)
+        }
 
         micaela = Usuario(
             nombre = "Micaela",
