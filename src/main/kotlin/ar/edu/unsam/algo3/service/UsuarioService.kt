@@ -33,8 +33,5 @@ class UsuarioService(
         usuario.puntuarLocal(local, puntuacion)
     }
 
-    fun obtenerPorUsername(username: String): ClienteInfoDTO {
-        val usuario = usuarioRepositorio.getByNombre(username)
-        return usuario.toDTO()
-    }
+    fun getById(id: Int) = usuarioRepositorio.getById(id)
 }
