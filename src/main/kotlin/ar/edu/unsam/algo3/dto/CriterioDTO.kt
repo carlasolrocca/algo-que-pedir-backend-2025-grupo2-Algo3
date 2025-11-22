@@ -12,7 +12,7 @@ import ar.edu.unsam.algo3.UsuarioVeganoStrategy
 
 data class CriterioDTO(
     val tipo: TipoCriterioDTO,
-    val localesPreferidos: Set<Int>? = null,
+    val localesPreferidos: Set<LocalCriterioDTO>? = null,
     val palabrasClave: Set<String>? = null,
     val subCriterios: Set<CriterioDTO>? = null
 )
@@ -38,7 +38,7 @@ fun UsuarioStrategy.toCriterioDTO(): CriterioDTO {
         is UsuarioConservadorStrategy -> CriterioDTO( tipo = TipoCriterioDTO.CONSERVADOR)
         is UsuarioFielStrategy -> CriterioDTO(
             tipo = TipoCriterioDTO.FIEL,
-            localesPreferidos = this.localesPreferidos.mapNotNull { it.id }.toSet()
+            localesPreferidos = this.localesPreferidos.mapNotNull { it.toCriterioDTO() }.toSet()
         )
         is UsuarioMarketingStrategy -> CriterioDTO(
             tipo = TipoCriterioDTO.MARKETING,
