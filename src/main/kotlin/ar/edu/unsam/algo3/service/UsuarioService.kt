@@ -3,9 +3,11 @@ package ar.edu.unsam.algo3.service;
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Usuario
+import ar.edu.unsam.algo3.UsuarioCombinadoStrategy
 import ar.edu.unsam.algo3.UsuarioFielStrategy
 import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
+import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service
@@ -99,29 +101,45 @@ class UsuarioService(
 
     private fun asignarCriterio(usuario: Usuario){
         when (val criterio = usuario.tipoDeUsuario) {
+            is UsuarioCombinadoStrategy -> {
+                val criteriosCopia = criterio.requisitosParticulares.toMutableSet()
+                criterio.requisitosParticulares.clear()
+
+                criteriosCopia.forEach { subCriterio ->
+                    val criterioValidado = validarYObtenerCriterio(subCriterio, usuario)
+                    criterio.agregarUsuarios(criterioValidado)
+                }
+            }
+        }
+    }
+
+    private fun validarYObtenerCriterio(criterio: UsuarioStrategy, usuario: Usuario): UsuarioStrategy {
+        return when (criterio) {
             is UsuarioFielStrategy -> {
-                // validar y obtener el local del repositorio
-                val localesCopia = criterio.localesPreferidos.toMutableSet()
-                criterio.localesPreferidos.clear()
-
-                localesCopia.forEach { local ->
+                val nuevoFiel = UsuarioFielStrategy()
+                criterio.localesPreferidos.forEach { local ->
                     val localExistente = localRepositorio.getById(local.id!!)
-                    criterio.agregarLocalPreferido(localExistente)
+                    nuevoFiel.agregarLocalPreferido(localExistente)
                 }
+                nuevoFiel
             }
-
             is UsuarioMarketingStrategy -> {
-                // Valida que efectivamente tenga alguna palabra clave agregada
                 if (criterio.textoLlamativo.isEmpty()) {
-                    throw ErrorException.BusinessException("El criterio Marketing debe tener al menos una palabra clave")
+                    throw ErrorException.BusinessException(
+                        "El criterio Marketing debe tener al menos una palabra clave"
+                    )
                 }
+                criterio
             }
-
             is UsuarioImpacienteStrategy -> {
                 if (usuario.distanciaMaximaCercana <= 0) {
-                    throw ErrorException.BusinessException("La distancia debe ser mayor a cero")
+                    throw ErrorException.BusinessException(
+                        "La distancia máxima debe ser mayor a cero para el criterio Impaciente"
+                    )
                 }
+                criterio
             }
+            else -> criterio
         }
     }
 }
