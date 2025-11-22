@@ -13,9 +13,10 @@ data class UsuarioDTO (
     var apellido: String,
     var mail: String,
     var direccion: DireccionDTO,
-    var criterio: TipoCriterioDTO,
-    var ingredientesPreferidos: MutableSet<IngredienteDTO>,
-    var ingredientesEvitar: MutableSet<IngredienteDTO>
+    var distanciaMaximaCercana: Double,
+    var criterio: CriterioDTO,
+    var ingredientesPreferidos: MutableSet<IngredienteUsuarioDTO>,
+    var ingredientesEvitar: MutableSet<IngredienteUsuarioDTO>
 )
 
 fun Usuario.toDTO() = UsuarioDTO(
@@ -24,7 +25,8 @@ fun Usuario.toDTO() = UsuarioDTO(
     apellido=apellido,
     mail=mail,
     direccion=direccion.toDTO(),
-    criterio=tipoDeUsuario.toTipoCriterioDTO(),
-    ingredientesPreferidos=this.ingredientesPreferidos.map { it.toDTO() }.toMutableSet(),
-    ingredientesEvitar=this.ingredientesProhibidos.map { it.toDTO() }.toMutableSet()
+    distanciaMaximaCercana=distanciaMaximaCercana,
+    criterio=tipoDeUsuario.toCriterioDTO(),
+    ingredientesPreferidos=this.ingredientesPreferidos.map { it.toUsuarioDTO() }.toMutableSet(),
+    ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioDTO() }.toMutableSet()
 )
