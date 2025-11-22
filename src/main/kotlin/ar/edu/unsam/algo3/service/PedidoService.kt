@@ -59,4 +59,8 @@ class PedidoService(
         pedido.estadoDelPedido = nuevoEstado
         pedidoRepo.update(pedido)
     }
+
+    fun crearPedido(pedidoBody: PedidoClienteDTO) {
+        pedidoRepo.create(pedidoBody.toDomain())
+    }
 }
