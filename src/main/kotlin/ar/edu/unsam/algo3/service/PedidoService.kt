@@ -61,6 +61,8 @@ class PedidoService(
     }
 
     fun crearPedido(pedidoBody: PedidoClienteDTO) {
-        pedidoRepo.create(pedidoBody.toDomain())
+        val pedido = pedidoBody.toDomain()
+        pedido.id = null
+        pedidoRepo.create(pedido)
     }
 }

@@ -24,7 +24,6 @@ data class PedidoClienteDTO(
     var id: Int,
     var local: LocalClienteDTO,
     var fechaPedido: String,
-    var distancia: String,
     var platosDelPedido: List<PlatoClienteDTO>,
     var cantidadDePlatos: Int,
     var medioDePago: MedioDePago,
@@ -38,12 +37,10 @@ data class PedidoClienteDTO(
 private val formateoFecha = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es", "AR"))
 
 fun Pedido.toClienteDTO(): PedidoClienteDTO {
-    val distanciaKm = String.format("%.1fkm", this.distanciaClienteLocal())
     return PedidoClienteDTO(
         id = id!!,
         local = this.local.toClienteDTO(),
         fechaPedido = this.fechaPedido.format(formateoFecha),
-        distancia = distanciaKm,
         platosDelPedido = this.platosDelPedido.map { it.toClienteDTO() },
         cantidadDePlatos = this.cantidadDePlatos(),
         medioDePago = this.medioDePago,
@@ -68,5 +65,7 @@ fun PedidoClienteDTO.toDomain(): Pedido {
         platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
         fechaPedido = fechaLocal,
         cliente = this.usuario.toDomain()
-    )
+    ).apply{
+        this.id = this@toDomain.id
+    }
 }
