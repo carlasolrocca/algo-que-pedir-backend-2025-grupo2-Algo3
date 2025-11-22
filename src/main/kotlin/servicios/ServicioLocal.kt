@@ -8,10 +8,16 @@ import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Plato
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
+import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
+import java.util.Locale
 
 
 @Service
-class LocalService(private val localRepositorio: LocalRepositorio, private val platoService : PlatoService) {
+class LocalService(
+    private val localRepositorio: LocalRepositorio,
+    private val platoService : PlatoService,
+    private val usuarioRepositorio: UsuarioRepositorio
+) {
 
     fun obtenerLocalPorId(id: Int): Local {
         val local = localRepositorio.getById(id)
@@ -43,6 +49,13 @@ class LocalService(private val localRepositorio: LocalRepositorio, private val p
     fun obtenerPlatosDisponibles(localID : Int) : List<Plato> {
         val platosDelLocal = platoService.getPlatosByLocalID(localID)       //El service de plato devuelve la lista de platos del local
         return platosDelLocal
+    }
+
+    fun distanciaConUsuario(idLocal: Int, idUsuario: Int): String {
+        val local = localRepositorio.getById(idLocal)
+        val usuario = usuarioRepositorio.getById(idUsuario)
+        val distancia = local.direccion.distanciaCon(usuario.direccion)
+        return String.format(Locale.US, "%.2f km", distancia)
     }
 
 } // Fin clase LocalService
