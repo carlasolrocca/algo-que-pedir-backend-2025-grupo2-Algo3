@@ -10,7 +10,9 @@ class Local(
     porcentajeRegaliasDeAutor: Double = 0.0,
     var mediosDePago: MutableSet<MedioDePago> = mutableSetOf(),
     var usuario: String = "",
-    var password: String = ""
+    var password: String = "",
+    var tarifaEntrega: Double = 0.10,
+    var recargosMedioDePago: MutableMap<MedioDePago, Double> = mutableMapOf()
 ) : TipoRepositorio() {
 
     var nombre: String = nombre
@@ -84,5 +86,9 @@ class Local(
         if (mediosDePago.contains(medio)) {
             mediosDePago.remove(medio)
         }
+    }
+    
+    fun agregarRecargo(medio: MedioDePago, recargo: Double){
+        recargosMedioDePago[medio] = recargo
     }
 }

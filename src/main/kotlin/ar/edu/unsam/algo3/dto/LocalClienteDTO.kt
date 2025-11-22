@@ -9,7 +9,9 @@ data class LocalClienteDTO (
     val urlImagenLocal: String,
     var mediosDePago: MutableSet<MedioDePago>,
     val rating: Double,
-    val reviews: String
+    val reviews: String,
+    val tarifaEntrega: Double,
+    val recargosMedioDePago: Map<String, Double>
 )
 
 fun Local.toClienteDTO() = LocalClienteDTO (
@@ -18,7 +20,9 @@ fun Local.toClienteDTO() = LocalClienteDTO (
     mediosDePago = this.mediosDePago,
     urlImagenLocal = this.urlImagenLocal,
     rating = this.calcularPromedioPuntuacion(),
-    reviews = "Muy bueno!" //El local no tiene aun algo para recibir las reviews, deberia ser una lista que almacene strings?
+    reviews = "Muy bueno!", //El local no tiene aun algo para recibir las reviews, deberia ser una lista que almacene strings?
+    tarifaEntrega = this.tarifaEntrega,
+    recargosMedioDePago = this.recargosMedioDePago.mapKeys { it.key.name }
 )
 
 fun LocalClienteDTO.toDomain(): Local {

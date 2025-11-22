@@ -59,4 +59,10 @@ class PedidoService(
         pedido.estadoDelPedido = nuevoEstado
         pedidoRepo.update(pedido)
     }
+
+    fun crearPedido(pedidoBody: PedidoClienteDTO) {
+        val pedido = pedidoBody.toDomain()
+        pedido.id = null
+        pedidoRepo.create(pedido)
+    }
 }
