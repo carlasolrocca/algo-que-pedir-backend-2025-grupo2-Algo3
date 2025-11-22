@@ -89,7 +89,7 @@ class LocalRepositorio: Repositorio<Local>(LocalSearcher)
 open class PedidoRepositorio : Repositorio<Pedido>(PedidoSearcher)
 
 @Component
-class UsuarioRepositorio : Repositorio<Usuario>(UsuarioSearcher)
+class UsuarioRepositorio : Repositorio<Usuario>(UsuarioSearcher, nombreSelector = { it.usuario })
 
 // Singletons de algo2:
 object Repositorios {
