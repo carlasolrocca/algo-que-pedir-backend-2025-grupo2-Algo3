@@ -16,17 +16,47 @@ import org.uqbar.geodds.Point
 
 @Service
 class AuthUsuarioService(private val usuarioRepositorio : UsuarioRepositorio){
+
+    //Funcion para centralizar todas las validaciones para el registro desde el back
+    private fun validarCamposRegistro(data: RegisterRequestUsuario) : MutableList<String> {
+        val soloTextoRegex = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+\$"
+
+        val errores = mutableListOf<String>()
+
+        fun chequeo(condicion: Boolean, mensaje: String) {
+            if(!condicion) errores.add(mensaje)
+        }
+
+        chequeo(data.nombre.isNotBlank(), "El nombre es obligatorio")
+        chequeo(Regex(soloTextoRegex).matches(data.nombre), "El nombre debe contener solo texto")
+        chequeo(data.apellido.isNotBlank(), "El apellido es obligatorio")
+        chequeo(Regex(soloTextoRegex).matches(data.apellido), "El apellido debe contener solo texto")
+        chequeo(data.usuario.isNotBlank(), "El usuario es obligatorio")
+        chequeo(data.password.isNotBlank(), "La contraseña es obligatoria")
+        chequeo(data.confirmarPassword.isNotBlank(), "Debes re-ingresar la contraseña")
+        chequeo(data.calle.isNotBlank() && Regex(soloTextoRegex).matches(data.calle), "La calle debe contener solo texto")
+        chequeo(data.altura.toIntOrNull() != null && data.altura.toInt() > 0, "La altura tiene que ser un numero valido")
+
+        return errores
+    }
+
+
     fun existeUser(usuario: String): Boolean{
         return usuarioRepositorio.search(usuario).isNotEmpty()
     }
 
     fun registrarUsuario(dataUsuario: RegisterRequestUsuario): Usuario {
-        if(dataUsuario.password != dataUsuario.confirmarPassword){
-            throw ErrorException.BusinessException("Las contraseñas no coinciden")
-        }
+        val errores = validarCamposRegistro(dataUsuario)        //Almacena los errores generales
 
-        if(existeUser(dataUsuario.usuario)){
-            throw ErrorException.BusinessException("El usuario ${dataUsuario.usuario} ya existe")
+        //Confirma que las contraseñas matcheen
+        if(dataUsuario.password != dataUsuario.confirmarPassword){ errores.add("Las contraseñas no coinciden") }
+
+        //Confirma que el usuario no exista
+        if(existeUser(dataUsuario.usuario)) {errores.add("El usuario ${dataUsuario.usuario} ya existe") }
+
+        //Lanza todos los errores con la BusinessException si los hubiere
+        if(errores.isNotEmpty()){
+            throw ErrorException.BusinessException(mensaje = errores.joinToString(" | "))
         }
 
         val passwordHasheada = HashUtils.hash53(dataUsuario.password)
