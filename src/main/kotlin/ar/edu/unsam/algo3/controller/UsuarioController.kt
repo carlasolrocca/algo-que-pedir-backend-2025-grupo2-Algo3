@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.dto.ClienteInfoDTO
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
 import ar.edu.unsam.algo3.dto.PuntuacionRequest
 import ar.edu.unsam.algo3.service.UsuarioService
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.*
     methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS]
 )
 class UsuarioController(private val usuarioService: UsuarioService) {
+
+    @GetMapping("/usuario/{username}")
+    fun getByUsername(@PathVariable username: String): ClienteInfoDTO {
+        return usuarioService.obtenerPorUsername(username)
+    }
 
     @GetMapping("/usuario/{id}/locales-a-puntuar")
     fun obtenerLocalesAPuntuar(@PathVariable id: Int): List<LocalAPuntuarDTO> {
