@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import ar.edu.unsam.algo3.dto.ClienteInfoDTO
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
 import ar.edu.unsam.algo3.dto.PuntuacionRequest
-import ar.edu.unsam.algo3.dto.toDTO
-import ar.edu.unsam.algo3.dto.toInfoDTO
-import ar.edu.unsam.algo3.service.UsuarioService
 import org.springframework.web.bind.annotation.*
 
 @RestController
