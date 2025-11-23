@@ -23,7 +23,7 @@ private val formateoHora = DateTimeFormatter.ofPattern("HH:mm", Locale("es", "AR
 fun Pedido.toDTO() : PedidoDTO =
     PedidoDTO (
         id= id!!,
-        cliente = this.cliente.toDTO(),
+        cliente = this.cliente.toInfoDTO(),
         direccion = this.cliente.direccion.toDTO(),
         hora = this.horarioPedido.format(formateoHora),
         items = this.platosDelPedido.size,
