@@ -14,6 +14,7 @@ import ar.edu.unsam.algo3.dto.ClienteInfoDTO
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
 import ar.edu.unsam.algo3.dto.PuntuacionRequest
 import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.toInfoDTO
 import ar.edu.unsam.algo3.service.UsuarioService
 import org.springframework.web.bind.annotation.*
 
@@ -26,9 +27,6 @@ class UsuarioController(val usuarioService: UsuarioService) {
     @PutMapping("/usuario/{id}")
     fun actualizarUsuario(@PathVariable id: Int, @RequestBody usuarioBody: Usuario): UsuarioDTO =
         usuarioService.update(id, usuarioBody).toDTO()
-
-    @GetMapping("/usuario/{id}/info")
-    fun getById(@PathVariable id: Int): ClienteInfoDTO = usuarioService.getById(id).toDTO()
 
     @GetMapping("/usuario/{id}/locales-a-puntuar")
     fun obtenerLocalesAPuntuar(@PathVariable id: Int): List<LocalAPuntuarDTO> {
