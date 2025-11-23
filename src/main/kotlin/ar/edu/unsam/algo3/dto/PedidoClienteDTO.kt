@@ -11,6 +11,7 @@ import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toClienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.toInfoDTO
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -48,7 +49,7 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         recargoMedioDePago = this.costoMedioDePago(),
         tarifaEntrega = this.costoDeEntrega(),
         costoTotalPedido = this.costoTotalPedido(),
-        usuario = this.cliente.toDTO()
+        usuario = this.cliente.toInfoDTO()
     )
 }
 
