@@ -164,6 +164,9 @@ class AppBootstrap(
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.TARJETA)
             agregarMedioDePago(MedioDePago.QR)
+            agregarRecargo(MedioDePago.EFECTIVO, 0.0)
+            agregarRecargo(MedioDePago.TARJETA, 0.05)
+            agregarRecargo(MedioDePago.QR, 0.05)
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
@@ -176,6 +179,8 @@ class AppBootstrap(
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.TARJETA)
+            agregarRecargo(MedioDePago.EFECTIVO, 0.0)
+            agregarRecargo(MedioDePago.TARJETA, 0.05)
         }
         local2 = Local(
             "Local Plato 3",
@@ -188,6 +193,8 @@ class AppBootstrap(
         ).apply {
             agregarMedioDePago(MedioDePago.EFECTIVO)
             agregarMedioDePago(MedioDePago.QR)
+            agregarRecargo(MedioDePago.EFECTIVO, 0.0)
+            agregarRecargo(MedioDePago.QR, 0.05)
         }
 
         localRepositorio.apply{

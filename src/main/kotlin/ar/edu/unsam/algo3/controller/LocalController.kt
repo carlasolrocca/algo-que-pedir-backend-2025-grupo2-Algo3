@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import kotlin.collections.map
 
@@ -53,4 +54,10 @@ class LocalController(private val localService: LocalService) {
     fun obtenerLocalClientePorId(@PathVariable id: Int): LocalClienteDTO {
         return localService.obtenerLocalPorId(id).toClienteDTO()
     }
+
+    @GetMapping("/distancia")
+    fun obtenerDistancia(
+        @RequestParam fromLocalId: Int,
+        @RequestParam toUserId: Int
+    ): String = localService.distanciaConUsuario(fromLocalId, toUserId)
 }
