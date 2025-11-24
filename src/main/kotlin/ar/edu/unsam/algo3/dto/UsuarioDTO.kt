@@ -6,6 +6,7 @@ import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.dto.DireccionDTO
 import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.toDomain
 
 data class UsuarioDTO (
     var id: Int,
@@ -29,4 +30,12 @@ fun Usuario.toDTO() = UsuarioDTO(
     criterio=tipoDeUsuario.toCriterioDTO(),
     ingredientesPreferidos=this.ingredientesPreferidos.map { it.toUsuarioDTO() }.toMutableSet(),
     ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioDTO() }.toMutableSet()
+)
+
+fun UsuarioDTO.toDomain() = Usuario(
+    nombre=this.nombre,
+    apellido=this.apellido,
+    mail=this.mail,
+    direccion=this.direccion.toDomain(),
+    distanciaMaximaCercana = this.distanciaMaximaCercana
 )
