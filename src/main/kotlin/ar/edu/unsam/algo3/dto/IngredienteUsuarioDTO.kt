@@ -7,7 +7,7 @@ data class IngredienteUsuarioDTO(
     val nombre: String
 )
 
-fun Ingrediente.toUsuarioDTO() = IngredienteUsuarioDTO(
+fun Ingrediente.toUsuarioIngredienteDTO() = IngredienteUsuarioDTO(
     id = this.id!!,
     nombre = this.nombre
 )

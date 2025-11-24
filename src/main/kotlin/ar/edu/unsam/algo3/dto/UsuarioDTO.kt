@@ -1,10 +1,7 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 
-import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.dto.DireccionDTO
-import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.dto.toDomain
 
@@ -28,8 +25,8 @@ fun Usuario.toDTO() = UsuarioDTO(
     direccion=direccion.toDTO(),
     distanciaMaximaCercana=distanciaMaximaCercana,
     criterio=tipoDeUsuario.toCriterioDTO(),
-    ingredientesPreferidos=this.ingredientesPreferidos.map { it.toUsuarioDTO() }.toMutableSet(),
-    ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioDTO() }.toMutableSet()
+    ingredientesPreferidos=this.ingredientesPreferidos.map { it.toUsuarioIngredienteDTO() }.toMutableSet(),
+    ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioIngredienteDTO() }.toMutableSet()
 )
 
 fun UsuarioDTO.toDomain(): Usuario {
