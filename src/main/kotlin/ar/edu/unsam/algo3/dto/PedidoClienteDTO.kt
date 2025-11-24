@@ -15,6 +15,7 @@ import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.dto.toInfoDTO
 import ar.edu.unsam.algo3.service.LocalService
 import ar.edu.unsam.algo3.service.PlatoService
+import ar.edu.unsam.algo3.service.UsuarioService
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -58,20 +59,21 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
     )
 }
 
-fun PedidoClienteDTO.toDomain(localService: LocalService, platoService: PlatoService): Pedido {
+fun PedidoClienteDTO.toDomain(localService: LocalService, platoService: PlatoService, usuarioService: UsuarioService): Pedido {
     val instant = Instant.parse(this.fechaPedido)
     val zonaBuenosAires = ZoneId.of("America/Argentina/Buenos_Aires")
     val fechaLocal: LocalDate = instant.atZone(zonaBuenosAires).toLocalDate()
 
     val local = localService.obtenerLocalPorId(this.local.idLocal)
     val platos = this.platosDelPedido.map { platoService.getById(it.id) }.toMutableList()
+    val usuario = usuarioService.getById(this.usuario.id)
 
     val pedido = Pedido(
         local = local,
         medioDePago = this.medioDePago,
         platosDelPedido = platos,
         fechaPedido = fechaLocal,
-        cliente = this.usuario.toDomain()
+        cliente = usuario
     ).apply{
         id = this@toDomain.id
     }
