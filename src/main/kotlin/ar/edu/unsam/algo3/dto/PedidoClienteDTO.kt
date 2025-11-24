@@ -65,7 +65,7 @@ fun PedidoClienteDTO.toDomain(): Pedido {
         medioDePago = this.medioDePago,
         platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
         fechaPedido = fechaLocal,
-        //cliente = this.usuario.toDomain()
+        cliente = this.usuario.toDomain()
     ).apply{
         this.id = this@toDomain.id
     }
