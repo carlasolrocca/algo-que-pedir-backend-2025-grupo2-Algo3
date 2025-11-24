@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Delivery
+import ar.edu.unsam.algo3.EnumEstadosPedido
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
@@ -28,11 +29,12 @@ data class PedidoClienteDTO(
     var platosDelPedido: List<PlatoClienteDTO>,
     var cantidadDePlatos: Int,
     var medioDePago: MedioDePago,
+    var estadoPedido : EnumEstadosPedido,
     var costoSubtotalPedido: Double,
     var recargoMedioDePago: Double,
     var tarifaEntrega: Double,
     var costoTotalPedido: Double,
-    var usuario: ClienteInfoDTO
+    var usuario: UsuarioDTO
 )
 
 private val formateoFecha = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es", "AR"))
@@ -45,15 +47,17 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         platosDelPedido = this.platosDelPedido.map { it.toClienteDTO() },
         cantidadDePlatos = this.cantidadDePlatos(),
         medioDePago = this.medioDePago,
+        estadoPedido = this.estadoDelPedido,
         costoSubtotalPedido = this.valorVentaPlatos(),
         recargoMedioDePago = this.costoMedioDePago(),
         tarifaEntrega = this.costoDeEntrega(),
         costoTotalPedido = this.costoTotalPedido(),
-        usuario = this.cliente.toInfoDTO()
+        usuario = this.cliente.toDTO()
     )
 }
 
 fun PedidoClienteDTO.toDomain(): Pedido {
+
     if (costoTotalPedido != this.costoTotalPedido){
         throw ErrorException.BusinessException("El costo enviado no coincide con el costo real")
     }

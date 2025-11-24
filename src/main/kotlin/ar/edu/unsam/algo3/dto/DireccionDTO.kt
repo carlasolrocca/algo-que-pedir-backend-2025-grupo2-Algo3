@@ -20,10 +20,8 @@ fun Direccion.toDTO() : DireccionDTO =
         longitud = this.ubicacion.y
     )
 
-fun DireccionDTO.toDomain(): Direccion {
-    return Direccion(
-        calle=this.calle,
-        altura=this.altura,
-        ubicacion = Point(this.latitud, this.longitud)
-    )
-}
+fun DireccionDTO.toDomain() = Direccion(
+    calle = this.calle,
+    altura = this.altura,
+    ubicacion = Point(this.latitud, this.longitud)
+)
