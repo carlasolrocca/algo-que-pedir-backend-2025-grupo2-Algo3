@@ -32,7 +32,7 @@ data class PedidoClienteDTO(
     var recargoMedioDePago: Double,
     var tarifaEntrega: Double,
     var costoTotalPedido: Double,
-    var usuario: ClienteInfoDTO
+    var usuario: UsuarioDTO
 )
 
 private val formateoFecha = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es", "AR"))
@@ -49,7 +49,7 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         recargoMedioDePago = this.costoMedioDePago(),
         tarifaEntrega = this.costoDeEntrega(),
         costoTotalPedido = this.costoTotalPedido(),
-        usuario = this.cliente.toInfoDTO()
+        usuario = this.cliente.toDTO()
     )
 }
 
@@ -65,7 +65,7 @@ fun PedidoClienteDTO.toDomain(): Pedido {
         medioDePago = this.medioDePago,
         platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
         fechaPedido = fechaLocal,
-        cliente = this.usuario.toDomain()
+        //cliente = this.usuario.toDomain()
     ).apply{
         this.id = this@toDomain.id
     }
