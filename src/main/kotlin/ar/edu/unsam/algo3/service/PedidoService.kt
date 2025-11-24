@@ -13,7 +13,9 @@ import ar.edu.unsam.algo3.repositorios.PedidoRepositorio
 
 @Service
 class PedidoService(
-    private val pedidoRepo : PedidoRepositorio
+    private val pedidoRepo : PedidoRepositorio,
+    private val localService: LocalService,
+    private val platoService: PlatoService
 ) {
     fun getAll() : List<PedidoDTO> = pedidoRepo.findAll().map { it.toDTO() }
 
@@ -22,7 +24,7 @@ class PedidoService(
     fun getById(id: Int) : Pedido = pedidoRepo.getById(id)
 
     fun actualizarPedidoCheckout(pedido: PedidoClienteDTO): PedidoClienteDTO {
-        val pedidoActualizado = pedido.toDomain()
+        val pedidoActualizado = pedido.toDomain(localService, platoService)
         return pedidoActualizado.toClienteDTO()
     }
 
@@ -61,7 +63,7 @@ class PedidoService(
     }
 
     fun crearPedido(pedidoBody: PedidoClienteDTO) {
-        val pedido = pedidoBody.toDomain()
+        val pedido = pedidoBody.toDomain(localService, platoService)
         pedido.id = null
         pedidoRepo.create(pedido)
     }
