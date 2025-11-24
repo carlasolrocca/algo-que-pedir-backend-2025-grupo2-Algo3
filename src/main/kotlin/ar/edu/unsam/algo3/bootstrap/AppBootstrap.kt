@@ -10,6 +10,7 @@ import ar.edu.unsam.algo3.Pedido
 import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.Usuario
 import ar.edu.unsam.algo3.UsuarioCombinadoStrategy
+import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioVeganoStrategy
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
@@ -366,7 +367,9 @@ class AppBootstrap(
             apellido = "Moreno",
             usuario = "mmoreno2005",
             password = HashUtils.hash53("123"),
-            direccion = direccion2
+            direccion = direccion2,
+            distanciaMaximaCercana = 3.0,
+            tipoDeUsuario = UsuarioImpacienteStrategy()
         )
 
         jose = Usuario(
