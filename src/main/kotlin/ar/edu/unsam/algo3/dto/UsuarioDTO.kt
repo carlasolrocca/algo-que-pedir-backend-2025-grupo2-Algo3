@@ -38,4 +38,6 @@ fun UsuarioDTO.toDomain() = Usuario(
     mail=this.mail,
     direccion=this.direccion.toDomain(),
     distanciaMaximaCercana = this.distanciaMaximaCercana
-)
+).apply {
+    this.id = this@toDomain.id
+}
