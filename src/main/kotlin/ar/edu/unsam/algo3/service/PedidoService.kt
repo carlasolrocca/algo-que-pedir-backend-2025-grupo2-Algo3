@@ -26,20 +26,6 @@ class PedidoService(
         return pedidoActualizado.toClienteDTO()
     }
 
-    fun getByUsuarioYEstado(userId: Int, estado: String?): List<Pedido> {
-        val pedidos = pedidoRepo.findAll()
-
-        val pedidosDelUsuario = pedidos.filter { it.cliente.id == userId }
-
-        return if (estado != null)
-            pedidosDelUsuario.filter {
-                it.estadoDelPedido.name.equals(estado, ignoreCase = true)
-            }
-        else pedidosDelUsuario
-    }
-
-
-
     fun actualizarEstado(id : Int, nuevoEstado : String){
         val pedido = pedidoRepo.getById(id)     //Busco el objeto Pedido
 

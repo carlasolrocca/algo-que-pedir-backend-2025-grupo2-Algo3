@@ -30,15 +30,4 @@ class PedidoController(val pedidoService: PedidoService) {
     fun actualizarEstado(@RequestBody updateDTO: PedidoUpdateDTO) {
         pedidoService.actualizarEstado(updateDTO.id, updateDTO.nuevoEstado)
     }
-
-    // Endpoint para obtener los pedidos del usuario, pudiendo filtrar también por estado
-    @GetMapping("/usuarios/{userId}/pedidos")
-    fun pedidosDelUsuario(
-        @PathVariable userId: Int,
-        @RequestParam("estado", required = false) estado: String?
-    ): List<PedidoClienteDTO> =
-        pedidoService.getByUsuarioYEstado(userId, estado)
-            .map { it.toClienteDTO() }
-
-
 }
