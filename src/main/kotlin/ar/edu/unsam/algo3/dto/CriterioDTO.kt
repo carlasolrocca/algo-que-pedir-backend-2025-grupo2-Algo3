@@ -49,3 +49,31 @@ fun UsuarioStrategy.toCriterioDTO(): CriterioDTO {
         else -> throw IllegalArgumentException("Tipo de criterio desconocido.")
     }
 }
+fun CriterioDTO.toUsuarioStrategy(): UsuarioStrategy {
+    return when (this.tipo) {
+        TipoCriterioDTO.COMBINADO -> {
+            val subStrategies = this.subCriterios?.map { it.toUsuarioStrategy() }?.toMutableSet()
+                ?: mutableSetOf()
+            UsuarioCombinadoStrategy(subStrategies)
+        }
+        TipoCriterioDTO.VEGANO -> UsuarioVeganoStrategy()
+        TipoCriterioDTO.EXQUISITO -> UsuarioExquisitoStrategy()
+        TipoCriterioDTO.CONSERVADOR -> UsuarioConservadorStrategy()
+        TipoCriterioDTO.FIEL -> {
+            UsuarioFielStrategy().apply {
+                this@toUsuarioStrategy.localesPreferidos?.forEach { localDTO ->
+                    agregarLocalPreferido(localDTO.toDomain())
+                }
+            }
+        }
+        TipoCriterioDTO.MARKETING -> {
+            UsuarioMarketingStrategy().apply {
+                this@toUsuarioStrategy.palabrasClave?.forEach { palabra ->
+                    agregarTexto(palabra)
+                }
+            }
+        }
+        TipoCriterioDTO.IMPACIENTE -> UsuarioImpacienteStrategy()
+        TipoCriterioDTO.GENERAL -> UsuarioGeneralStrategy()
+    }
+}

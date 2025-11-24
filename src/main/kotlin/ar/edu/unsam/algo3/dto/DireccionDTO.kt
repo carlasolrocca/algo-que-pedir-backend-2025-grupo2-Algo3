@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Direccion
+import org.uqbar.geodds.Point
 
 data class DireccionDTO(
     val direccion : String,
@@ -18,3 +19,11 @@ fun Direccion.toDTO() : DireccionDTO =
         latitud = this.ubicacion.x,
         longitud = this.ubicacion.y
     )
+
+fun DireccionDTO.toDomain(): Direccion {
+    return Direccion(
+        calle=this.calle,
+        altura=this.altura,
+        ubicacion = Point(this.latitud, this.longitud)
+    )
+}

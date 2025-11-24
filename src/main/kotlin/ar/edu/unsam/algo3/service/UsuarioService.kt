@@ -8,12 +8,16 @@ import ar.edu.unsam.algo3.UsuarioFielStrategy
 import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioStrategy
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.UsuarioDTO
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
 import ar.edu.unsam.algo3.dto.toDto
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
+import ar.edu.unsam.algo3.service.UsuarioService
+import org.springframework.web.bind.annotation.RestController
 
 @Service
 class UsuarioService(
@@ -23,7 +27,8 @@ class UsuarioService(
 ) {
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
-    fun update(id: Int, usuarioActualizado: Usuario): Usuario {
+    fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
+        val usuarioActualizado = usuarioDTO.toDomain()
         if (usuarioActualizado.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }

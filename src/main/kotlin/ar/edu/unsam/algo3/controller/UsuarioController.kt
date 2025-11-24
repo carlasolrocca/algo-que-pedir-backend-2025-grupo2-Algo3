@@ -15,13 +15,17 @@ import ar.edu.unsam.algo3.dto.PuntuacionRequest
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(
+    origins = ["*"],
+    allowedHeaders = ["*"],
+    methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS]
+)
 class UsuarioController(val usuarioService: UsuarioService) {
     @GetMapping("/usuario/{id}")
     fun usuarioPorId(@PathVariable id: Int) = usuarioService.getById(id)?.toDTO()
 
     @PutMapping("/usuario/{id}")
-    fun actualizarUsuario(@PathVariable id: Int, @RequestBody usuarioBody: Usuario): UsuarioDTO =
+    fun actualizarUsuario(@PathVariable id: Int, @RequestBody usuarioBody: UsuarioDTO): UsuarioDTO =
         usuarioService.update(id, usuarioBody).toDTO()
 
     @GetMapping("/usuario/{id}/locales-a-puntuar")

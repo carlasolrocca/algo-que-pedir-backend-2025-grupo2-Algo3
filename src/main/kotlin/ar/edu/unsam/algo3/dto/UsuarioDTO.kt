@@ -1,11 +1,9 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 
-import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.dto.DireccionDTO
-import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.toDomain
 
 data class UsuarioDTO (
     var id: Int,
@@ -30,3 +28,24 @@ fun Usuario.toDTO() = UsuarioDTO(
     ingredientesPreferidos=this.ingredientesPreferidos.map { it.toUsuarioDTO() }.toMutableSet(),
     ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioDTO() }.toMutableSet()
 )
+
+fun UsuarioDTO.toDomain(): Usuario {
+    return Usuario(
+        nombre = this.nombre,
+        apellido=apellido,
+        mail=mail,
+        direccion=direccion.toDomain(),
+        distanciaMaximaCercana=distanciaMaximaCercana,
+        tipoDeUsuario =this.criterio.toUsuarioStrategy(),
+    ).apply{
+        this.id = this@toDomain.id
+        ingredientesPreferidos.clear()
+        this@toDomain.ingredientesPreferidos.forEach {
+            agregarPreferido( it.toDomain() )
+        }
+        ingredientesProhibidos.clear()
+        this@toDomain.ingredientesEvitar.forEach {
+            agregarProhibido( it.toDomain() )
+        }
+    }
+}

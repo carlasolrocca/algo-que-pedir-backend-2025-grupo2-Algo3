@@ -11,3 +11,11 @@ fun Ingrediente.toUsuarioDTO() = IngredienteUsuarioDTO(
     id = this.id!!,
     nombre = this.nombre
 )
+
+fun IngredienteUsuarioDTO.toDomain(): Ingrediente {
+    return Ingrediente(
+        nombre = nombre
+    ).apply {
+        id = this@toDomain.id
+    }
+}

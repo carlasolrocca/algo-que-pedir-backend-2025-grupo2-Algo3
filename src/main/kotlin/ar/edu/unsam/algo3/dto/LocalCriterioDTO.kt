@@ -15,3 +15,12 @@ fun Local.toCriterioDTO() = LocalCriterioDTO(
     imagen = this.urlImagenLocal,
     puntuacion = this.calcularPromedioPuntuacion()
 )
+
+fun LocalCriterioDTO.toDomain(): Local {
+    return Local(
+        nombre = this.nombre,
+        urlImagenLocal = this.imagen
+    ).apply {
+        id = this@toDomain.id
+    }
+}
