@@ -57,20 +57,24 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
 }
 
 fun PedidoClienteDTO.toDomain(): Pedido {
-
-    if (costoTotalPedido != this.costoTotalPedido){
-        throw ErrorException.BusinessException("El costo enviado no coincide con el costo real")
-    }
     val instant = Instant.parse(this.fechaPedido)
     val zonaBuenosAires = ZoneId.of("America/Argentina/Buenos_Aires")
     val fechaLocal: LocalDate = instant.atZone(zonaBuenosAires).toLocalDate()
-    return Pedido(
+
+    val pedido = Pedido(
         local = this.local.toDomain(),
         medioDePago = this.medioDePago,
         platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
         fechaPedido = fechaLocal,
         cliente = this.usuario.toDomain()
     ).apply{
-        this.id = this@toDomain.id
+        id = this@toDomain.id
     }
+
+    // Validamos que el costo total enviado por el front coincida con el que se calcula en el back
+    if (this.costoTotalPedido != pedido.costoTotalPedido()) {
+        throw ErrorException.BusinessException("El costo enviado no coincide con el costo real")
+    }
+
+    return pedido
 }
