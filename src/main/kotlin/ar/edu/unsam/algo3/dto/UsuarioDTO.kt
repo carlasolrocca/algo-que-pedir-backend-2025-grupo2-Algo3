@@ -4,6 +4,8 @@ import ar.edu.unsam.algo3.Usuario
 import ar.edu.unsam.algo3.dto.DireccionDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
+import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 
 data class UsuarioDTO (
     var id: Int,
@@ -16,6 +18,8 @@ data class UsuarioDTO (
     var ingredientesPreferidos: MutableSet<IngredienteUsuarioDTO>,
     var ingredientesEvitar: MutableSet<IngredienteUsuarioDTO>
 )
+lateinit var localRepo: LocalRepositorio
+lateinit var ingredienteRepo: IngredienteRepositorio
 
 fun Usuario.toDTO() = UsuarioDTO(
     id=id!!,
@@ -36,14 +40,16 @@ fun UsuarioDTO.toDomain(): Usuario {
         mail=mail,
         direccion=direccion.toDomain(),
         distanciaMaximaCercana=distanciaMaximaCercana,
-        tipoDeUsuario =this.criterio.toUsuarioStrategy(),
+        tipoDeUsuario =this.criterio.toUsuarioStrategy(localRepo),
     ).apply{
         this.id = this@toDomain.id
-        this@toDomain.ingredientesPreferidos.forEach {
-            agregarPreferido( it.toDomain() )
+        this@toDomain.ingredientesPreferidos.forEach { ingDTO ->
+            val ing = ingredienteRepo.getById(ingDTO.id).toUsuarioIngredienteDTO()
+            agregarPreferido( ing.toDomain() )
         }
-        this@toDomain.ingredientesEvitar.forEach {
-            agregarProhibido( it.toDomain() )
+        this@toDomain.ingredientesEvitar.forEach { ingDTO ->
+            val ing = ingredienteRepo.getById(ingDTO.id).toUsuarioIngredienteDTO()
+            agregarProhibido( ing.toDomain() )
         }
     }
 }
