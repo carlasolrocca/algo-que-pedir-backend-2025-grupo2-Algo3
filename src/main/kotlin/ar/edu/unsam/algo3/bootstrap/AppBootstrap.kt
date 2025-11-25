@@ -158,6 +158,7 @@ class AppBootstrap(
     private lateinit var local2: Local
     private lateinit var localMoe: Local
     private lateinit var local3: Local
+    private lateinit var local4 : Local
 
     fun crearLocales() {
         localRepositorio.clearInit()
@@ -232,11 +233,29 @@ class AppBootstrap(
             agregarReview("Riquisima la pizza!!!")
         }
 
+        local4 = Local(
+            "El Preferido de Palermo",
+            direccion2,
+            "https://www.cucinare.tv/wp-content/uploads/2019/06/El-Preferido.jpg",
+            1.5,
+            1.0,
+            usuario = "local4",
+            password = HashUtils.hash53("local4")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.QR)
+            agregarRecargo(MedioDePago.EFECTIVO, 0.0)
+            agregarRecargo(MedioDePago.QR, 0.05)
+            agregarReview("Recomendadisimo el plato de la casa")
+            agregarReview("Riquisima la pizza!!!")
+        }
+
         localRepositorio.apply{
             create(localMoe)
             create(local1)
             create(local2)
             create(local3)
+            create(local4)
         }
     }
 
@@ -249,6 +268,7 @@ class AppBootstrap(
     private lateinit var deLaCasa: Plato
     private lateinit var pizzaMozzarella : Plato
     private lateinit var pizzaFugazzeta : Plato
+    private lateinit var paella : Plato
 
     fun crearPlatos() {
         platoRepositorio.clearInit()
@@ -377,6 +397,19 @@ class AppBootstrap(
             agregarIngrediente(glaseado)
         }
 
+        paella = Plato(
+            nombre = "Paella",
+            descripcion = "Arroz valenciano aromático y vibrante, cocinado lentamente con azafrán, mariscos, pollo o conejo, y una base sabrosa de sofrito.",
+            imagenNombre = "paella.jpg",
+            valorBase = 8.5,
+            esdeAutor = true,
+            local = local4,
+            popular = true
+        ).apply {
+            agregarIngrediente(arroz)
+            agregarIngrediente(pechugaDePollo)
+        }
+
         platoRepositorio.apply {
             create(deLaCasa)
             create(alitasPicantes)
@@ -387,6 +420,7 @@ class AppBootstrap(
             create(pastelDeChocolate)
             create(pizzaMozzarella)
             create(pizzaFugazzeta)
+            create(paella)
         }
     }
 
