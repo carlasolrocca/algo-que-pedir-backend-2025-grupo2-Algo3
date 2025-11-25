@@ -181,7 +181,7 @@ class AppBootstrap(
             agregarReview("Todo ok, no te volves loco")
         }
         local1 = Local(
-            "Local Plato 1 y Plato 2",
+            "Il Gatto",
             direccion3,
             "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
@@ -199,7 +199,7 @@ class AppBootstrap(
         }
 
         local2 = Local(
-            "Local Plato 3",
+            "Restaurante Lucca",
              direccion2,
             "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
