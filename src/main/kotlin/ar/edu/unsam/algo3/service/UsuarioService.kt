@@ -28,34 +28,20 @@ class UsuarioService(
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
     fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
-        //convierte a objeto de dominio el usuario dto que recibe
-        val usuarioActualizado = usuarioDTO.toDomain()
-
-        if (usuarioActualizado.id == null) {
+        if (usuarioDTO.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }
-        if (usuarioActualizado.id!! != id) {
-            throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioActualizado.id)")
+        if (usuarioDTO.id!! != id) {
+            throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioDTO.id)")
         }
 
         val usuarioExistente = usuarioRepositorio.getById(id)
 
-        // Asignacion del criterio
-        asignarCriterio(usuarioActualizado)
+        // se reconstruye un usuario valido a partir del dto usuario que llega
+        //convierte a objeto de dominio el usuario dto que recibe
+        val usuarioReconstruido = usuarioDTO.toDomain(localRepositorio, ingredienteRepositorio)
 
-        // Asignacion de los ingredientes preferidos y los que se evitan
-        asignarIngredientes(
-            usuarioActualizado,
-            usuarioActualizado.ingredientesPreferidos,
-            "preferidos",
-            agregar = { usuario, ingrediente -> usuario.agregarPreferido(ingrediente) })
-        asignarIngredientes(
-            usuarioActualizado,
-            usuarioActualizado.ingredientesProhibidos,
-            "prohibidos",
-            agregar = { usuario, ingrediente -> usuario.agregarProhibido(ingrediente) })
-
-        usuarioExistente.actualizar(usuarioActualizado)
+        usuarioExistente.actualizar(usuarioReconstruido)
         usuarioExistente.validar()
 
         return usuarioRepositorio.update(usuarioExistente)
@@ -78,75 +64,5 @@ class UsuarioService(
 
         // Llama al metodo de Usuario que valida y puntúa
         usuario.puntuarLocal(local, puntuacion)
-    }
-
-    // Metodos internos para la asignacion de los ingredientes y el criterio.
-    private fun asignarIngredientes(
-        usuario: Usuario,
-        ingredientesActuales: MutableSet<Ingrediente>,
-        tipoIngrediente: String,
-        agregar: (Usuario, Ingrediente) -> Unit
-    ) {
-        val ingredientesCopia = ingredientesActuales.toMutableSet()
-        ingredientesActuales.clear()
-
-        val ingredientesFaltantes = mutableSetOf<String>()
-        ingredientesCopia.forEach { ing ->
-            val ingredienteExistente = ingredienteRepositorio.getById(ing.id!!)
-
-            if (ingredienteExistente != null) {
-                agregar(usuario, ingredienteExistente)
-            } else {
-                ingredientesFaltantes.add(ing.nombre)
-            }
-        }
-
-        if (ingredientesFaltantes.isNotEmpty()) {
-            throw ErrorException.BusinessException("No se encontraron los ingredientes: $tipoIngrediente: ${ingredientesFaltantes.joinToString()}")
-        }
-    }
-
-    private fun asignarCriterio(usuario: Usuario){
-        when (val criterio = usuario.tipoDeUsuario) {
-            is UsuarioCombinadoStrategy -> {
-                val criteriosCopia = criterio.requisitosParticulares.toMutableSet()
-                criterio.requisitosParticulares.clear()
-
-                criteriosCopia.forEach { subCriterio ->
-                    val criterioValidado = validarYObtenerCriterio(subCriterio, usuario)
-                    criterio.agregarUsuarios(criterioValidado)
-                }
-            }
-        }
-    }
-
-    private fun validarYObtenerCriterio(criterio: UsuarioStrategy, usuario: Usuario): UsuarioStrategy {
-        return when (criterio) {
-            is UsuarioFielStrategy -> {
-                val nuevoFiel = UsuarioFielStrategy()
-                criterio.localesPreferidos.forEach { local ->
-                    val localExistente = localRepositorio.getById(local.id!!)
-                    nuevoFiel.agregarLocalPreferido(localExistente)
-                }
-                nuevoFiel
-            }
-            is UsuarioMarketingStrategy -> {
-                if (criterio.textoLlamativo.isEmpty()) {
-                    throw ErrorException.BusinessException(
-                        "El criterio Marketing debe tener al menos una palabra clave"
-                    )
-                }
-                criterio
-            }
-            is UsuarioImpacienteStrategy -> {
-                if (usuario.distanciaMaximaCercana <= 0) {
-                    throw ErrorException.BusinessException(
-                        "La distancia máxima debe ser mayor a cero para el criterio Impaciente"
-                    )
-                }
-                criterio
-            }
-            else -> criterio
-        }
     }
 }
