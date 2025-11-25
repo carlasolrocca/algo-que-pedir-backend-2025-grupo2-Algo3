@@ -2,9 +2,9 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.EnumEstadosPedido
 import ar.edu.unsam.algo3.Pedido
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoClienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toClienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.PedidoClienteDTO
+import ar.edu.unsam.algo3.dto.toClienteDTO
+import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.dto.PedidoDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import org.springframework.stereotype.Service
@@ -65,4 +65,6 @@ class PedidoService(
         pedido.id = null
         pedidoRepo.create(pedido)
     }
+
+    
 }
