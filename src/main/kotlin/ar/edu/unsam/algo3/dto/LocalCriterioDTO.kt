@@ -3,24 +3,27 @@ package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
 import ar.edu.unsam.algo3.Local
 
 data class LocalCriterioDTO(
-    val id: Int,
+    val idLocal: Int,
     val nombre: String,
-    val imagen: String,
-    val puntuacion: Double
+    val urlImagenLocal: String,
+    val rating: Double,
+    val tarifaEntrega: Double
 )
 
 fun Local.toCriterioDTO() = LocalCriterioDTO(
-    id = this.id!!,
+    idLocal = this.id!!,
     nombre = this.nombre,
-    imagen = this.urlImagenLocal,
-    puntuacion = this.calcularPromedioPuntuacion()
+    urlImagenLocal = this.urlImagenLocal,
+    rating = this.calcularPromedioPuntuacion(),
+    tarifaEntrega = this.tarifaEntrega
 )
 
 fun LocalCriterioDTO.toDomain(): Local {
     return Local(
         nombre = this.nombre,
-        urlImagenLocal = this.imagen
+        urlImagenLocal=this.urlImagenLocal,
+        tarifaEntrega = this.tarifaEntrega
     ).apply {
-        id = this@toDomain.id
+        id = this@toDomain.idLocal
     }
 }
