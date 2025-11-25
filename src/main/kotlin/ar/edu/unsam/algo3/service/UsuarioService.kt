@@ -14,7 +14,7 @@ import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
-import ar.edu.unsam.algo3.dto.toDto
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 import ar.edu.unsam.algo3.service.UsuarioService
 import org.springframework.web.bind.annotation.RestController
@@ -66,7 +66,7 @@ class UsuarioService(
 
         return usuario.localesAPuntuar.map { (local, fechaLimite) ->
             LocalAPuntuarDTO(
-                local.toDto(),
+                local.toDTO(),
                 fechaLimite = fechaLimite.toString()
             )
         }
