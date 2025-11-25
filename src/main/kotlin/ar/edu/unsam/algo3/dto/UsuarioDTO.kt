@@ -15,8 +15,8 @@ data class UsuarioDTO (
     var ingredientesPreferidos: MutableSet<IngredienteUsuarioDTO>,
     var ingredientesEvitar: MutableSet<IngredienteUsuarioDTO>
 )
-lateinit var localRepo: LocalRepositorio
-lateinit var ingredienteRepo: IngredienteRepositorio
+var localRepo: LocalRepositorio = LocalRepositorio()
+var ingredienteRepo: IngredienteRepositorio = IngredienteRepositorio()
 
 fun Usuario.toDTO() = UsuarioDTO(
     id=id!!,
