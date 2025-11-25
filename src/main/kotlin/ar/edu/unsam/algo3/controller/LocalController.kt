@@ -1,6 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Plato
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.LocalCriterioDTO
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toCriterioDTO
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
@@ -39,6 +41,12 @@ class LocalController(private val localService: LocalService) {
     @GetMapping("/locales")
     fun obtenerTodosLosLocales(): List<LocalDTO> {
         return localService.obtenerTodosLosLocales().map { local -> local.toDto() }
+    }
+
+    // Devuelve los locales que el usuario necesita para listar, con menos informacion
+    @GetMapping("/locales/criterio")
+    fun obtenerLocalesCriterio(): List<LocalCriterioDTO> {
+        return localService.obtenerTodosLosLocales().map { local -> local.toCriterioDTO() }
     }
 
     //Va a devolver la lista de platos que necesita el front de la pagina de Usuario
