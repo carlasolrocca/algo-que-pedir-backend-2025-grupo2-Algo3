@@ -120,12 +120,19 @@ class UsuariosSpec : DescribeSpec({
         }
         //Usuario Marketing
         it("Usuario Marketing acepta platos con cierta descripción"){
-            val platoMarketineroSodio = Plato(descripcion = "Plato bajo en sodio")
-            val platoMarketineroAzucar = Plato(descripcion = "Nuevos alfajores sin azucar")
+            val platoMarketineroOrganico = Plato(descripcion = "Plato con verduras organicas")
+            val platoMarketineroDietetico = Plato(descripcion = "Nuevos alfajores dieteticos")
             val platoMarketineroNutritivo = Plato(descripcion = "Super combo nutritivo")
-            val usuarioMarketinero = Usuario().apply { tipoDeUsuario = UsuarioMarketingStrategy()}
-            usuarioMarketinero.aceptaPlato(platoMarketineroSodio) shouldBe true
-            usuarioMarketinero.aceptaPlato(platoMarketineroAzucar) shouldBe true
+            val usuarioMarketinero = Usuario().apply {
+                tipoDeUsuario = UsuarioMarketingStrategy().apply{
+                    agregarTexto("nutritivo")
+                    agregarTexto("dieteticos")
+                    agregarTexto("organicas")
+
+                }
+            }
+            usuarioMarketinero.aceptaPlato(platoMarketineroOrganico) shouldBe true
+            usuarioMarketinero.aceptaPlato(platoMarketineroDietetico) shouldBe true
             usuarioMarketinero.aceptaPlato(platoMarketineroNutritivo) shouldBe true
         }
         it("Usuario Marketing No acepta platos sin la descripción adecuada"){
