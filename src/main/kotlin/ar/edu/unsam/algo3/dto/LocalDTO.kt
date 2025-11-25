@@ -34,7 +34,7 @@ data class LocalDTO(
     val mediosDePago: Set<MedioDePago>
 )
 
-fun Local.toDto(): LocalDTO {
+fun Local.toDTO(): LocalDTO {
     return LocalDTO(
         idLocal = this.id!!,
         nombre = this.nombre,

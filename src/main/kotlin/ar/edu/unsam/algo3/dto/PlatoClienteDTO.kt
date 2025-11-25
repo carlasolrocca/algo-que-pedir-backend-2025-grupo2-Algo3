@@ -11,7 +11,7 @@ data class PlatoClienteDTO (
     var popular: Boolean
 )
 
-fun Plato.toClienteDTO() = PlatoClienteDTO(
+fun Plato.toClienteDTO(): PlatoClienteDTO = PlatoClienteDTO(
     id = this.id!!,
     nombre = this.nombre,
     descripcion = this.descripcion,

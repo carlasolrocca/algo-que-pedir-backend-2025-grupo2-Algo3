@@ -11,7 +11,7 @@ data class IngredienteDTO(
     var origenAnimal: Boolean
 )
 
-fun Ingrediente.toDTO() = IngredienteDTO(
+fun Ingrediente.toDTO(): IngredienteDTO = IngredienteDTO(
     id=id!!,
     nombre=nombre,
     costoMercado=costoMercado,

@@ -2,9 +2,9 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.EnumEstadosPedido
 import ar.edu.unsam.algo3.Pedido
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoClienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toClienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.PedidoClienteDTO
+import ar.edu.unsam.algo3.dto.toClienteDTO
+import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.dto.PedidoDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import org.springframework.stereotype.Service
@@ -13,18 +13,16 @@ import ar.edu.unsam.algo3.repositorios.PedidoRepositorio
 
 @Service
 class PedidoService(
-    private val pedidoRepo : PedidoRepositorio
+    private val pedidoRepo : PedidoRepositorio,
+    private val localService: LocalService,
+    private val platoService: PlatoService,
+    private val usuarioService: UsuarioService
 ) {
     fun getAll() : List<PedidoDTO> = pedidoRepo.findAll().map { it.toDTO() }
 
     fun getByEstado(estado : String) : List<PedidoDTO> = pedidoRepo.search(estado).map { it.toDTO() }
 
     fun getById(id: Int) : Pedido = pedidoRepo.getById(id)
-
-    fun actualizarPedidoCheckout(pedido: PedidoClienteDTO): PedidoClienteDTO {
-        val pedidoActualizado = pedido.toDomain()
-        return pedidoActualizado.toClienteDTO()
-    }
 
     fun actualizarEstado(id : Int, nuevoEstado : String){
         val pedido = pedidoRepo.getById(id)     //Busco el objeto Pedido
@@ -61,8 +59,10 @@ class PedidoService(
     }
 
     fun crearPedido(pedidoBody: PedidoClienteDTO) {
-        val pedido = pedidoBody.toDomain()
+        val pedido = pedidoBody.toDomain(localService, platoService, usuarioService)
         pedido.id = null
         pedidoRepo.create(pedido)
     }
+
+    
 }

@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3
 
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -124,6 +125,26 @@ class Usuario(
 
     fun devolverNombreCompleto() : String {
         return "${nombre} ${apellido}"
+    }
+
+    // Metodos actualizar y validar
+    fun actualizar(usuarioActualizado: Usuario) {
+        nombre = usuarioActualizado.nombre
+        apellido = usuarioActualizado.apellido
+        direccion = usuarioActualizado.direccion
+        distanciaMaximaCercana = usuarioActualizado.distanciaMaximaCercana
+        tipoDeUsuario = usuarioActualizado.tipoDeUsuario
+
+        // Actualizar ingredientes (ya vienen limpios y validados del service)
+        ingredientesPreferidos.clear()
+        ingredientesPreferidos.addAll(usuarioActualizado.ingredientesPreferidos)
+        ingredientesProhibidos.clear()
+        ingredientesProhibidos.addAll(usuarioActualizado.ingredientesProhibidos)
+    }
+
+    fun validar() {
+        require(nombre.isNotBlank()) { "El nombre no puede estar vacío" }
+        require(apellido.isNotBlank()) { "El apellido no puede estar vacío" }
     }
 }
 
