@@ -1,6 +1,5 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.Usuario
 import ar.edu.unsam.algo3.dto.UsuarioDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.service.UsuarioService

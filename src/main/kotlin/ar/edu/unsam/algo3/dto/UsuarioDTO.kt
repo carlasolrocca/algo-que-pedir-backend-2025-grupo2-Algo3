@@ -1,9 +1,6 @@
 package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.dto.DireccionDTO
-import ar.edu.unsam.algo3.dto.toDTO
-import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 

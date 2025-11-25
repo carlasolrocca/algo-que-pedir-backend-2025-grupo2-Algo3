@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
-import ar.edu.unsam.algo3.service.UsuarioService
-import org.springframework.web.bind.annotation.RestController
 
 @Service
 class UsuarioService(
