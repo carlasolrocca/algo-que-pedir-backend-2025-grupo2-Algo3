@@ -61,8 +61,8 @@ fun CriterioDTO.toUsuarioStrategy(localRepo: LocalRepositorio): UsuarioStrategy 
             UsuarioFielStrategy().apply {
                 this@toUsuarioStrategy.localesPreferidos?.forEach { localDTO ->
                     // validacion de la existencia del local
-                    val local = localRepo.getById(localDTO.idLocal!!).toCriterioDTO()
-                    agregarLocalPreferido(localDTO.toDomain())
+                    val local = localRepo.getById(localDTO.idLocal).toCriterioDTO()
+                    agregarLocalPreferido(local.toDomain())
                 }
             }
         }

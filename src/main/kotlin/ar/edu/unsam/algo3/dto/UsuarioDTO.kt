@@ -31,10 +31,9 @@ fun Usuario.toDTO() = UsuarioDTO(
     ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioIngredienteDTO() }.toMutableSet()
 )
 
-fun UsuarioDTO.toDomain(
-    localRepo: LocalRepositorio,
-    ingredienteRepo: IngredienteRepositorio
-): Usuario {
+fun UsuarioDTO.toDomain(): Usuario {
+    val localRepo = LocalRepositorio()
+    val ingredienteRepo = IngredienteRepositorio()
     return Usuario(
         nombre = this.nombre,
         apellido=apellido,

@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @Service
 class UsuarioService(
     private val usuarioRepositorio: UsuarioRepositorio,
-    private val localRepositorio: LocalRepositorio,
-    private val ingredienteRepositorio: IngredienteRepositorio
+    private val localRepositorio: LocalRepositorio
 ) {
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
@@ -39,7 +38,7 @@ class UsuarioService(
 
         // se reconstruye un usuario valido a partir del dto usuario que llega
         //convierte a objeto de dominio el usuario dto que recibe
-        val usuarioReconstruido = usuarioDTO.toDomain(localRepositorio, ingredienteRepositorio)
+        val usuarioReconstruido = usuarioDTO.toDomain()
 
         usuarioExistente.actualizar(usuarioReconstruido)
         usuarioExistente.validar()
