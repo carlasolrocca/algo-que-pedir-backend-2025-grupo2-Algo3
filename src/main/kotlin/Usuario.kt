@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3
 
 import ar.edu.unsam.algo3.repositorios.TipoRepositorio
-import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
