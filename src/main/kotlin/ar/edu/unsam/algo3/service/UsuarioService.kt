@@ -28,34 +28,19 @@ class UsuarioService(
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
     fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
-        //convierte a objeto de dominio el usuario dto que recibe
-        val usuarioActualizado = usuarioDTO.toDomain()
-
-        if (usuarioActualizado.id == null) {
+        if (usuarioDTO.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }
-        if (usuarioActualizado.id!! != id) {
-            throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioActualizado.id)")
+        if (usuarioDTO.id!! != id) {
+            throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioDTO.id)")
         }
 
         val usuarioExistente = usuarioRepositorio.getById(id)
 
-        // Asignacion del criterio
-        asignarCriterio(usuarioActualizado)
+        // reconstruccion del usuario valido a partir del usuario dto
+        val usuarioReconstruido = usuarioDTO.toDomain()
 
-        // Asignacion de los ingredientes preferidos y los que se evitan
-        asignarIngredientes(
-            usuarioActualizado,
-            usuarioActualizado.ingredientesPreferidos,
-            "preferidos",
-            agregar = { usuario, ingrediente -> usuario.agregarPreferido(ingrediente) })
-        asignarIngredientes(
-            usuarioActualizado,
-            usuarioActualizado.ingredientesProhibidos,
-            "prohibidos",
-            agregar = { usuario, ingrediente -> usuario.agregarProhibido(ingrediente) })
-
-        usuarioExistente.actualizar(usuarioActualizado)
+        usuarioExistente.actualizar(usuarioReconstruido)
         usuarioExistente.validar()
 
         return usuarioRepositorio.update(usuarioExistente)
