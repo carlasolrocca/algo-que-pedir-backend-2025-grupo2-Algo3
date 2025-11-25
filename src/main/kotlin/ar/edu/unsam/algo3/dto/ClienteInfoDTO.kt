@@ -8,7 +8,7 @@ data class ClienteInfoDTO (
     val username : String,
 )
 
-fun Usuario.toDTO() : ClienteInfoDTO =
+fun Usuario.toInfoDTO() : ClienteInfoDTO =
     ClienteInfoDTO(
         id = this.id!!,
         nombre = this.devolverNombreCompleto(),

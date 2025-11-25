@@ -1,9 +1,9 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Pedido
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoClienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.PedidoUpdateDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toClienteDTO
+import ar.edu.unsam.algo3.dto.PedidoClienteDTO
+import ar.edu.unsam.algo3.dto.PedidoUpdateDTO
+import ar.edu.unsam.algo3.dto.toClienteDTO
 import ar.edu.unsam.algo3.service.PedidoService
 import ar.edu.unsam.algo3.dto.PedidoDTO
 import org.springframework.web.bind.annotation.*

@@ -18,7 +18,7 @@ class PuntuarLocalPendiente() : CommandUsuario {
 
         localesPendientes.forEach{ local ->
             var puntaje = usuario.strategyPuntuacionLocal.darPuntaje(local) //Calculo el puntaje del Strategy
-            usuario.puntuarLocal(local, puntaje)                //Usuario realiza la accion de puntuar
+            usuario.puntuarLocal(local, puntaje, review = "")                //Usuario realiza la accion de puntuar
         }
     }
 }

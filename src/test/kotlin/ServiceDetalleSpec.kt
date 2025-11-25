@@ -223,7 +223,7 @@ class ServiceDetalleSpec {
     }
 
     @Test
-    fun `obtenerDetallePedido con TRANSFERENCIA_BANCARIA retorna el medio correcto`() {
+    fun `obtenerDetallePedido con TARJETA retorna el medio correcto`() {
         val pedidoTransferencia = pedidoRepositorio.create(Pedido(
             cliente = clienteTest,
             local = localTest,
@@ -235,7 +235,7 @@ class ServiceDetalleSpec {
 
         val detalle = detalleService.obtenerDetallePedido(pedidoTransferencia.id!!)
 
-        assertEquals("TRANSFERENCIA_BANCARIA", detalle.medioDePago)
+        assertEquals("TARJETA", detalle.medioDePago)
     }
 
     @Test
@@ -385,7 +385,7 @@ class ServiceDetalleSpec {
     }
 
     @Test
-    fun `obtenerDetallePedido con TRANSFERENCIA_BANCARIA tiene incremento del 5 por ciento`() {
+    fun `obtenerDetallePedido con TARJETA tiene incremento del 5 por ciento`() {
         val pedidoTransferencia = pedidoRepositorio.create(Pedido(
             cliente = clienteTest,
             local = localTest,

@@ -1,6 +1,7 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
+package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Delivery
+import ar.edu.unsam.algo3.EnumEstadosPedido
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Pedido
@@ -11,6 +12,10 @@ import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toClienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.toInfoDTO
+import ar.edu.unsam.algo3.service.LocalService
+import ar.edu.unsam.algo3.service.PlatoService
+import ar.edu.unsam.algo3.service.UsuarioService
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -27,11 +32,12 @@ data class PedidoClienteDTO(
     var platosDelPedido: List<PlatoClienteDTO>,
     var cantidadDePlatos: Int,
     var medioDePago: MedioDePago,
+    var estadoPedido : EnumEstadosPedido,
     var costoSubtotalPedido: Double,
     var recargoMedioDePago: Double,
     var tarifaEntrega: Double,
     var costoTotalPedido: Double,
-    var usuario: ClienteInfoDTO
+    var usuario: UsuarioDTO
 )
 
 private val formateoFecha = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es", "AR"))
@@ -44,6 +50,7 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
         platosDelPedido = this.platosDelPedido.map { it.toClienteDTO() },
         cantidadDePlatos = this.cantidadDePlatos(),
         medioDePago = this.medioDePago,
+        estadoPedido = this.estadoDelPedido,
         costoSubtotalPedido = this.valorVentaPlatos(),
         recargoMedioDePago = this.costoMedioDePago(),
         tarifaEntrega = this.costoDeEntrega(),
@@ -52,20 +59,29 @@ fun Pedido.toClienteDTO(): PedidoClienteDTO {
     )
 }
 
-fun PedidoClienteDTO.toDomain(): Pedido {
-    if (costoTotalPedido != this.costoTotalPedido){
-        throw ErrorException.BusinessException("El costo enviado no coincide con el costo real")
-    }
+fun PedidoClienteDTO.toDomain(localService: LocalService, platoService: PlatoService, usuarioService: UsuarioService): Pedido {
     val instant = Instant.parse(this.fechaPedido)
     val zonaBuenosAires = ZoneId.of("America/Argentina/Buenos_Aires")
     val fechaLocal: LocalDate = instant.atZone(zonaBuenosAires).toLocalDate()
-    return Pedido(
-        local = this.local.toDomain(),
+
+    val local = localService.obtenerLocalPorId(this.local.idLocal)
+    val platos = this.platosDelPedido.map { platoService.getById(it.id) }.toMutableList()
+    val usuario = usuarioService.getById(this.usuario.id)
+
+    val pedido = Pedido(
+        local = local,
         medioDePago = this.medioDePago,
-        platosDelPedido = this.platosDelPedido.map { it.toDomain() }.toMutableList(),
+        platosDelPedido = platos,
         fechaPedido = fechaLocal,
-        cliente = this.usuario.toDomain()
+        cliente = usuario
     ).apply{
-        this.id = this@toDomain.id
+        id = this@toDomain.id
     }
+
+    // Validamos que el costo total enviado por el front coincida con el que se calcula en el back
+    if (kotlin.math.abs(this.costoTotalPedido - pedido.costoTotalPedido()) > 0.01) {
+        throw ErrorException.BusinessException("El costo enviado no coincide con el costo real. Front: ${this.costoTotalPedido}, Back: ${pedido.costoTotalPedido()}")
+    }
+
+    return pedido
 }

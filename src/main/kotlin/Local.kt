@@ -49,6 +49,7 @@ class Local(
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0
     var inboxMensajes: InboxMensajes = InboxMensajes()
     val puntuacionUsuarios: MutableList<Double> = mutableListOf()
+    var reviewsTexto: MutableList<String> = mutableListOf() // Nueva lista de reviews
 
     // Validaciones previas a inicializar el Local
     init {
@@ -90,5 +91,20 @@ class Local(
     
     fun agregarRecargo(medio: MedioDePago, recargo: Double){
         recargosMedioDePago[medio] = recargo
+    }
+
+    // Nuevos métodos para manejar reviews de texto
+    fun agregarReview(review: String) {
+        if (review.isNotBlank()) {
+            reviewsTexto.add(review)
+        }
+    }
+
+    fun obtenerReviews(): List<String> {
+        return reviewsTexto.toList()
+    }
+
+    fun cantidadReviews(): Int {
+        return reviewsTexto.size
     }
 }

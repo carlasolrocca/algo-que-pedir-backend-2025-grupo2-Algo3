@@ -4,7 +4,6 @@ import org.uqbar.geodds.Point
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.Local
 import ar.edu.unsam.algo3.Direccion
-import ar.edu.unsam.algo3.MedioDePago
 import ar.edu.unsam.algo3.Plato
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
@@ -56,6 +55,11 @@ class LocalService(
         val usuario = usuarioRepositorio.getById(idUsuario)
         val distancia = local.direccion.distanciaCon(usuario.direccion)
         return String.format(Locale.US, "%.2f km", distancia)
+    }
+
+    fun usuarioEsCercano(local: Local, idUsuario: Int): Boolean {
+        val usuario = usuarioRepositorio.getById(idUsuario)
+        return usuario.esLocalCercano(local)
     }
 
 } // Fin clase LocalService
