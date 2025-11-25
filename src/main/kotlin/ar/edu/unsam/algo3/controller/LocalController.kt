@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Plato
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.LocalCriterioDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toCriterioDTO
+import ar.edu.unsam.algo3.dto.LocalCriterioDTO
+import ar.edu.unsam.algo3.dto.toCriterioDTO
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO

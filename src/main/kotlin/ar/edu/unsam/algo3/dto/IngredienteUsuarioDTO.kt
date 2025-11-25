@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
+package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Ingrediente
 

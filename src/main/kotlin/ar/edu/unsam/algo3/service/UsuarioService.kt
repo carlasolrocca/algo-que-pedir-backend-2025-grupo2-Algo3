@@ -8,8 +8,8 @@ import ar.edu.unsam.algo3.UsuarioFielStrategy
 import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioStrategy
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.UsuarioDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.UsuarioDTO
+import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service

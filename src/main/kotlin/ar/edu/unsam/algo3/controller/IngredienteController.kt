@@ -1,9 +1,9 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.controller
+package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Ingrediente
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.IngredienteUsuarioDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toUsuarioIngredienteDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.service.IngredienteService
+import ar.edu.unsam.algo3.dto.IngredienteUsuarioDTO
+import ar.edu.unsam.algo3.dto.toUsuarioIngredienteDTO
+import ar.edu.unsam.algo3.service.IngredienteService
 import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import org.springframework.web.bind.annotation.CrossOrigin
