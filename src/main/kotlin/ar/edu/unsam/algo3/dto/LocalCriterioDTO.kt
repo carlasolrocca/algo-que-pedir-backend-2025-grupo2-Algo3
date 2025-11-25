@@ -10,7 +10,7 @@ data class LocalCriterioDTO(
     val tarifaEntrega: Double
 )
 
-fun Local.toCriterioDTO() = LocalCriterioDTO(
+fun Local.toCriterioDTO(): LocalCriterioDTO = LocalCriterioDTO(
     idLocal = this.id!!,
     nombre = this.nombre,
     urlImagenLocal = this.urlImagenLocal,
