@@ -25,7 +25,7 @@ class PedidoService(
     fun getById(id: Int) : Pedido = pedidoRepo.getById(id)
 
     fun actualizarPedidoCheckout(pedido: PedidoClienteDTO): PedidoClienteDTO {
-        val pedidoActualizado = pedido.toDomain()
+        val pedidoActualizado = pedido.toDomain(localService, platoService, usuarioService)
         return pedidoActualizado.toClienteDTO()
     }
 

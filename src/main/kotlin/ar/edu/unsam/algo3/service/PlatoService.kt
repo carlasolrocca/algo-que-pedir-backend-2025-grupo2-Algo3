@@ -1,8 +1,6 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.Plato
-import ar.edu.unsam.algo3.Local
 import ar.edu.unsam.algo3.ErrorException
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio

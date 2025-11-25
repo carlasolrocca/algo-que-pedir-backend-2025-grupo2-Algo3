@@ -1,13 +1,7 @@
-package ar.edu.unsam.algo3.service;
+package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.ErrorException
-import ar.edu.unsam.algo3.Ingrediente
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.UsuarioCombinadoStrategy
-import ar.edu.unsam.algo3.UsuarioFielStrategy
-import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
-import ar.edu.unsam.algo3.UsuarioMarketingStrategy
-import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.dto.UsuarioDTO
 import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
@@ -26,17 +20,14 @@ class UsuarioService(
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
     fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
-        if (usuarioDTO.id == null) {
-            throw ErrorException.BusinessException("El usuario debe poseer un id")
-        }
-        if (usuarioDTO.id!! != id) {
+        if (usuarioDTO.id != id) {
             throw ErrorException.BusinessException("El id en la URL($id) es distinto del id que viene en el body($usuarioDTO.id)")
         }
 
         val usuarioExistente = usuarioRepositorio.getById(id)
 
         // reconstruccion del usuario valido a partir del usuario dto
-        val usuarioReconstruido = usuarioDTO.toDomain()
+        val usuarioReconstruido = usuarioDTO.toDomain(ingredienteRepositorio, localRepositorio)
 
         usuarioExistente.actualizar(usuarioReconstruido)
         usuarioExistente.validar()

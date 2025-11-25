@@ -5,7 +5,6 @@ import ar.edu.unsam.algo3.Usuario
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import ar.edu.unsam.algo3.utils.HashUtils
-import org.springframework.http.ResponseEntity
 import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.dto.InfoUsuarioResponse
 import ar.edu.unsam.algo3.dto.LoginRequestUsuario

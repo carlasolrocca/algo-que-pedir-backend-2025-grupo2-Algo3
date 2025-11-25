@@ -1,9 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.MedioDePago
-import jakarta.validation.constraints.*
 
 data class LocalCercanoDTO(
     val local: LocalDTO,

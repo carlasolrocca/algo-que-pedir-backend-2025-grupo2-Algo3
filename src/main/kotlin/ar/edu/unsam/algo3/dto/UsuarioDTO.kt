@@ -15,8 +15,6 @@ data class UsuarioDTO (
     var ingredientesPreferidos: MutableSet<IngredienteUsuarioDTO>,
     var ingredientesEvitar: MutableSet<IngredienteUsuarioDTO>
 )
-var localRepo: LocalRepositorio = LocalRepositorio()
-var ingredienteRepo: IngredienteRepositorio = IngredienteRepositorio()
 
 fun Usuario.toDTO() = UsuarioDTO(
     id=id!!,
@@ -30,7 +28,7 @@ fun Usuario.toDTO() = UsuarioDTO(
     ingredientesEvitar=this.ingredientesProhibidos.map { it.toUsuarioIngredienteDTO() }.toMutableSet()
 )
 
-fun UsuarioDTO.toDomain(): Usuario {
+fun UsuarioDTO.toDomain(ingredienteRepo: IngredienteRepositorio, localRepo: LocalRepositorio): Usuario {
     return Usuario(
         nombre = this.nombre,
         apellido=apellido,
@@ -41,12 +39,12 @@ fun UsuarioDTO.toDomain(): Usuario {
     ).apply{
         this.id = this@toDomain.id
         this@toDomain.ingredientesPreferidos.forEach { ingDTO ->
-            val ing = ingredienteRepo.getById(ingDTO.id).toUsuarioIngredienteDTO()
-            agregarPreferido( ing.toDomain() )
+            val ing = ingredienteRepo.getById(ingDTO.id)
+            this.agregarPreferido(ing)
         }
         this@toDomain.ingredientesEvitar.forEach { ingDTO ->
-            val ing = ingredienteRepo.getById(ingDTO.id).toUsuarioIngredienteDTO()
-            agregarProhibido( ing.toDomain() )
+            val ing = ingredienteRepo.getById(ingDTO.id)
+            this.agregarProhibido(ing)
         }
     }
 }
