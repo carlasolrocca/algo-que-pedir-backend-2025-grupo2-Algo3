@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Usuario
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.UsuarioDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.UsuarioDTO
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.service.UsuarioService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
