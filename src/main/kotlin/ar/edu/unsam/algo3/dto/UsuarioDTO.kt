@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto
+package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Usuario
 import ar.edu.unsam.algo3.dto.DireccionDTO
@@ -39,11 +39,9 @@ fun UsuarioDTO.toDomain(): Usuario {
         tipoDeUsuario =this.criterio.toUsuarioStrategy(),
     ).apply{
         this.id = this@toDomain.id
-        ingredientesPreferidos.clear()
         this@toDomain.ingredientesPreferidos.forEach {
             agregarPreferido( it.toDomain() )
         }
-        ingredientesProhibidos.clear()
         this@toDomain.ingredientesEvitar.forEach {
             agregarProhibido( it.toDomain() )
         }

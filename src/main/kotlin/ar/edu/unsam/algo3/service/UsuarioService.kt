@@ -8,13 +8,13 @@ import ar.edu.unsam.algo3.UsuarioFielStrategy
 import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioStrategy
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.UsuarioDTO
-import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toDomain
+import ar.edu.unsam.algo3.dto.UsuarioDTO
+import ar.edu.unsam.algo3.dto.toDomain
 import ar.edu.unsam.algo3.repositorios.IngredienteRepositorio
 import ar.edu.unsam.algo3.repositorios.UsuarioRepositorio
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.dto.LocalAPuntuarDTO
-import ar.edu.unsam.algo3.dto.toDto
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 import ar.edu.unsam.algo3.service.UsuarioService
 import org.springframework.web.bind.annotation.RestController
@@ -28,7 +28,9 @@ class UsuarioService(
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
     fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
+        //convierte a objeto de dominio el usuario dto que recibe
         val usuarioActualizado = usuarioDTO.toDomain()
+
         if (usuarioActualizado.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }
@@ -64,7 +66,7 @@ class UsuarioService(
 
         return usuario.localesAPuntuar.map { (local, fechaLimite) ->
             LocalAPuntuarDTO(
-                local.toDto(),
+                local.toDTO(),
                 fechaLimite = fechaLimite.toString()
             )
         }
