@@ -47,12 +47,19 @@ class AppBootstrap(
     private lateinit var bizcocho: Ingrediente
     private lateinit var manteca: Ingrediente
     private lateinit var aji: Ingrediente
+    private lateinit var cebolla : Ingrediente
 
     fun crearIngredientes() {
         ingredienteRepositorio.clearInit()
 
         tomate = Ingrediente(
             "Tomate",
+            0.50,
+            EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS,
+            false
+        )
+        cebolla = Ingrediente(
+            "Cebolla",
             0.50,
             EnumGrupoAlimenticio.FRUTAS_Y_VERDURAS,
             false
@@ -143,19 +150,21 @@ class AppBootstrap(
             create(bizcocho)
             create(manteca)
             create(aji)
+            create(cebolla)
         }
     }
 
     private lateinit var local1: Local
     private lateinit var local2: Local
     private lateinit var localMoe: Local
+    private lateinit var local3: Local
 
     fun crearLocales() {
         localRepositorio.clearInit()
 
         localMoe = Local(
             "Taberna de Moe",
-            Direccion("Av. Siempre Viva", 742, Point(-34.58, -58.542)),
+             direccion1,
             "https://www.clarin.com/img/2017/10/05/SkWTevV3-_1200x0.jpg",
             10.0,
             5.0,
@@ -168,10 +177,12 @@ class AppBootstrap(
             agregarRecargo(MedioDePago.EFECTIVO, 0.0)
             agregarRecargo(MedioDePago.TARJETA, 0.05)
             agregarRecargo(MedioDePago.QR, 0.05)
+            agregarReview("Las instalaciones estaban muy sucias, la comida no era muy rica. Mala experiencia!!")
+            agregarReview("Todo ok, no te volves loco")
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
-            direccion2,
+            direccion3,
             "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
             3.0,
@@ -182,10 +193,14 @@ class AppBootstrap(
             agregarMedioDePago(MedioDePago.TARJETA)
             agregarRecargo(MedioDePago.EFECTIVO, 0.0)
             agregarRecargo(MedioDePago.TARJETA, 0.05)
+            agregarReview("Muy cheto el local")
+            agregarReview("La atencion fue excelente! Definitivamente voy a volver ")
+            agregarReview("Divino!! Recomiendo el especial de la casa")
         }
+
         local2 = Local(
             "Local Plato 3",
-            Direccion("Calle Verdadera", 456, Point(-34.58, -58.58)),
+             direccion2,
             "https://www.clarin.com/img/2018/01/30/rySp2GArM_1256x620__1.jpg",
             1.5,
             1.0,
@@ -196,12 +211,32 @@ class AppBootstrap(
             agregarMedioDePago(MedioDePago.QR)
             agregarRecargo(MedioDePago.EFECTIVO, 0.0)
             agregarRecargo(MedioDePago.QR, 0.05)
+            agregarReview("Los mozos fueron muy atentos y la comida estuvo bastante bien")
+            agregarReview("Me quisieron cobrar recargo por pagar con transferencia porque no tenia efectivo!! Eso es ilegal")
+        }
+
+        local3 = Local(
+            "El Imperio",
+            direccion4,
+            "https://64.media.tumblr.com/0d4da77f3c775637e86f11ff07d0fd07/tumblr_p4d8p0FTBr1qz7gc6o1_640.jpg",
+            1.5,
+            1.0,
+            usuario = "local3",
+            password = HashUtils.hash53("local3")
+        ).apply {
+            agregarMedioDePago(MedioDePago.EFECTIVO)
+            agregarMedioDePago(MedioDePago.QR)
+            agregarRecargo(MedioDePago.EFECTIVO, 0.0)
+            agregarRecargo(MedioDePago.QR, 0.05)
+            agregarReview("Mejor lugar para comer pizza en Buenos Aires")
+            agregarReview("Riquisima la pizza!!!")
         }
 
         localRepositorio.apply{
             create(localMoe)
             create(local1)
             create(local2)
+            create(local3)
         }
     }
 
@@ -212,6 +247,8 @@ class AppBootstrap(
     private lateinit var hamburguesaConQueso: Plato
     private lateinit var pastelDeChocolate: Plato
     private lateinit var deLaCasa: Plato
+    private lateinit var pizzaMozzarella : Plato
+    private lateinit var pizzaFugazzeta : Plato
 
     fun crearPlatos() {
         platoRepositorio.clearInit()
@@ -285,6 +322,32 @@ class AppBootstrap(
             agregarIngrediente(queso)
         }
 
+        pizzaMozzarella = Plato(
+            nombre = "Pizza Mozzarella",
+            descripcion = "La clásica indiscutible: base de tomate y abundante queso derretido",
+            imagenNombre = "pizza-muzza.png",
+            valorBase = 14.25,
+            esdeAutor = false,
+            local = local3,
+            popular = true
+        ).apply {
+            agregarIngrediente(tomate)
+            agregarIngrediente(queso)
+        }
+
+        pizzaFugazzeta = Plato(
+            nombre = "Pizza Fugazzetaa",
+            descripcion = "Rellena de queso y cubierta de mucha cebolla dulce, crocante y bien quemadita",
+            imagenNombre = "pizza-fuga.png",
+            valorBase = 14.25,
+            esdeAutor = false,
+            local = local3,
+            popular = true
+        ).apply {
+            agregarIngrediente(tomate)
+            agregarIngrediente(queso)
+        }
+
         hamburguesaConQueso = Plato(
             nombre = "Hamburguesa con Queso",
             descripcion = "Hamburguesa clásica con queso y papas fritas",
@@ -322,6 +385,8 @@ class AppBootstrap(
             create(pizzaVegetariana)
             create(hamburguesaConQueso)
             create(pastelDeChocolate)
+            create(pizzaMozzarella)
+            create(pizzaFugazzeta)
         }
     }
 
