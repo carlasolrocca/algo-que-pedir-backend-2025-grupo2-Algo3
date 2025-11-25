@@ -39,11 +39,9 @@ fun UsuarioDTO.toDomain(): Usuario {
         tipoDeUsuario =this.criterio.toUsuarioStrategy(),
     ).apply{
         this.id = this@toDomain.id
-        ingredientesPreferidos.clear()
         this@toDomain.ingredientesPreferidos.forEach {
             agregarPreferido( it.toDomain() )
         }
-        ingredientesProhibidos.clear()
         this@toDomain.ingredientesEvitar.forEach {
             agregarProhibido( it.toDomain() )
         }

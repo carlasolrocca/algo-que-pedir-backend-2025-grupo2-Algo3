@@ -28,7 +28,9 @@ class UsuarioService(
     fun getById(id: Int) = usuarioRepositorio.getById(id)
 
     fun update(id: Int, usuarioDTO: UsuarioDTO): Usuario {
+        //convierte a objeto de dominio el usuario dto que recibe
         val usuarioActualizado = usuarioDTO.toDomain()
+
         if (usuarioActualizado.id == null) {
             throw ErrorException.BusinessException("El usuario debe poseer un id")
         }
