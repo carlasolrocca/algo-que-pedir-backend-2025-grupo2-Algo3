@@ -9,6 +9,7 @@ import ar.edu.unsam.algo3.UsuarioImpacienteStrategy
 import ar.edu.unsam.algo3.UsuarioMarketingStrategy
 import ar.edu.unsam.algo3.UsuarioStrategy
 import ar.edu.unsam.algo3.UsuarioVeganoStrategy
+import ar.edu.unsam.algo3.repositorios.LocalRepositorio
 
 data class CriterioDTO(
     val tipo: TipoCriterioDTO,
@@ -49,19 +50,18 @@ fun UsuarioStrategy.toCriterioDTO(): CriterioDTO {
         else -> throw IllegalArgumentException("Tipo de criterio desconocido.")
     }
 }
-fun CriterioDTO.toUsuarioStrategy(): UsuarioStrategy {
+fun CriterioDTO.toUsuarioStrategy(localRepo: LocalRepositorio): UsuarioStrategy {
     return when (this.tipo) {
         TipoCriterioDTO.COMBINADO -> {
-            val subStrategies = this.subCriterios?.map { it.toUsuarioStrategy() }?.toMutableSet()
+            val subStrategies = this.subCriterios?.map { it.toUsuarioStrategy(localRepo) }?.toMutableSet()
                 ?: mutableSetOf()
             UsuarioCombinadoStrategy(subStrategies)
         }
-        TipoCriterioDTO.VEGANO -> UsuarioVeganoStrategy()
-        TipoCriterioDTO.EXQUISITO -> UsuarioExquisitoStrategy()
-        TipoCriterioDTO.CONSERVADOR -> UsuarioConservadorStrategy()
         TipoCriterioDTO.FIEL -> {
             UsuarioFielStrategy().apply {
                 this@toUsuarioStrategy.localesPreferidos?.forEach { localDTO ->
+                    // validacion de la existencia del local
+                    val local = localRepo.getById(localDTO.idLocal!!).toCriterioDTO()
                     agregarLocalPreferido(localDTO.toDomain())
                 }
             }
@@ -73,7 +73,10 @@ fun CriterioDTO.toUsuarioStrategy(): UsuarioStrategy {
                 }
             }
         }
-        TipoCriterioDTO.IMPACIENTE -> UsuarioImpacienteStrategy()
         TipoCriterioDTO.GENERAL -> UsuarioGeneralStrategy()
+        TipoCriterioDTO.VEGANO -> UsuarioVeganoStrategy()
+        TipoCriterioDTO.EXQUISITO -> UsuarioExquisitoStrategy()
+        TipoCriterioDTO.CONSERVADOR -> UsuarioConservadorStrategy()
+        TipoCriterioDTO.IMPACIENTE -> UsuarioImpacienteStrategy()
     }
 }
