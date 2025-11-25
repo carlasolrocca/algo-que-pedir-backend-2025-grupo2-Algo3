@@ -52,7 +52,7 @@ class LocalController(private val localService: LocalService) {
 
     @GetMapping("/locales/{id}")
     fun obtenerLocales(@PathVariable id: Int): List<LocalCercanoDTO> {
-        return localService.obtenerTodosLosLocales().map { local -> LocalCercanoDTO(local.toDto(), localService.usuarioEsCercano(
+        return localService.obtenerTodosLosLocales().map { local -> LocalCercanoDTO(local.toDTO(), localService.usuarioEsCercano(
             local, id)) }
     }
 
