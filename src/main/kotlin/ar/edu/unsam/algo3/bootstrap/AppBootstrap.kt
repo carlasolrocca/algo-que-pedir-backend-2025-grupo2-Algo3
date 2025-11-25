@@ -247,7 +247,7 @@ class AppBootstrap(
             agregarRecargo(MedioDePago.EFECTIVO, 0.0)
             agregarRecargo(MedioDePago.QR, 0.05)
             agregarReview("Recomendadisimo el plato de la casa")
-            agregarReview("Riquisima la pizza!!!")
+            agregarReview("Riquisima la paella!!!")
         }
 
         localRepositorio.apply{
