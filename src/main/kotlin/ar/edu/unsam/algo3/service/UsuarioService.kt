@@ -72,12 +72,12 @@ class UsuarioService(
         }
     }
 
-    fun puntuarLocal(idUsuario: Int, idLocal: Int, puntuacion: Double) {
+    fun puntuarLocal(idUsuario: Int, idLocal: Int, puntuacion: Double, review: String) {
         val usuario = usuarioRepositorio.getById(idUsuario)
         val local = localRepositorio.getById(idLocal)
 
         // Llama al metodo de Usuario que valida y puntúa
-        usuario.puntuarLocal(local, puntuacion)
+        usuario.puntuarLocal(local, puntuacion, review)
     }
 
     // Metodos internos para la asignacion de los ingredientes y el criterio.

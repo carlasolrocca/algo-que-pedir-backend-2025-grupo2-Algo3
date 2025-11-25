@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.ar.edu.unsam.algo3.bootstrap
+package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.EnumEstadosPedido
@@ -171,7 +171,7 @@ class AppBootstrap(
         }
         local1 = Local(
             "Local Plato 1 y Plato 2",
-            Direccion("Avenida Libertador", 2300, Point(-34.58, -58.56)),
+            direccion2,
             "https://www.clarin.com/img/2018/01/30/BkD3hG0rG_1256x620__1.jpg",
             3.0,
             3.0,

@@ -39,6 +39,6 @@ class UsuarioController(val usuarioService: UsuarioService) {
         @PathVariable idLocal: Int,
         @RequestBody request: PuntuacionRequest
     ) {
-        usuarioService.puntuarLocal(id, idLocal, request.puntuacion)
+        usuarioService.puntuarLocal(id, idLocal, request.puntuacion, request.review)
     }
 }
