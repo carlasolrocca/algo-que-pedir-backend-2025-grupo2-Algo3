@@ -1,6 +1,8 @@
 package ar.edu.unsam.algo3.ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.Ingrediente
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.IngredienteUsuarioDTO
+import ar.edu.unsam.algo3.ar.edu.unsam.algo3.dto.toUsuarioIngredienteDTO
 import ar.edu.unsam.algo3.ar.edu.unsam.algo3.service.IngredienteService
 import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.toDTO
@@ -22,6 +24,11 @@ class IngredienteController(val ingredienteService: IngredienteService) {
 
     @GetMapping("/ingrediente/{id}")
     fun ingredientePorId(@PathVariable id: Int): IngredienteDTO = ingredienteService.getById(id).toDTO()
+
+    // para los ingredientes que se muestran en los criterios
+    @GetMapping("/ingrediente/criterio")
+    fun listarTodosCriterio(): List<IngredienteUsuarioDTO> =
+        ingredienteService.getAll().map { it.toUsuarioIngredienteDTO() }.toMutableList()
 
     @PutMapping("/ingrediente/{id}")
     fun actualizarIngrediente(@PathVariable id: Int, @RequestBody ingredienteBody: Ingrediente): IngredienteDTO {
