@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.dto.LocalCriterioDTO
 import ar.edu.unsam.algo3.dto.toCriterioDTO
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.dto.LocalCercanoDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.service.LocalService
 import ar.edu.unsam.algo3.dto.toClienteDTO
@@ -38,7 +39,7 @@ class LocalController(private val localService: LocalService) {
         return localService.actualizarLocalDesdeDTO(localDTO).toDTO()
     }
 
-    @GetMapping("/locales")
+    @GetMapping("/locales/")
     fun obtenerTodosLosLocales(): List<LocalDTO> {
         return localService.obtenerTodosLosLocales().map { local -> local.toDTO() }
     }
@@ -47,6 +48,12 @@ class LocalController(private val localService: LocalService) {
     @GetMapping("/locales/criterio")
     fun obtenerLocalesCriterio(): List<LocalCriterioDTO> {
         return localService.obtenerTodosLosLocales().map { local -> local.toCriterioDTO() }
+    }
+
+    @GetMapping("/locales/{id}")
+    fun obtenerLocales(@PathVariable id: Int): List<LocalCercanoDTO> {
+        return localService.obtenerTodosLosLocales().map { local -> LocalCercanoDTO(local.toDTO(), localService.usuarioEsCercano(
+            local, id)) }
     }
 
     //Va a devolver la lista de platos que necesita el front de la pagina de Usuario

@@ -8,5 +8,5 @@ data class LocalAPuntuarDTO(
 
 // Request body para recibir la puntuación del usuario
 data class PuntuacionRequest(
-    val puntuacion: Double
+    val puntuacion: Double = 0.0
 )
