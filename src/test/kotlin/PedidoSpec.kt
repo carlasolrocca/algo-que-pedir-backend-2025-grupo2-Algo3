@@ -16,7 +16,7 @@ class PedidoSpec : DescribeSpec({
     describe("Tests pedidos") {
         //Clientes: OK
         val clienteVeganoSinAntiguedad = Usuario(tipoDeUsuario = UsuarioVeganoStrategy(), fechaCreacionCuenta = LocalDate.now())
-        val clienteMarketineroConAntiguedad = Usuario(tipoDeUsuario = UsuarioMarketingStrategy(), fechaCreacionCuenta = LocalDate.now().minusYears(1).minusDays(1))
+        val clienteMarketineroConAntiguedad = Usuario(tipoDeUsuario = UsuarioMarketingStrategy().apply{agregarTexto("nutritivo")}, fechaCreacionCuenta = LocalDate.now().minusYears(1).minusDays(1))
         val clienteImpaciente = Usuario(tipoDeUsuario = UsuarioImpacienteStrategy(), direccion = Direccion(ubicacion = Point(20.0, 50.0), calle = "Calle falsa", altura = 1234), distanciaMaximaCercana = 8000.0) //Agrego Direccion y distanciaMaximaCercana
 
         //Ingredientes: OK
