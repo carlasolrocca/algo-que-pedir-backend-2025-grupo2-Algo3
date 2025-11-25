@@ -5,6 +5,11 @@ import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.MedioDePago
 import jakarta.validation.constraints.*
 
+data class LocalCercanoDTO(
+    val local: LocalDTO,
+    val esCercano: Boolean
+)
+
 data class LocalDTO(
 
     //Cambiar las validaciones a la clase del Local

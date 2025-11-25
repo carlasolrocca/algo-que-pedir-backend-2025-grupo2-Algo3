@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.Plato
 import ar.edu.unsam.algo3.dto.LocalClienteDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.dto.LocalCercanoDTO
 import ar.edu.unsam.algo3.dto.PlatoClienteDTO
 import ar.edu.unsam.algo3.dto.toDto
 import ar.edu.unsam.algo3.service.LocalService
@@ -36,9 +36,15 @@ class LocalController(private val localService: LocalService) {
         return localService.actualizarLocalDesdeDTO(localDTO).toDto()
     }
 
-    @GetMapping("/locales")
+    @GetMapping("/locales/")
     fun obtenerTodosLosLocales(): List<LocalDTO> {
         return localService.obtenerTodosLosLocales().map { local -> local.toDto() }
+    }
+
+    @GetMapping("/locales/{id}")
+    fun obtenerLocales(@PathVariable id: Int): List<LocalCercanoDTO> {
+        return localService.obtenerTodosLosLocales().map { local -> LocalCercanoDTO(local.toDto(), localService.usuarioEsCercano(
+            local, id)) }
     }
 
     //Va a devolver la lista de platos que necesita el front de la pagina de Usuario
