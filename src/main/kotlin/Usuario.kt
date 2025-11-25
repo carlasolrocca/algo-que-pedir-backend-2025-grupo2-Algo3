@@ -64,10 +64,11 @@ class Usuario(
     fun estaATiempoDePuntuar(date:LocalDate): Boolean = ChronoUnit.DAYS.between(date, LocalDate.now()) <= 7
 
 
-    fun puntuarLocal(local:Local, puntuacion: Double){
+    fun puntuarLocal(local:Local, puntuacion: Double, review: String){
         val fechaLimite = localesAPuntuar[local] ?: throw UsuarioException.LocalNoRegistrado()
         if(estaATiempoDePuntuar(fechaLimite)){
             local.puntuar(puntuacion)
+            local.agregarReview(review)
             localesAPuntuar.remove(local)
         } else {
             throw UsuarioException.LocalAPuntuarVencido()
