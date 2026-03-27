@@ -1,9 +1,12 @@
 package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.Local
-import ar.edu.unsam.algo3.Direccion
 import ar.edu.unsam.algo3.MedioDePago
-import jakarta.validation.constraints.*
+
+data class LocalCercanoDTO(
+    val local: LocalDTO,
+    val esCercano: Boolean
+)
 
 data class LocalDTO(
 
@@ -29,7 +32,7 @@ data class LocalDTO(
     val mediosDePago: Set<MedioDePago>
 )
 
-fun Local.toDto(): LocalDTO {
+fun Local.toDTO(): LocalDTO {
     return LocalDTO(
         idLocal = this.id!!,
         nombre = this.nombre,

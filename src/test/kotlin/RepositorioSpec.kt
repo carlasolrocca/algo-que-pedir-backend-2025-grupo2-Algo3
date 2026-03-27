@@ -62,7 +62,7 @@ class RepositorioSpec: DescribeSpec({
             val usuarioABuscar = Usuario().apply {
                 nombre = "BuscarPorNombre"
                 apellido = "BuscarPorApellido"
-                username = "BuscarPorUsername"
+                usuario = "BuscarPorUsername"
             }
 
             repositorioUsuario.create(usuarioABuscar)

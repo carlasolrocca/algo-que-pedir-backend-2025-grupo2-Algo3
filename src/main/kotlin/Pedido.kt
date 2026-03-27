@@ -19,10 +19,10 @@ class Pedido (
     var estadoDelPedido: EnumEstadosPedido = EnumEstadosPedido.PENDIENTE,
     var medioDePago : MedioDePago = MedioDePago.EFECTIVO,
     var horarioPedido : LocalTime = LocalTime.now(),
-    var fechaPedido : LocalDate = LocalDate.now()
+    var fechaPedido : LocalDate = LocalDate.now(),
+    val platosDelPedido: MutableList<Plato> = mutableListOf()
 ) : TipoRepositorio() {
     val ANTIGUEDAD_MINIMA_CLIENTE = 1               //¿No corresponderia que esto lo tenga el USUARIO?
-    val platosDelPedido: MutableList<Plato> = mutableListOf()
     var cupon: Cupon? = null                        //Le asigno una variable Cupon a la clase Pedido
 
     //Metodos para agregar o eliminar platos dentro del pedido
@@ -35,6 +35,8 @@ class Pedido (
             platosDelPedido.remove(plato)
         }
     }
+
+    fun cantidadDePlatos() = platosDelPedido.size
 
     //Auxiliar para validar si el plato pertenece al local. Arroja exception en caso de que no
     fun platoEstaEnLocal(plato: Plato): Boolean {
@@ -53,11 +55,21 @@ class Pedido (
 
     //Metodo para calcular valor del pedido
     fun costoTotalPedido(): Double {
-        val costoTotal = valorVentaPlatos() + (0.10 * valorVentaPlatos()) //¿No deberia haber un metodo en Delivery?
+        return subtotalConEntrega() + costoMedioDePago()
+    }
+
+    //Metodo para calcular el costo del envio
+    fun costoDeEntrega(): Double = valorVentaPlatos() * 0.10
+
+    //Subtotal con costo de entrega
+    fun subtotalConEntrega(): Double = valorVentaPlatos() + costoDeEntrega()
+
+    //Metodo para calcular costo por medio de pago
+    fun costoMedioDePago(): Double {
         if (medioDePago != MedioDePago.EFECTIVO) {                        //Recargo por pago con QR o TRANSFERENCIA
-            return 1.05 * costoTotal
+            return 0.05 * subtotalConEntrega()
         } else {
-            return costoTotal
+            return 0.00
         }
     }
 
@@ -98,6 +110,9 @@ class Pedido (
 
     //Agregué este metodo porque no tenía manera de hacer funcionar el if en delivery
     fun estaPreparado() = this.estadoDelPedido == EnumEstadosPedido.PREPARADO
+
+    // Calcula distancia entre local y cliente
+    fun distanciaClienteLocal(): Double = cliente.direccion.distanciaCon(local.direccion)
 
     //Devuelve si el Pedido contiene un plato lanzado en un dia especifico (usado en Cupon)
     fun tienePlatoLanzadoEl(dia : DayOfWeek): Boolean{

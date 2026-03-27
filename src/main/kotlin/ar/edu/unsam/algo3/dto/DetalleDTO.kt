@@ -42,7 +42,7 @@ fun Pedido.toDetalleDTO(): PedidoDetalleDTO {
 
     return PedidoDetalleDTO(
         id = this.id!!,
-        cliente = this.cliente.toDTO(),
+        cliente = this.cliente.toInfoDTO(),
         direccion = this.cliente.direccion.toDTO(),
         platos = this.platosDelPedido.map { it.toSimpleDTO() },
         subtotal = subtotal,

@@ -9,7 +9,7 @@ class Usuario(
     var nombre: String = "",
     var apellido: String = "",
     var direccion: Direccion = Direccion(),
-    var username: String = "",
+    var usuario: String = "",
     val password: String = "",
     var fechaNacimiento: LocalDate = LocalDate.now(),
     var distanciaMaximaCercana: Double = 0.0,
@@ -64,16 +64,17 @@ class Usuario(
     fun estaATiempoDePuntuar(date:LocalDate): Boolean = ChronoUnit.DAYS.between(date, LocalDate.now()) <= 7
 
 
-    fun puntuarLocal(local:Local, puntuacion: Double){
+    fun puntuarLocal(local:Local, puntuacion: Double, review: String){
         val fechaLimite = localesAPuntuar[local] ?: throw UsuarioException.LocalNoRegistrado()
         if(estaATiempoDePuntuar(fechaLimite)){
             local.puntuar(puntuacion)
+            local.agregarReview(review)
             localesAPuntuar.remove(local)
         } else {
             throw UsuarioException.LocalAPuntuarVencido()
         }
     }
-    
+
     //elimino ingrediente de set de preferidos
     fun eliminarPreferido(ingrediente: Ingrediente) {
         ingredientesPreferidos.remove(ingrediente)
@@ -124,6 +125,26 @@ class Usuario(
 
     fun devolverNombreCompleto() : String {
         return "${nombre} ${apellido}"
+    }
+
+    // Metodos actualizar y validar
+    fun actualizar(usuarioActualizado: Usuario) {
+        nombre = usuarioActualizado.nombre
+        apellido = usuarioActualizado.apellido
+        direccion = usuarioActualizado.direccion
+        distanciaMaximaCercana = usuarioActualizado.distanciaMaximaCercana
+        tipoDeUsuario = usuarioActualizado.tipoDeUsuario
+
+        // Actualizar ingredientes (ya vienen limpios y validados del service)
+        ingredientesPreferidos.clear()
+        ingredientesPreferidos.addAll(usuarioActualizado.ingredientesPreferidos)
+        ingredientesProhibidos.clear()
+        ingredientesProhibidos.addAll(usuarioActualizado.ingredientesProhibidos)
+    }
+
+    fun validar() {
+        require(nombre.isNotBlank()) { "El nombre no puede estar vacío" }
+        require(apellido.isNotBlank()) { "El apellido no puede estar vacío" }
     }
 }
 

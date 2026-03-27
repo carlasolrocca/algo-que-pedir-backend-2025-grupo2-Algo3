@@ -8,8 +8,11 @@ class Local(
     urlImagenLocal: String = "urldefault.com",
     porcentajeSobreCadaPlato: Double = 0.0,
     porcentajeRegaliasDeAutor: Double = 0.0,
+    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf(),
     var usuario: String = "",
-    var password: String = ""
+    var password: String = "",
+    var tarifaEntrega: Double = 0.10,
+    var recargosMedioDePago: MutableMap<MedioDePago, Double> = mutableMapOf()
 ) : TipoRepositorio() {
 
     var nombre: String = nombre
@@ -45,8 +48,8 @@ class Local(
 
     val RANGO_PUNTUACION_LOCAL = 4.0..5.0
     var inboxMensajes: InboxMensajes = InboxMensajes()
-    var mediosDePago: MutableSet<MedioDePago> = mutableSetOf()
     val puntuacionUsuarios: MutableList<Double> = mutableListOf()
+    var reviewsTexto: MutableList<String> = mutableListOf() // Nueva lista de reviews
 
     // Validaciones previas a inicializar el Local
     init {
@@ -84,5 +87,24 @@ class Local(
         if (mediosDePago.contains(medio)) {
             mediosDePago.remove(medio)
         }
+    }
+    
+    fun agregarRecargo(medio: MedioDePago, recargo: Double){
+        recargosMedioDePago[medio] = recargo
+    }
+
+    // Nuevos métodos para manejar reviews de texto
+    fun agregarReview(review: String) {
+        if (review.isNotBlank()) {
+            reviewsTexto.add(review)
+        }
+    }
+
+    fun obtenerReviews(): List<String> {
+        return reviewsTexto.toList()
+    }
+
+    fun cantidadReviews(): Int {
+        return reviewsTexto.size
     }
 }
