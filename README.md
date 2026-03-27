@@ -1,7 +1,7 @@
-# Algo que pedir Backend - Grupo 2 - Algoritmos III
+# Algo que pedir Backend 2025 - Algoritmos III
 [![Build](https://github.com/algo3-unsam/proyecto-base-tp/actions/workflows/build.yml/badge.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo2/actions/workflows/build.yml) ![Coverage](./.github/badges/jacoco.svg)
 
-Este fue el proyecto que arrancó en <strong>Algoritmos II</strong> y con el que se continuó en <strong>Algoritmos III</strong>. Este backend fue compartido para 2 entregas en las que se utilizo el framework <strong>Svelte</strong>, para desarrollar la vista desde el lado Administrador de la app, y <strong>React</strong>, desde donde se desarrolló el lado del usuario final que realizaba pedidos de comida.
+Este fue el proyecto que arrancó en <strong>Algoritmos II</strong> y con el que se continuó en <strong>Algoritmos III</strong>. Este backend desarrollado en Kotlin fue compartido para 2 entregas en las que se utilizo el framework <strong>Svelte</strong>, para desarrollar la vista desde el lado Administrador de la app, y <strong>React</strong>, desde donde se desarrolló el lado del usuario final que realizaba pedidos de comida.
 
 <ul>
   <li><a href="https://docs.google.com/document/d/1CQvqnypJ6ADxSHF0xwtVrVPmw2mjnfLkMZM1nuEhAjo/edit?tab=t.0#heading=h.cwt8ykvvsbpg">Entrega 1 de maquetado estático responsive</a></li>
